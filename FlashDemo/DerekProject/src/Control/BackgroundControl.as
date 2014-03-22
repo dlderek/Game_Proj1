@@ -41,7 +41,6 @@ package Control
 		protected override function onStage(e:Event):void
 		{
 			super.onStage(e);
-			ui.stage.addEventListener("PlayerYChange", onPlayerYResponse);
 			for (var i:int = 0 ; i < bgList.length; i++)
 			{
 				StartTweenBg(bgList[i], Math.random() * 1000);
@@ -52,7 +51,6 @@ package Control
 		protected override function offStage(e:Event):void
 		{
 			super.offStage(e);
-			ui.stage.removeEventListener("PlayerYChange", onPlayerYResponse);
 			for (var i:int = 0 ; i < bgList.length; i++)
 			{
 				TweenLite.killTweensOf(bgList[i]);
@@ -69,12 +67,6 @@ package Control
 				TweenLite.killTweensOf(bg);
 				StartTweenBg(bg, 1000 + Math.random() * 1000 * (1/fz));
 			}} );
-		}
-		
-		private function onPlayerYResponse(e:PlayerYChangeEvent):void
-		{
-			var newLoopTime:Number = Math.round((20 - e.TweenSpeedRatio * 10)*10)/10;
-			OneLoopTime = newLoopTime;
 		}
 		
 		

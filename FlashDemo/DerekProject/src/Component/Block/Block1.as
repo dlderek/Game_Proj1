@@ -16,7 +16,7 @@ package Component.Block
 	{
 		public function Block1() 
 		{
-			super(LoadingManager.getItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK1) );
+			super(LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK1) );
 			stackLevel = 0;
 			playerAction = BaseBlock.ACTION_JUMP;
 			PhysicsKey = "block1";

@@ -10,37 +10,32 @@ package Control
 	import Component.Block.BaseBlock;
 	import Component.Block.*;
 	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.utils.clearInterval;
+	import flash.utils.getDefinitionByName;
 	import flash.utils.setInterval;
 	import Manager.GameLoopManager;
+	import Manager.ObstacleGroupManager;
+	import Manager.XMLManager;
 	import Utils.B2DestroyEvent;
+	import Utils.B2NewBlockGroupEvent;
 	/**
 	 * ...
 	 * @author JL
 	 */
 	public class B2WordBlockGenerateControl
 	{
-		private var blockClassList:Vector.<Class> = new Vector.<Class>();
-		private var AppePobability:Vector.<Number> = new Vector.<Number>();
-		private var normalizedVector:Vector.<Number> = new Vector.<Number>();
 		private var world:B2World;
 		private var WorldCreateId:int = 0;		
-		private var fixBlockGeneratorInterval:uint;
+		private var RunTimeCreateClass:Array;
+		//private var fixBlockGeneratorInterval:uint;
 		private var physicsData:PhysicsData;
+		private var GroupCreateId:int = 0;
 		
 		public function B2WordBlockGenerateControl(_world:B2World) 
 		{
 			physicsData = new PhysicsData();
-			blockClassList.push(Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8);
-			AppePobability.push(0.5,	0.5,	0.2,	0.2,	0.2,    0.2,    0.2,    0.2   );
-			var total:Number = 0;
-			for (var i:int = 0; i < AppePobability.length; i++)
-				total += AppePobability[i];
-			for (i = 0; i < AppePobability.length; i++)
-				normalizedVector.push(AppePobability[i]/total);
-			
+			RunTimeCreateClass = [Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Collection];
 			world = _world;
 			world.addEventListener(Event.ADDED_TO_STAGE, onStage);
 		}
@@ -56,46 +51,66 @@ package Control
 			GameLoopManager.Core.stage.removeEventListener("B2Destroy", DestroyBlock);
 			e.target.removeEventListener(e.type, arguments.callee);
 			//world.addEventListener(Event.ADDED_TO_STAGE, onStage);
-			clearInterval(fixBlockGeneratorInterval);
+			//clearInterval(fixBlockGeneratorInterval);
+			GameLoopManager.Core.stage.removeEventListener("B2NewBlockGroup", GenerateBlocks);
 		}
 		
 		public function start():void
 		{
-			// create boundary
-			draw_box(-20,600,20,1200,"left");
-            draw_box(560,600,20,1200,"right");
-            draw_box(270, -500, 540, 10, "ceiling");
+			draw_box(-20,1000,20,2000,"left");
+            draw_box(560,1000,20,2000,"right");
+            draw_box(270, 20, 540, 10, "ceiling");
 			//draw_box(270,2500,540,200,"ground");
-			fixBlockGeneratorInterval = setInterval(GenerateBlock, 250);
+			
+			//fixBlockGeneratorInterval = setInterval(GenerateBlock, 550);
+			GameLoopManager.Core.stage.addEventListener("B2NewBlockGroup", GenerateBlocks);
 			GameLoopManager.Core.stage.addEventListener("B2Destroy", DestroyBlock);
+			GenerateBlocks(null);
 		}
 		
-		private function GenerateBlock():void
+		private function GenerateBlocks(e:B2NewBlockGroupEvent):void
 		{
-			if (Math.random() > 0.65)	// trigger the creation event
+			var BlockGroup:Array = RandomBlockGroup();
+			var LastBlock:BaseBlock;
+			for each(var blockObj:Object in BlockGroup)
 			{
-				var BlockClass:Class = RandomBlock();
+				var BlockClass:Class = getDefinitionByName("Component.Block." + (blockObj.name as String ) ) as Class;
 				var block:BaseBlock = new BlockClass();
-				var xPosition:Number;
-				switch(block.type)
-				{
-					case BaseBlock.TYPE_free:
-						xPosition = Math.random() * 550;
-						break;
-					case BaseBlock.TYPE_wall_L:
-						xPosition = 0;
-						break;
-					case BaseBlock.TYPE_wall_R:
-						xPosition = 550 - block.width;
-						break;
-				}
-				//block.alpha = 0.5;
-				//block.visible = false;
-				draw_Obstacle(xPosition, 1050, block.PhysicsKey, "block" + WorldCreateId, block );
-				
-				WorldCreateId++;
+				block.InitX = blockObj.x;
+				if (block.flip)
+					block.InitX += block.width;
+				block.InitY = blockObj.y + 1000;
+				if (!LastBlock)
+					LastBlock = block;
+				else if (block.InitY > LastBlock.InitY)
+					LastBlock = block;
 				if (WorldCreateId > 999)
 					WorldCreateId = 0;
+				draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, blockObj.name=="Collection"?b2Body.b2_dynamicBody:b2Body.b2_kinematicBody );
+				WorldCreateId++;
+				
+					
+				// create a collection
+				//if (Math.random() < CollectionAppearProbability)
+				//{
+					//block = new Collection();
+					//block.InitX = 50 + Math.random() * 500
+					//block.InitY = 1000 + Math.random() * 1000;
+					//draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, b2Body.b2_dynamicBody );
+					//WorldCreateId++;
+				//}
+			}
+			LastBlock.addEventListener(Event.ENTER_FRAME, onLastBlockRemoved);
+			LastBlock.addEventListener(Event.REMOVED_FROM_STAGE, onLastBlockRemoved);
+		}
+		
+		private function onLastBlockRemoved(e:Event):void
+		{
+			if (e.target.y < 775)
+			{
+				e.target.removeEventListener(Event.ENTER_FRAME, arguments.callee);
+				e.target.removeEventListener(Event.REMOVED_FROM_STAGE, arguments.callee);
+				GameLoopManager.Core.stage.dispatchEvent(new B2NewBlockGroupEvent());
 			}
 		}
 		
@@ -103,12 +118,23 @@ package Control
 		{
 			var target:b2Body = e.DestroyBody as b2Body;
 			var name:String = target.GetUserData().name;
-			var mc:MovieClip = target.GetUserData().mc;
-			if (mc.parent)
-				mc.parent.removeChild(mc);
+			var mc:DisplayObject = target.GetUserData().mc;
+			mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
 			delete world.BlockList[name];
-			trace("Destroy " + name);
+			//trace("Destroy " + name);
 			world.DestroyList.push(target);
+		}
+		
+		private function TweenMcAfterDestroyBody(e:Event):void
+		{
+			e.target.y += world.blockUpSpeed;
+			e.target.alpha -= 0.01;
+			if (e.target.y < -300 || e.target.alpha <=0)
+			{
+				e.target.removeEventListener(e.type, arguments.callee);
+				if(e.target.parent)
+					e.target.parent.removeChild(e.target);
+			}
 		}
 		
 		private function draw_box(px:Number,py:Number,w:Number,h:Number,ud:String):void {
@@ -120,8 +146,8 @@ package Control
 			my_box.SetAsBox(w / 2 / world.world_scale, h / 2 / world.world_scale);
             var my_fixture:b2FixtureDef = new b2FixtureDef();
             my_fixture.shape = my_box;
-			my_fixture.restitution = 0.8;
-			my_fixture.density = 1;
+			my_fixture.restitution = 1;
+			my_fixture.density = 0;
 			my_fixture.friction = 0;
             var world_body:b2Body=world.world.CreateBody(my_body);
             world_body.CreateFixture(my_fixture);
@@ -129,12 +155,12 @@ package Control
 			world_body.SetFixedRotation(true);
         }
 		
-		private function draw_Obstacle(px:Number,py:Number, PhysicsKey:String, name:String, mc:MovieClip ):void
+		private function draw_Obstacle(px:Number,py:Number, PhysicsKey:String, name:String, mc:DisplayObject , type:uint = 1):void
 		{
 			if (mc == null)
 				return;
 				
-			var world_body:b2Body = physicsData.createBody(PhysicsKey, world.world, b2Body.b2_dynamicBody, { name:name, mc:mc, active:true } );
+			var world_body:b2Body = physicsData.createBody(PhysicsKey, world.world, type, { name:name, mc:mc, active:true } );
 			world_body.SetPosition(new b2Vec2(px / world.world_scale, py / world.world_scale));
 			world_body.SetFixedRotation(true);
 			mc.x = px;
@@ -143,18 +169,17 @@ package Control
 			world.BlockList[name] = world_body;
 		}
 		
-		private function RandomBlock():Class
+		private function RandomBlockGroup():Array
 		{
-			var randomNumber:Number = Math.random();
+			var Group:Array = ObstacleGroupManager.ObstacleGroup[GroupCreateId];
 			
-			var cum:Number = 0;
-			for (var i:int = 0; i < blockClassList.length; i++)
-			{
-				cum += normalizedVector[i];
-				if (cum > randomNumber)
-					return blockClassList[i];
-			}
-			return Block1;
+			GroupCreateId++;
+			if (GroupCreateId >= ObstacleGroupManager.ObstacleGroup.length)
+				GroupCreateId = 0;
+			return Group;
+			//var totalNum:int = ObstacleGroupManager.ObstacleGroup.length;
+			//var randNum:int = Math.ceil(Math.random() * totalNum) - 1;
+			//return ObstacleGroupManager.ObstacleGroup[randNum];
 		}
 	}
 }

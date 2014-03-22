@@ -10,8 +10,8 @@ package Component.Block
 	{
 		public function Block3() 
 		{
-			stackLevel = 2;
-			super(LoadingManager.getItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK3));
+			super(LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK3));
+			playerAction = BaseBlock.ACTION_SLIDE;
 			PhysicsKey = "block3";
 		}
 		

@@ -10,10 +10,9 @@ package Component.Block
 	{
 		public function Block6() 
 		{
-			super(LoadingManager.getItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK6));
+			super(LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK6));
 			stackLevel = 0;
-			playerAction = BaseBlock.ACTION_JUMP;
-			type = BaseBlock.TYPE_wall_R;
+			playerAction = BaseBlock.ACTION_PAUSE;
 			PhysicsKey = "block6";
 		}
 		

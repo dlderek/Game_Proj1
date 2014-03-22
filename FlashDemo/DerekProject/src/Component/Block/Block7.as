@@ -1,5 +1,6 @@
 package Component.Block 
 {
+	import flash.display.DisplayObject;
 	import Manager.LoadingManager;
 	import Enum.AssetList;
 	/**
@@ -10,11 +11,13 @@ package Component.Block
 	{
 		public function Block7() 
 		{
-			super(LoadingManager.getItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK7));
+			var img:DisplayObject = LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK7);
+			img.x = -img.width;
+			super(img);
 			stackLevel = 0;
-			type = BaseBlock.TYPE_wall_R;
 			playerAction = BaseBlock.ACTION_PAUSE;
 			PhysicsKey = "block7";
+			flip = true;
 		}
 	}
 

@@ -27,30 +27,9 @@ package Utils
 			return sprite;
 		}
 		
-		public static function getBgSprite():Bitmap
+		public static function getBgSprite(id:int = 1):Bitmap
 		{
-			var bg:Bitmap = LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BG) as Bitmap;
-			bg.cacheAsBitmap = true;
-			return bg;
-		}
-		
-		public static function getBg2Sprite():Bitmap
-		{
-			var bg:Bitmap = LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BG2) as Bitmap;
-			bg.cacheAsBitmap = true;
-			return bg;
-		}
-		
-		public static function getBg3Sprite():Bitmap
-		{
-			var bg:Bitmap = LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BG3) as Bitmap;
-			bg.cacheAsBitmap = true;
-			return bg;
-		}
-		
-		public static function getBg4Sprite():Bitmap
-		{
-			var bg:Bitmap = LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BG4) as Bitmap;
+			var bg:Bitmap = LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BG.concat(id)) as Bitmap;
 			bg.cacheAsBitmap = true;
 			return bg;
 		}

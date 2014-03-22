@@ -2,6 +2,7 @@ package Component
 {
 	import com.greensock.TweenLite;
 	import Enum.AssetList;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.setTimeout;
 	import Manager.LoadingManager;
@@ -13,15 +14,15 @@ package Component
 	 */
 	public class UnStackMe extends BaseComponent
 	{
+		private var ui:Sprite;
 		private var stackLevel:int;
 		private var currentStackLevel:int;
-		private var ui:Object;
 		
 		public function UnStackMe(_stackLevel:int) 
 		{
 			stackLevel = _stackLevel;
 			currentStackLevel = 0;
-			ui = LoadingManager.getItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_UNSTACKME);
+			ui = LoadingManager.getItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_UNSTACKME) as Sprite;
 			super(ui);
 		}
 		
@@ -52,7 +53,7 @@ package Component
 		
 		private function refreshDisplay():void
 		{
-			ui.block.x = -100 * currentStackLevel / stackLevel;
+			ui["block"].x = -100 * currentStackLevel / stackLevel;
 		}
 	}
 }

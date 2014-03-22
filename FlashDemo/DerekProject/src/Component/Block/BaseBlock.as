@@ -19,19 +19,22 @@ package Component.Block
 	 */
 	public class BaseBlock extends BaseComponent
 	{
-		public static const TYPE_free:String = "free";
-		public static const TYPE_wall_L:String = "wall_L";
-		public static const TYPE_wall_R:String = "wall_R";
-		
 		public static const ACTION_STACK:String = "stack";
 		public static const ACTION_PAUSE:String = "pause";
 		public static const ACTION_NONE:String = "none";
 		public static const ACTION_JUMP:String = "jump";
+		public static const ACTION_SLIDE:String = "slide";
+		public static const ACTION_GET:String = "get";
 		
 		public var stackLevel:int;
 		public var type:String = "free";
 		public var playerAction:String = "stack";
 		public var PhysicsKey:String;
+		public var sided:Boolean = false;
+		
+		public var InitX:Number;
+		public var InitY:Number;
+		public var flip:Boolean = false;
 		
 		public function BaseBlock(ui:Object) 
 		{

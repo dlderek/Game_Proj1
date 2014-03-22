@@ -4,6 +4,7 @@ package Control
 	import Box2D.Dynamics.b2World;
 	import com.greensock.TweenLite;
 	import Component.B2World;
+	import Component.Block.BaseBlock;
 	import Component.UnStackMe;
 	import Enum.LayerList;
 	import flash.display.MovieClip;
@@ -18,6 +19,7 @@ package Control
 	import Manager.GameLoopManager;
 	import Manager.SoundManager;
 	import Utils.B2PlayerStackEvent;
+	import Utils.PlayerCollectionEvent;
 	import Utils.PlayerCollideEvent;
 	/**
 	 * ...
@@ -29,7 +31,8 @@ package Control
 		private var unStackMe:UnStackMe;
 		private var unStackMe2:UnStackMe;
 		private var BlockGenerator:B2WordBlockGenerateControl;
-		public var CurrentScore:int = 0;
+		public var CurrentScore:Number = 0;
+		public var CurrentCollection:int = 0;
 		
 		public function B2WorldControl(_origin:Object) 
 		{
@@ -37,16 +40,18 @@ package Control
 			world = new B2World();
 			ui.addChild(world);
 			BlockGenerator = new B2WordBlockGenerateControl(world);
-			BlockGenerator.start();
+			
 		}
 		
 		protected override function onStage(e:Event):void
 		{
 			super.onStage(e);
 			world.StartGame();
+			BlockGenerator.start();
 			GameLoopManager.Core.stage.addEventListener("B2PlayerStack", onPlayerStack);
 			GameLoopManager.Core.stage.addEventListener("PlayerDie", onPlayerDie);
 			GameLoopManager.Core.stage.addEventListener("PlayerCollide", onPlayerCollide);
+			GameLoopManager.Core.stage.addEventListener("PlayerCollection", onPlayerCollection);
 		}
 		protected override function offStage(e:Event):void
 		{
@@ -54,6 +59,7 @@ package Control
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerStack", onPlayerStack);
 			GameLoopManager.Core.stage.removeEventListener("PlayerDie", onPlayerDie);
 			GameLoopManager.Core.stage.removeEventListener("PlayerCollide", onPlayerCollide);
+			GameLoopManager.Core.stage.removeEventListener("PlayerCollection", onPlayerCollection);
 		}
 		
 		public function Reset():void
@@ -66,6 +72,7 @@ package Control
 			world.StartGame();
 			BlockGenerator.start();
 			CurrentScore = 0;
+			CurrentCollection = 0;
 		}
 		
 		private function onPlayerStack(e:B2PlayerStackEvent):void
@@ -75,7 +82,7 @@ package Control
 				unStackMe.parent.removeChild(unStackMe);
 				unStackMe2.parent.removeChild(unStackMe2);
 			}
-			var targetMC:MovieClip = (e.stackObject.GetUserData().mc as MovieClip);
+			var targetMC:BaseBlock = e.stackObject.GetUserData().mc;
 			unStackMe = new UnStackMe(e.stackLevel);
 			unStackMe2 = new UnStackMe(e.stackLevel);
 			unStackMe.alpha = 0.7;
@@ -95,12 +102,15 @@ package Control
 		
 		private function onPlayerCollide(e:PlayerCollideEvent):void
 		{
-			if (e.speed < 2.5)
-				return;
+			//if (e.speed < 2.5)
+				//return;
 			var id:String = "BA";
 			SoundManager.PlaySound(id);
 		}
 		
-		
+		private function onPlayerCollection(e:PlayerCollectionEvent):void
+		{
+			CurrentCollection++;
+		}
 	}
 }

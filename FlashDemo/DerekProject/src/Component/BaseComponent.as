@@ -2,17 +2,16 @@ package Component
 {
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;
-	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	/**
 	 * ...
 	 * @author JL
 	 */
-	public class BaseComponent extends MovieClip
+	public class BaseComponent extends Sprite
 	{
-		
 		public function BaseComponent(_ui:Object) 
 		{
 			if (_ui is InteractiveObject)

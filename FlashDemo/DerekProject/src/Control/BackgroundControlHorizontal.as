@@ -5,8 +5,6 @@ package Control
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import Manager.LoadingManager;
-	import com.greensock.TweenMax;
-	import com.greensock.easing.Linear;
 	/**
 	 * ...
 	 * @author hello
@@ -31,9 +29,10 @@ package Control
 			for (var i:int = 0 ; i < bgList.length; i++)
 			{
 				bgList[i].y = 0;
-				StartTweenBg(bgList[i], i * bgList[i].width);
+				bgList[i].x = i * (bgList[i].width - 5);
 				ui.addChild(bgList[i]);
 			}
+			ui.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		protected override function offStage(e:Event):void
@@ -41,19 +40,22 @@ package Control
 			super.offStage(e);
 			for (var i:int = 0 ; i < bgList.length; i++)
 			{
-				TweenMax.killTweensOf(bgList[i]);
 				if(bgList[i].parent)
 					bgList[i].parent.removeChild(bgList[i]);
 			}
+			ui.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
-		private function StartTweenBg(bg:DisplayObject, originalX:Number):void
+		private function onEnterFrame(e:Event):void
 		{
-			TweenMax.fromTo(bg, oneLoopTime * ( (originalX + 600)/ (bg.width + 600)), {x:originalX}, { x:-bg.width, ease:Linear.easeNone,  onComplete:function():void
+			for each(var img:DisplayObject in bgList)
 			{
-				TweenMax.killTweensOf(bg);
-				StartTweenBg(bg, random?600 + bg.width * Math.random():bg.width);
-			}} );
+				img.x --;
+				if (img.x < -img.width + 5)
+				{
+					img.x = img.width - 5;
+				}
+			}
 		}
 	}
 }

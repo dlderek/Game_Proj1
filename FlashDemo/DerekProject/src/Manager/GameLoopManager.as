@@ -36,7 +36,7 @@ package Manager
 		private function InitXML():void
 		{
 			LoadingManager.Init();
-			LoadingManager.load("config.xml", "files.xml");
+			LoadingManager.load("config.xml", "files.xml", "ObstacleGroup.xml");
 			stage.addEventListener("LoadingComplete", XMLLoaded);
 		}
 
@@ -45,6 +45,7 @@ package Manager
 			e.target.removeEventListener(e.type, arguments.callee);
 			XMLManager.config = LoadingManager.getXML("config.xml");
 			XMLManager.files = LoadingManager.getXML("files.xml");
+			XMLManager.ObstacleGroup = LoadingManager.getXML("ObstacleGroup.xml");
 			stage.addEventListener("LoadingComplete", FilesLoaded);
 			LoadingManager.loadFiles();
 		}

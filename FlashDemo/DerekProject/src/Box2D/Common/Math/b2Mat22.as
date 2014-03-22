@@ -27,9 +27,11 @@ import Box2D.Common.*;
 */
 public class b2Mat22
 {
-	public function b2Mat22()
+	public function b2Mat22(x1:Number = 1, x2:Number = 0, x3:Number = 0, x4:Number = 1)
 	{
-		col1.x = col2.y = 1.0;
+		col1 = new b2Vec2(x1, x2);
+		col2 = new b2Vec2(x3, x4);
+		//col1.x = col2.y = 1.0;
 	}
 	
 	public static function FromAngle(angle:Number):b2Mat22

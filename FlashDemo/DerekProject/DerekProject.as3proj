@@ -42,7 +42,7 @@
     <option linkReport="" />
     <option loadExterns="" />
     <option staticLinkRSL="True" />
-    <option additional="" />
+    <option additional="-swf-version=13" />
     <option compilerConstants="" />
     <option minorVersion="" />
   </build>
@@ -55,6 +55,7 @@
     <element path="lib\bulk_loader.swc" />
     <element path="lib\greensock.swc" />
     <element path="lib\Stardust 1.3.186.swc" />
+    <element path="lib\starling.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

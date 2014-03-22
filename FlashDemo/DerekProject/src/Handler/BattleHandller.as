@@ -29,8 +29,9 @@ package Handler
 		private var view:BattleView;
 		private var BattlePage:Object;
 		private var B2World:B2WorldControl;
-		private var BgControl:BackgroundControl;
-		private var BgControl2:BackgroundControl;
+		//private var BgControl:BackgroundControl;
+		//private var BgControl2:BackgroundControl;
+		//private var BgControl3:BackgroundControl;
 		private var BgControlH:BackgroundControlHorizontal;
 		//private var BgControlH2:BackgroundControlHorizontal;
 		
@@ -68,10 +69,12 @@ package Handler
 			view = new BattleView();
 			BattlePage = view.BattlePage as Object;
 			B2World = new B2WorldControl(BattlePage.origin);
-			//BgControlH2 = new BackgroundControlHorizontal(BattlePage.backgroundPoint, [ToolKit.getBg4Sprite()], 60);
-			BgControl = new BackgroundControl(BattlePage.backgroundPoint, ToolKit.getBgSprite(), 20, 0.15);
-			BgControl2 = new BackgroundControl(BattlePage.backgroundPoint, ToolKit.getBg2Sprite(), 30, 0.15);
-			BgControlH = new BackgroundControlHorizontal(BattlePage.backgroundPoint2, [ToolKit.getBg3Sprite(), ToolKit.getBg3Sprite()], 600);
+			//BgControlH2 = new BackgroundControlHorizontal(BattlePage.backgroundPoint, [ToolKit.getBgSprite(4)], 60);
+			
+			//BgControl = new BackgroundControl(BattlePage.backgroundPoint, ToolKit.getBgSprite(), 20, 0.2);
+			//BgControl2 = new BackgroundControl(BattlePage.backgroundPoint, ToolKit.getBgSprite(2), 30, 0.3);
+			//BgControl3 = new BackgroundControl(BattlePage.backgroundPoint, ToolKit.getBgSprite(3), 40, 0.4);
+			BgControlH = new BackgroundControlHorizontal(BattlePage.backgroundPoint2, [ToolKit.getBgSprite(4), ToolKit.getBgSprite(4)], 600);
 			
 		}
 		
@@ -81,7 +84,7 @@ package Handler
 			addChildAt(BattlePage, LayerList.UI);
 			(BattlePage as MovieClip).addEventListener(MouseEvent.CLICK, onTouch);
 			BGSoundEffectInterval = setInterval(PlayRandomBGSoundEffect, 10000);
-			ScoreUpdateInterval = setInterval(ScoreUpdate, 500);
+			ScoreUpdateInterval = setInterval(ScoreUpdate, 100);
 		}
 		
 		private function HideOut():void
@@ -116,8 +119,9 @@ package Handler
 		
 		private function ScoreUpdate():void
 		{
-			B2World.CurrentScore += 1;
-			BattlePage.score.text = B2World.CurrentScore + "KM";
+			B2World.CurrentScore += 0.1;
+			BattlePage.score.text = Math.round(B2World.CurrentScore) + " M";
+			BattlePage.score2.text = B2World.CurrentCollection;
 		}
 	}
 }

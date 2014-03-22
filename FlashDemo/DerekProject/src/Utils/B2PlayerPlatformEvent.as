@@ -1,5 +1,6 @@
 package Utils 
 {
+	import Box2D.Common.Math.b2Vec2;
 	import flash.events.Event;
 	/**
 	 * ...
@@ -7,9 +8,10 @@ package Utils
 	 */
 	public class B2PlayerPlatformEvent extends Event
 	{
-		
-		public function B2PlayerPlatformEvent() 
+		public var planeNormal:b2Vec2;
+		public function B2PlayerPlatformEvent(planeNormal:b2Vec2) 
 		{
+			this.planeNormal = planeNormal;
 			super("B2PlayerPlatform");
 		}
 		
