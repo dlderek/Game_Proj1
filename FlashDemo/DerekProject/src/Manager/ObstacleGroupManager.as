@@ -1,5 +1,6 @@
 package Manager 
 {
+	import Component.Block.PhysicsData;
 	import flash.utils.Dictionary;
 	/**
 	 * ...
@@ -8,6 +9,7 @@ package Manager
 	public class ObstacleGroupManager 
 	{
 		public static var ObstacleGroup:Vector.<Array>;
+		public static var PhyData:PhysicsData = new PhysicsData();
 		
 		public static function init(OG:XML):void
 		{

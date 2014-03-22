@@ -13,6 +13,7 @@ package Control
 	import flash.events.Event;
 	import flash.utils.clearInterval;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.getTimer;
 	import flash.utils.setInterval;
 	import Manager.GameLoopManager;
 	import Manager.ObstacleGroupManager;
@@ -34,7 +35,7 @@ package Control
 		
 		public function B2WordBlockGenerateControl(_world:B2World) 
 		{
-			physicsData = new PhysicsData();
+			physicsData = ObstacleGroupManager.PhyData;
 			RunTimeCreateClass = [Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Collection];
 			world = _world;
 			world.addEventListener(Event.ADDED_TO_STAGE, onStage);
@@ -61,7 +62,7 @@ package Control
             draw_box(560,1000,20,2000,"right");
             draw_box(270, 20, 540, 10, "ceiling");
 			//draw_box(270,2500,540,200,"ground");
-			
+			GroupCreateId = Math.floor(Math.random() * ObstacleGroupManager.ObstacleGroup.length);
 			//fixBlockGeneratorInterval = setInterval(GenerateBlock, 550);
 			GameLoopManager.Core.stage.addEventListener("B2NewBlockGroup", GenerateBlocks);
 			GameLoopManager.Core.stage.addEventListener("B2Destroy", DestroyBlock);
@@ -72,8 +73,9 @@ package Control
 		{
 			var BlockGroup:Array = RandomBlockGroup();
 			var LastBlock:BaseBlock;
+			
 			for each(var blockObj:Object in BlockGroup)
-			{
+			{			
 				var BlockClass:Class = getDefinitionByName("Component.Block." + (blockObj.name as String ) ) as Class;
 				var block:BaseBlock = new BlockClass();
 				block.InitX = blockObj.x;
@@ -86,26 +88,21 @@ package Control
 					LastBlock = block;
 				if (WorldCreateId > 999)
 					WorldCreateId = 0;
-				draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, blockObj.name=="Collection"?b2Body.b2_dynamicBody:b2Body.b2_kinematicBody );
+				draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, b2Body.b2_kinematicBody, blockObj.fixture );
 				WorldCreateId++;
-				
-					
-				// create a collection
-				//if (Math.random() < CollectionAppearProbability)
-				//{
-					//block = new Collection();
-					//block.InitX = 50 + Math.random() * 500
-					//block.InitY = 1000 + Math.random() * 1000;
-					//draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, b2Body.b2_dynamicBody );
-					//WorldCreateId++;
-				//}
 			}
 			LastBlock.addEventListener(Event.ENTER_FRAME, onLastBlockRemoved);
-			LastBlock.addEventListener(Event.REMOVED_FROM_STAGE, onLastBlockRemoved);
+			LastBlock.addEventListener(Event.REMOVED_FROM_STAGE, onLastBlockRemoved);	
 		}
 		
 		private function onLastBlockRemoved(e:Event):void
 		{
+			if (e.type == Event.REMOVED_FROM_STAGE)
+			{
+				e.target.removeEventListener(Event.ENTER_FRAME, arguments.callee);
+				e.target.removeEventListener(Event.REMOVED_FROM_STAGE, arguments.callee);
+				return;
+			}
 			if (e.target.y < 775)
 			{
 				e.target.removeEventListener(Event.ENTER_FRAME, arguments.callee);
@@ -119,22 +116,12 @@ package Control
 			var target:b2Body = e.DestroyBody as b2Body;
 			var name:String = target.GetUserData().name;
 			var mc:DisplayObject = target.GetUserData().mc;
-			mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
-			delete world.BlockList[name];
+			if(mc.parent)
+				mc.parent.removeChild(mc)
+			world.BlockList.splice(world.BlockList.indexOf(target),1);
+			//delete world.BlockList[name];
 			//trace("Destroy " + name);
 			world.DestroyList.push(target);
-		}
-		
-		private function TweenMcAfterDestroyBody(e:Event):void
-		{
-			e.target.y += world.blockUpSpeed;
-			e.target.alpha -= 0.01;
-			if (e.target.y < -300 || e.target.alpha <=0)
-			{
-				e.target.removeEventListener(e.type, arguments.callee);
-				if(e.target.parent)
-					e.target.parent.removeChild(e.target);
-			}
 		}
 		
 		private function draw_box(px:Number,py:Number,w:Number,h:Number,ud:String):void {
@@ -155,18 +142,18 @@ package Control
 			world_body.SetFixedRotation(true);
         }
 		
-		private function draw_Obstacle(px:Number,py:Number, PhysicsKey:String, name:String, mc:DisplayObject , type:uint = 1):void
+		private function draw_Obstacle(px:Number,py:Number, PhysicsKey:String, name:String, mc:DisplayObject , type:uint = 1, fixtureCollection:Vector.<b2FixtureDef> = null):void
 		{
 			if (mc == null)
 				return;
-				
-			var world_body:b2Body = physicsData.createBody(PhysicsKey, world.world, type, { name:name, mc:mc, active:true } );
+			var world_body:b2Body;
+			world_body = physicsData.createBody(PhysicsKey, world.world, type, { name:name, mc:mc, active:true } );
 			world_body.SetPosition(new b2Vec2(px / world.world_scale, py / world.world_scale));
-			world_body.SetFixedRotation(true);
+			//world_body.SetFixedRotation(true);
 			mc.x = px;
 			mc.y = py;
 			world.addChild(mc);
-			world.BlockList[name] = world_body;
+			world.BlockList.push(world_body);
 		}
 		
 		private function RandomBlockGroup():Array

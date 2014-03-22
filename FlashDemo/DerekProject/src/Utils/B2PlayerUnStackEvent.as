@@ -10,7 +10,7 @@ package Utils
 	{
 		public var escapV:b2Vec2;
 		public function B2PlayerUnStackEvent(_escapV:b2Vec2 ) 
-		{
+		{			
 			super("B2PlayerUnStack");
 			escapV = _escapV;
 		}

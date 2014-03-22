@@ -85,7 +85,7 @@ package Component.Block
 
 										[
 											// density, friction, restitution
-                                            0, 0, 0,
+                                            0.01, 0.2, 0.5,
                                             // categoryBits, maskBits, groupIndex, isSensor
 											1, 65535, 0, false,
 											'POLYGON',

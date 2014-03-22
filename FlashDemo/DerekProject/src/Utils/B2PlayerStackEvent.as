@@ -14,7 +14,7 @@ package Utils
 		public var playerPoint:b2Vec2;
 		public var stackLevel:int;
 		public function B2PlayerStackEvent( _stackObject:b2Body, _stackPoint:b2Vec2, _playerPoint:b2Vec2, _stackLevel:int) 
-		{
+		{			
 			super("B2PlayerStack");
 			stackObject = _stackObject;
 			stackPoint = _stackPoint;

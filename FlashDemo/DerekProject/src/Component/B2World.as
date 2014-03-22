@@ -48,7 +48,7 @@ package Component
         public var force:b2Vec2;
 		private var ContactListener:B2ContactListener;
 		private var WorldCreateId:int = 0;
-		public var BlockList:Dictionary = new Dictionary();
+		public var BlockList:Vector.<b2Body> = new Vector.<b2Body>();
 		public var DestroyList:Array = [];
 		private var stackJoint:b2Joint;
 		private var stackedLevel:int;
@@ -80,6 +80,7 @@ package Component
 		
 		private function offStage(e:Event):void
 		{
+			world.ClearForces();
 			e.target.removeEventListener(e.type, arguments.callee);
 			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
 			removeEventListener(Event.ENTER_FRAME, B2WorldUpdate);
@@ -220,9 +221,11 @@ package Component
 		
         //{ Update
         private function B2WorldUpdate(e:Event):void {
+			
             world.Step(1/30,10,10);
-            world.ClearForces();
-            world.DrawDebugData();
+            //world.ClearForces();
+            //world.DrawDebugData();		
+			
         }
 		
 		private function Update(e:Event):void
@@ -254,9 +257,7 @@ package Component
 				mc.x = block.GetPosition().x * world_scale;
 				mc.y = block.GetPosition().y * world_scale;
 				
-				if(mc.playerAction != BaseBlock.ACTION_GET)
-					block.SetLinearVelocity(new b2Vec2(0,blockUpSpeed));
-				
+				block.SetLinearVelocity(new b2Vec2(0,blockUpSpeed));
 				if (mc.playerAction == BaseBlock.ACTION_SLIDE)
 				{
 					var v:b2Vec2 = block.GetLinearVelocity();
@@ -267,7 +268,7 @@ package Component
 						mc.sided = false;
 				}
 				
-				if (mc.y < -500 || mc.y > 3000)
+				if (mc.y < -200)
 				{
 					if(stage)
 						stage.dispatchEvent(new B2DestroyEvent(block));
@@ -283,7 +284,6 @@ package Component
 				var body:* = DestroyList.shift();
 				if (body is b2Body)
 				{
-					trace("DestroyBody");
 					world.DestroyBody(body);
 				}
 				else if (body is b2Joint)
@@ -301,7 +301,7 @@ package Component
 			stackedLevel = e.stackLevel;
 			var jointDef:b2WeldJointDef = new b2WeldJointDef();
 			jointDef.Initialize(player, e.stackObject, e.stackPoint);
-			jointDef.collideConnected = false;
+			jointDef.collideConnected = true;
 			stackJoint = world.CreateJoint(jointDef) as b2WeldJoint;
 			stage.addEventListener("B2PlayerUnStack", PlayerUnStack);
 			stage.addEventListener("B2PlayerUnStacked", PlyerUnStacked);
@@ -337,7 +337,8 @@ package Component
 			var myTween:TweenLite = new TweenLite(mc, 0.25, { rotation: mc.flip?-10:10, ease:Back.easeInOut, onComplete:function():void
 			{
 				myTween.reverse();
-				delete BlockList[e.body.GetUserData().name];
+				BlockList.splice(BlockList.indexOf(e.body), 1);
+				//delete BlockList[e.body.GetUserData().name];
 				DestroyList.push(e.body);
 				mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
 			}});
@@ -354,7 +355,7 @@ package Component
 		{
 			e.target.y += blockUpSpeed;
 			e.target.alpha -= 0.01;
-			if (e.target.y < -300 || e.target.alpha <=0)
+			if (e.target.alpha <=0)
 			{
 				e.target.removeEventListener(e.type, arguments.callee);
 				if(e.target.parent)
@@ -379,6 +380,8 @@ package Component
 		{
 			player.GetLinearVelocity().MulM(new b2Mat22(1,0,0,-0.5 ));
 			playerHP -= 8;
+			if (stackedLevel > 0)
+				stage.dispatchEvent(new Event("PlayerDie"));
 			if (playerHP <= 0)
 					stage.dispatchEvent(new Event("PlayerDie"));
 		}

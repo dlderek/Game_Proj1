@@ -92,7 +92,7 @@ package Handler
 		
 		private function Btn_New():void
 		{
-			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Battle" } );
+			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
 		}
 	}
 }

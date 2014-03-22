@@ -20,7 +20,7 @@ package
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			stage.quality = "medium"
+			stage.quality = "high"
 			new GameLoopManager(stage);
 		}
 		

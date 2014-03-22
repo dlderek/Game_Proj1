@@ -12,6 +12,7 @@ package Component.Block
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.Shape;
+	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	/**
 	 * ...
@@ -39,6 +40,8 @@ package Component.Block
 		public function BaseBlock(ui:Object) 
 		{
 			super(ui);
+			(ui as DisplayObject).cacheAsBitmap = true;
+			(ui as DisplayObject).cacheAsBitmapMatrix = new Matrix();
 		}
 	}
 }

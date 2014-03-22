@@ -10,6 +10,13 @@ package Enum
 		
 		public static const CLASS_HOMEPAGE:String = "jl.homepage";
 		
+		public static const UI_STAGEPAGE:String = "StagePage";
+		
+		public static const CLASS_STAGEPAGE:String = "jl.stagepage";
+		public static const CLASS_STAGEBG1:String = "jl.stagepage.bg1";
+		public static const CLASS_STAGEBG2:String = "jl.stagepage.bg2";
+		public static const CLASS_STAGEBG3:String = "jl.stagepage.bg3";
+		
 		public static const UI_BATTLEPAGE:String = "BattlePage";
 		
 		public static const CLASS_BATTLEPAGE:String = "jl.battlepage";

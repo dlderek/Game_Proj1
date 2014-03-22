@@ -10,6 +10,7 @@ package Enum
 		public static const Stage:int = 1;
 		public static const UI:int = 2;
 		public static const Popup:int = 3;
+		public static const Top:int = 4;
 	}
 
 }

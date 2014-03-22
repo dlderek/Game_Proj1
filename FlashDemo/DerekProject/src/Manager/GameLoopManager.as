@@ -4,6 +4,11 @@ package Manager
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
+	import flash.system.System;
+	import flash.text.Font;
+	import flash.text.FontStyle;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.utils.Dictionary;
 	import Handler.*;
 	/**
@@ -20,6 +25,8 @@ package Manager
 		private var HandlerList:Vector.<BaseHandler>;
 		private var TaskQueue:Vector.<Object>;
 		
+		private var traceMsg:TextField;
+		
 		public function GameLoopManager(stage:Stage) 
 		{
 			Core = this;
@@ -30,7 +37,7 @@ package Manager
 		private function ConstructHandler():void
 		{
 			HandlerList = new Vector.<BaseHandler>();
-			HandlerList.push(new HomeHandler(this), new PageHandler(this), new BattleHandller(this));
+			HandlerList.push(new HomeHandler(this), new PageHandler(this), new BattleHandller(this), new StageHandler(this));
 		}
 		
 		private function InitXML():void
@@ -62,7 +69,7 @@ package Manager
 		private function GameStart():void
 		{
 			layers = new Vector.<Sprite>();
-			for (var i:int = 0; i < 4; i ++)
+			for (var i:int = 0; i < 5; i ++)
 			{
 				var layer:Sprite = new Sprite();
 				layers.push(layer);
@@ -76,6 +83,7 @@ package Manager
 			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Home" } );
 			stage.addEventListener(Event.ENTER_FRAME, TaskLoop);
 		}
+		
 		
 		public function addTask(task:Object):void
 		{
