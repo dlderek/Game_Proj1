@@ -16,6 +16,8 @@ public class MainActivity extends Activity {
 	private LayoutInflater  inflater;
 	private View clientPage;
 	private View companyPage;
+	private ClientPageControl clientPageControl;
+	private CompanyPageControl companyPageControl;
 	private View mainPage;
 	private RadioGroup EnterType;
 	
@@ -28,6 +30,9 @@ public class MainActivity extends Activity {
         clientPage = (View)inflater.inflate(R.layout.client, null);
         companyPage = (View)inflater.inflate(R.layout.company, null);
         mainPage = (View)inflater.inflate(R.layout.activity_main, null);
+        
+        clientPageControl = new ClientPageControl(clientPage);
+        companyPageControl = new CompanyPageControl(companyPage);
         
         setContentView(mainPage);
 
