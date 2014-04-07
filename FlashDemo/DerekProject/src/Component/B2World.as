@@ -14,7 +14,9 @@ package Component
 	import com.greensock.easing.Back;
 	import Component.Block.BaseBlock;
 	import Component.Block.Block1;
+	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
     import flash.events.Event;
     import flash.events.KeyboardEvent;
@@ -26,25 +28,33 @@ package Component
 	import flash.events.TouchEvent;
 	import flash.events.TransformGestureEvent;
 	import flash.utils.clearInterval;
+	import flash.utils.clearTimeout;
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
+	import Manager.GameLoopManager;
 	import Manager.LoadingManager;
+	import Manager.XMLManager;
 	import Utils.B2ContactListener;
 	import Utils.B2DestroyEvent;
 	import Utils.B2PlayerHitCeilEvent;
 	import Utils.B2PlayerPauseEvent;
 	import Utils.B2PlayerPlatformEvent;
+	import Utils.B2PlayerProtectEvent;
 	import Utils.B2PlayerStackEvent;
+	import Utils.B2PlayerUnProtectEvent;
 	import Utils.B2PlayerUnStackedEvent;
 	import Utils.B2PlayerUnStackEvent;
+	import Utils.B2PlayerWaterFallEvent;
 	
     public class B2World extends Sprite {
-        public var world:b2World=new b2World(new b2Vec2(0,5), false);
+        public var world:b2World;
         public var world_scale:int=30;
         public var player:b2Body;
 		public var blockUpSpeed:Number = -3;
+		private var playerTouchForceLevel:Number;
+		private var playerSwipeForceLevel:Number;
         public var force:b2Vec2;
 		private var ContactListener:B2ContactListener;
 		private var WorldCreateId:int = 0;
@@ -52,9 +62,15 @@ package Component
 		public var DestroyList:Array = [];
 		private var stackJoint:b2Joint;
 		private var stackedLevel:int;
+		public var proteted:Boolean;
+		private var jam:Boolean;
 		private var touchPoint:b2Vec2;
 		private var getTouchTime:uint;
 		private var fixTouchInterval:uint;
+		private var unProtectTimeout:uint;
+		
+		private var waterFallPower:int;
+		
 		
 		private const maxPlayHP:int = 10;
 		private var playerHP:int = 10;
@@ -63,6 +79,11 @@ package Component
 		
 		//{ BasicSetup
         public function B2World():void {
+			world=new b2World(new b2Vec2(0,XMLManager.config["WorldGravity"]), false);
+			blockUpSpeed = XMLManager.config["blockUpSpeed"];
+			playerTouchForceLevel = XMLManager.config["PlayerTouchForceLevel"];
+			playerSwipeForceLevel = XMLManager.config["PlayerSwipeForceLevel"];
+			waterFallPower = XMLManager.config["WaterFallPower"];
 			pointerArrow = new Arrow();
 			pointerArrow.alpha = 0.75;
 			ContactListener = new B2ContactListener();
@@ -89,14 +110,18 @@ package Component
 			stage.removeEventListener("B2PlayerUnStack", PlayerUnStack);
 			removeEventListener(Event.EXIT_FRAME, DestroyBlockList);
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onSwipe);
-			clearInterval(fixTouchInterval);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, onSwipe);
+			clearInterval(fixTouchInterval);
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onDown);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
 			stage.removeEventListener("B2PlayerUnStacked", PlyerUnStacked);
 			stage.removeEventListener("B2PlayerPause", onPlayerPause);
 			stage.removeEventListener("B2PlayerPlatform", onPlayerPlatform);
 			stage.removeEventListener("B2PlayerHitCeil", onPlayerHitCeil);
+			stage.removeEventListener("B2PlayerProtect", onPlayerProtect);
+			stage.removeEventListener("B2PlayerUnProtect", onPlayerUnProtect);
+			clearTimeout(unProtectTimeout);
+			stage.removeEventListener("B2PlayerWaterFall", onPlayerWaterFall);
 		}
 		
 		public function StartGame():void
@@ -111,6 +136,8 @@ package Component
 			stage.addEventListener(MouseEvent.MOUSE_UP, onSwipe);
 			stage.addEventListener("B2PlayerPlatform", onPlayerPlatform);
 			stage.addEventListener("B2PlayerHitCeil", onPlayerHitCeil);
+			stage.addEventListener("B2PlayerProtect", onPlayerProtect);
+			stage.addEventListener("B2PlayerWaterFall", onPlayerWaterFall);
 		}
 		
 		public function add_player(px:Number,py:Number, mc:DisplayObject):void {
@@ -122,15 +149,15 @@ package Component
 									//new b2Vec2(25 / world_scale, 10 / world_scale), new b2Vec2(17 / world_scale, 23 / world_scale), new b2Vec2(0 / world_scale, 30 / world_scale), 
 									//new b2Vec2( -17 / world_scale, 24 / world_scale), new b2Vec2( -25 / world_scale, 9 / world_scale), new b2Vec2( -19 / world_scale, -4 / world_scale), 
 									//new b2Vec2( -20 / world_scale, -12 / world_scale), new b2Vec2( -11 / world_scale, -22 / world_scale)], 11);
-			var my_circle:b2CircleShape = new b2CircleShape(37/ world_scale);
+			var my_circle:b2CircleShape = new b2CircleShape(25/ world_scale);
             var my_fixture:b2FixtureDef = new b2FixtureDef();
             my_fixture.shape = my_circle;
-			my_fixture.restitution = 0.5;
-			my_fixture.density = 1;
+			my_fixture.restitution = XMLManager.config["PlayerRestitution"];
+			my_fixture.density = XMLManager.config["PlayerDensity"];
             player=world.CreateBody(my_body);
             player.CreateFixture(my_fixture);
-			player.SetLinearDamping(1);
-			player.SetAngularDamping(0.1);
+			player.SetLinearDamping(XMLManager.config["PlayerLinearDamping"]);
+			player.SetAngularDamping(XMLManager.config["PlayerAngularDamping"]);
 			player.SetUserData( { name:"player", mc:mc } );
 			//mc.alpha = 0.5;
 			mc.x = px;
@@ -143,7 +170,7 @@ package Component
             var debug_sprite:Sprite = new Sprite();
             addChild(debug_sprite);
 			debug_draw.SetFillAlpha(1);
-			debug_draw.SetAlpha(0);
+			debug_draw.SetAlpha(1);
             debug_draw.SetSprite(debug_sprite);
             debug_draw.SetDrawScale(world_scale);
             debug_draw.SetFlags(b2DebugDraw.e_shapeBit);
@@ -190,7 +217,7 @@ package Component
 			if (!pointerArrow.parent)
 				this.addChild(pointerArrow);
 			touchPoint = new b2Vec2(stage.mouseX, stage.mouseY);
-			var side:int = touchPoint.x > 300?3: -3;
+			var side:int = touchPoint.x > 300?playerTouchForceLevel: -playerTouchForceLevel;
 			player.ApplyImpulse(new b2Vec2(side, 0), player.GetPosition());
 		}
 		
@@ -207,7 +234,7 @@ package Component
 					return;
 				var endPoint:b2Vec2 = new b2Vec2(e.stageX, e.stageY);
 				endPoint.Subtract(touchPoint);
-				endPoint.Multiply(1.3);
+				endPoint.Multiply(playerSwipeForceLevel);
 				if (stackedLevel == 0)
 					player.ApplyImpulse(new b2Vec2(endPoint.x / 10, -endPoint.y / 20), player.GetPosition());
 				if (Math.abs(endPoint.x) > 10)
@@ -220,9 +247,14 @@ package Component
         
 		
         //{ Update
-        private function B2WorldUpdate(e:Event):void {
-			
-            world.Step(1/30,10,10);
+        private function B2WorldUpdate(e:Event):void 
+		{
+			try
+			{
+				world.Step(1 / 30, 10, 10);
+			}
+			catch (e:Error)
+			{trace("Error in B2WorldUpdate Catched : " + e.message)};
             //world.ClearForces();
             //world.DrawDebugData();		
 			
@@ -258,7 +290,7 @@ package Component
 				mc.y = block.GetPosition().y * world_scale;
 				
 				block.SetLinearVelocity(new b2Vec2(0,blockUpSpeed));
-				if (mc.playerAction == BaseBlock.ACTION_SLIDE)
+				if (mc.playerAction == BaseBlock.ACTION_SLIDE || mc.playerAction == BaseBlock.ACTION_SLIDE_STACK)
 				{
 					var v:b2Vec2 = block.GetLinearVelocity();
 					v.Add(new b2Vec2(mc.sided?3: -3, 0));
@@ -298,6 +330,9 @@ package Component
 		//{ EventListenerTigger
 		private function PlayerStack(e:B2PlayerStackEvent):void
 		{
+			if (proteted)
+				return;
+				
 			stackedLevel = e.stackLevel;
 			var jointDef:b2WeldJointDef = new b2WeldJointDef();
 			jointDef.Initialize(player, e.stackObject, e.stackPoint);
@@ -334,21 +369,28 @@ package Component
 		private function onPlayerPause(e:B2PlayerPauseEvent):void
 		{
 			var mc:BaseBlock = e.body.GetUserData().mc;
-			var myTween:TweenLite = new TweenLite(mc, 0.25, { rotation: mc.flip?-10:10, ease:Back.easeInOut, onComplete:function():void
+			TweenLite.killTweensOf(mc);
+			switch (mc.mode)
 			{
-				myTween.reverse();
-				BlockList.splice(BlockList.indexOf(e.body), 1);
-				//delete BlockList[e.body.GetUserData().name];
-				DestroyList.push(e.body);
-				mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
-			}});
-			//TweenLite.to(mc, 0.25, { rotation: rotation, ease:Back.easeInOut,  onComplete:function():void
-			//{
-				//TweenLite.killTweensOf(mc);
-				//delete BlockList[e.body.GetUserData().name];
-				//DestroyList.push(e.body);
-				//mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
-			//}} );
+				case 0:
+					var myTween:TweenLite = new TweenLite(mc, 0.25, { rotation: mc.flip? -10:10, onComplete:function():void
+					{
+						myTween.reverse();
+						BlockList.splice(BlockList.indexOf(e.body), 1);
+						DestroyList.push(e.body);
+						mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
+					}});
+					break;
+				case 1:
+					BlockList.splice(BlockList.indexOf(e.body), 1);
+					DestroyList.push(e.body);
+					myTween = new TweenLite(mc, 0.5, { y:mc.y + 100, alpha:0, ease:Back.easeIn, onComplete:function():void
+					{
+						if(mc.parent)
+							mc.parent.removeChild(mc);
+					}});
+					break;
+			}
 		}
 		
 		private function TweenMcAfterDestroyBody(e:Event):void
@@ -365,6 +407,7 @@ package Component
 		
 		private function onPlayerPlatform(e:B2PlayerPlatformEvent):void
 		{
+			//jump effect
 			var normal:b2Vec2 = e.planeNormal.Copy();
 			if (normal.y > -0.5)
 				return;
@@ -374,7 +417,6 @@ package Component
 				v.y = -12;
 			v.y *= -normal.y;
 		}
-		//}
 		
 		private function onPlayerHitCeil(e:B2PlayerHitCeilEvent):void
 		{
@@ -385,5 +427,50 @@ package Component
 			if (playerHP <= 0)
 					stage.dispatchEvent(new Event("PlayerDie"));
 		}
+		
+		private function onPlayerProtect(e:B2PlayerProtectEvent):void
+		{
+			var mc:Character = player.GetUserData().mc as Character;
+			var child:DisplayObject = mc.getChildByName("protect");
+			if(child != null)
+			{
+				mc.removeChild(child);
+			}
+			
+			proteted = true;
+			var protect:Protect = new Protect();
+			protect.name = "protect";
+			mc.addChild(protect);
+			stage.addEventListener("B2PlayerUnProtect", onPlayerUnProtect);
+			unProtectTimeout = setTimeout(unProtectDispatchEvent, 5000);
+		}
+		
+		private function unProtectDispatchEvent():void
+		{
+			if(stage)
+				stage.dispatchEvent(new B2PlayerUnProtectEvent());
+		}
+		
+		private function onPlayerUnProtect(e:B2PlayerUnProtectEvent):void
+		{
+			var mc:Character = player.GetUserData().mc as Character;
+			var child:DisplayObject = mc.getChildByName("protect");
+			if(child != null)
+			{
+				mc.removeChild(child);
+			}
+			proteted = false;
+		}
+		
+		private function onPlayerWaterFall(e:B2PlayerWaterFallEvent):void
+		{
+			e.waterFall.SetActive(false);
+			player.GetLinearVelocity().Add(new b2Vec2(0, waterFallPower));
+			BlockList.splice(BlockList.indexOf(e.waterFall), 1);
+			DestroyList.push(e.waterFall);
+			e.waterFall.GetUserData().mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
+		}
+		
+		//}
     }
 }

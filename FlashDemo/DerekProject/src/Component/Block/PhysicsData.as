@@ -113,8 +113,7 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(10/ptm_ratio, 17/ptm_ratio)  ,  new b2Vec2(161/ptm_ratio, 19/ptm_ratio)  ,  new b2Vec2(165/ptm_ratio, 52/ptm_ratio)  ,  new b2Vec2(20/ptm_ratio, 45/ptm_ratio)  ,  new b2Vec2(2/ptm_ratio, 35/ptm_ratio)  ] ,
-                                                [   new b2Vec2(165/ptm_ratio, 52/ptm_ratio)  ,  new b2Vec2(161/ptm_ratio, 19/ptm_ratio)  ,  new b2Vec2(180/ptm_ratio, 30/ptm_ratio)  ]
+                                                [   new b2Vec2(136/ptm_ratio, 20/ptm_ratio)  ,  new b2Vec2(128/ptm_ratio, 30/ptm_ratio)  ,  new b2Vec2(7/ptm_ratio, 26/ptm_ratio)  ,  new b2Vec2(3/ptm_ratio, 4/ptm_ratio)  ,  new b2Vec2(126/ptm_ratio, 5/ptm_ratio)  ,  new b2Vec2(136/ptm_ratio, 11/ptm_ratio)  ]
 											]
 
 										]
@@ -133,7 +132,7 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(161/ptm_ratio, 54/ptm_ratio)  ,  new b2Vec2(86/ptm_ratio, 59/ptm_ratio)  ,  new b2Vec2(12/ptm_ratio, 52/ptm_ratio)  ,  new b2Vec2(-1/ptm_ratio, 40/ptm_ratio)  ,  new b2Vec2(6/ptm_ratio, 25/ptm_ratio)  ,  new b2Vec2(161/ptm_ratio, 24/ptm_ratio)  ,  new b2Vec2(175/ptm_ratio, 40/ptm_ratio)  ]
+                                                [   new b2Vec2(133/ptm_ratio, 48/ptm_ratio)  ,  new b2Vec2(13/ptm_ratio, 47/ptm_ratio)  ,  new b2Vec2(4/ptm_ratio, 36/ptm_ratio)  ,  new b2Vec2(8/ptm_ratio, 22/ptm_ratio)  ,  new b2Vec2(132/ptm_ratio, 21/ptm_ratio)  ,  new b2Vec2(145/ptm_ratio, 35/ptm_ratio)  ]
 											]
 
 										]
@@ -144,7 +143,7 @@ package Component.Block
 
 										[
 											// density, friction, restitution
-                                            99, 0.5, 0.8,
+                                            0, 0.8, 0.5,
                                             // categoryBits, maskBits, groupIndex, isSensor
 											1, 65535, 0, false,
 											'POLYGON',
@@ -152,7 +151,7 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(23/ptm_ratio, 20/ptm_ratio)  ,  new b2Vec2(174/ptm_ratio, 20/ptm_ratio)  ,  new b2Vec2(181/ptm_ratio, 36/ptm_ratio)  ,  new b2Vec2(163/ptm_ratio, 47/ptm_ratio)  ,  new b2Vec2(19/ptm_ratio, 53/ptm_ratio)  ,  new b2Vec2(2/ptm_ratio, 31/ptm_ratio)  ]
+                                                [   new b2Vec2(21/ptm_ratio, 5/ptm_ratio)  ,  new b2Vec2(140/ptm_ratio, 5/ptm_ratio)  ,  new b2Vec2(145.409423828125/ptm_ratio, 18.3746910095215/ptm_ratio)  ,  new b2Vec2(130.769226074219/ptm_ratio, 27.5558314323425/ptm_ratio)  ,  new b2Vec2(16.8734474182129/ptm_ratio, 31.5260548591614/ptm_ratio)  ,  new b2Vec2(3/ptm_ratio, 14/ptm_ratio)  ]
 											]
 
 										]
@@ -163,7 +162,7 @@ package Component.Block
 
 										[
 											// density, friction, restitution
-                                            99, 0.5, 0.8,
+                                            0, 0.8, 0.5,
                                             // categoryBits, maskBits, groupIndex, isSensor
 											1, 65535, 0, false,
 											'POLYGON',
@@ -171,15 +170,10 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(237.5/ptm_ratio, 90/ptm_ratio)  ,  new b2Vec2(218/ptm_ratio, 112.5/ptm_ratio)  ,  new b2Vec2(177/ptm_ratio, 143.5/ptm_ratio)  ,  new b2Vec2(63/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(12/ptm_ratio, 175.5/ptm_ratio)  ,  new b2Vec2(121/ptm_ratio, 79.5/ptm_ratio)  ,  new b2Vec2(225/ptm_ratio, 56.5/ptm_ratio)  ,  new b2Vec2(237.5/ptm_ratio, 72/ptm_ratio)  ] ,
-                                                [   new b2Vec2(153/ptm_ratio, 195.5/ptm_ratio)  ,  new b2Vec2(63/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(177/ptm_ratio, 143.5/ptm_ratio)  ,  new b2Vec2(185/ptm_ratio, 163.5/ptm_ratio)  ,  new b2Vec2(183.5/ptm_ratio, 179/ptm_ratio)  ] ,
-                                                [   new b2Vec2(225/ptm_ratio, 56.5/ptm_ratio)  ,  new b2Vec2(121/ptm_ratio, 79.5/ptm_ratio)  ,  new b2Vec2(173/ptm_ratio, 53.5/ptm_ratio)  ,  new b2Vec2(203/ptm_ratio, 47.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(12/ptm_ratio, 175.5/ptm_ratio)  ,  new b2Vec2(97/ptm_ratio, 83.5/ptm_ratio)  ,  new b2Vec2(121/ptm_ratio, 79.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(12/ptm_ratio, 175.5/ptm_ratio)  ,  new b2Vec2(67/ptm_ratio, 77.5/ptm_ratio)  ,  new b2Vec2(97/ptm_ratio, 83.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(12/ptm_ratio, 175.5/ptm_ratio)  ,  new b2Vec2(37.5/ptm_ratio, 62/ptm_ratio)  ,  new b2Vec2(67/ptm_ratio, 77.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(12/ptm_ratio, 175.5/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 178.5/ptm_ratio)  ,  new b2Vec2(5/ptm_ratio, 15.5/ptm_ratio)  ,  new b2Vec2(37.5/ptm_ratio, 62/ptm_ratio)  ] ,
-                                                [   new b2Vec2(0/ptm_ratio, 178.5/ptm_ratio)  ,  new b2Vec2(0.5/ptm_ratio, 1/ptm_ratio)  ,  new b2Vec2(5/ptm_ratio, 15.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(0.5/ptm_ratio, 0/ptm_ratio)  ,  new b2Vec2(0.5/ptm_ratio, 1/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 178.5/ptm_ratio)  ]
+                                                [   new b2Vec2(127/ptm_ratio, 156/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 144/ptm_ratio)  ,  new b2Vec2(51/ptm_ratio, 63/ptm_ratio)  ,  new b2Vec2(84/ptm_ratio, 70/ptm_ratio)  ,  new b2Vec2(148/ptm_ratio, 113/ptm_ratio)  ,  new b2Vec2(149/ptm_ratio, 142/ptm_ratio)  ] ,
+                                                [   new b2Vec2(186/ptm_ratio, 52/ptm_ratio)  ,  new b2Vec2(191/ptm_ratio, 68/ptm_ratio)  ,  new b2Vec2(175/ptm_ratio, 90/ptm_ratio)  ,  new b2Vec2(148/ptm_ratio, 113/ptm_ratio)  ,  new b2Vec2(84/ptm_ratio, 70/ptm_ratio)  ,  new b2Vec2(144/ptm_ratio, 43/ptm_ratio)  ,  new b2Vec2(166/ptm_ratio, 38/ptm_ratio)  ] ,
+                                                [   new b2Vec2(0/ptm_ratio, 144/ptm_ratio)  ,  new b2Vec2(24/ptm_ratio, 43/ptm_ratio)  ,  new b2Vec2(51/ptm_ratio, 63/ptm_ratio)  ] ,
+                                                [   new b2Vec2(0/ptm_ratio, 144/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 0/ptm_ratio)  ,  new b2Vec2(24/ptm_ratio, 43/ptm_ratio)  ]
 											]
 
 										]
@@ -190,7 +184,7 @@ package Component.Block
 
 										[
 											// density, friction, restitution
-                                            99, 0.5, 0.8,
+                                            0, 0.8, 0.5,
                                             // categoryBits, maskBits, groupIndex, isSensor
 											1, 65535, 0, false,
 											'POLYGON',
@@ -198,15 +192,10 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(176/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(239.5/ptm_ratio, 1/ptm_ratio)  ,  new b2Vec2(239.5/ptm_ratio, 178/ptm_ratio)  ] ,
-                                                [   new b2Vec2(14/ptm_ratio, 56.5/ptm_ratio)  ,  new b2Vec2(51/ptm_ratio, 49.5/ptm_ratio)  ,  new b2Vec2(114/ptm_ratio, 78.5/ptm_ratio)  ,  new b2Vec2(176/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(63/ptm_ratio, 145.5/ptm_ratio)  ,  new b2Vec2(21/ptm_ratio, 112.5/ptm_ratio)  ,  new b2Vec2(1.5/ptm_ratio, 90/ptm_ratio)  ,  new b2Vec2(1.5/ptm_ratio, 72/ptm_ratio)  ] ,
-                                                [   new b2Vec2(53.5/ptm_ratio, 165/ptm_ratio)  ,  new b2Vec2(63/ptm_ratio, 145.5/ptm_ratio)  ,  new b2Vec2(176/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(86/ptm_ratio, 195.5/ptm_ratio)  ,  new b2Vec2(56/ptm_ratio, 180.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(51/ptm_ratio, 49.5/ptm_ratio)  ,  new b2Vec2(14/ptm_ratio, 56.5/ptm_ratio)  ,  new b2Vec2(33/ptm_ratio, 47.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(141/ptm_ratio, 83.5/ptm_ratio)  ,  new b2Vec2(176/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(114/ptm_ratio, 78.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(171/ptm_ratio, 77.5/ptm_ratio)  ,  new b2Vec2(176/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(141/ptm_ratio, 83.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(203.5/ptm_ratio, 60/ptm_ratio)  ,  new b2Vec2(176/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(171/ptm_ratio, 77.5/ptm_ratio)  ] ,
-                                                [   new b2Vec2(234.5/ptm_ratio, 15/ptm_ratio)  ,  new b2Vec2(176/ptm_ratio, 179.5/ptm_ratio)  ,  new b2Vec2(203.5/ptm_ratio, 60/ptm_ratio)  ] ,
-                                                [   new b2Vec2(239.5/ptm_ratio, 1/ptm_ratio)  ,  new b2Vec2(234.5/ptm_ratio, 15/ptm_ratio)  ,  new b2Vec2(239.5/ptm_ratio, 0/ptm_ratio)  ]
+                                                [   new b2Vec2(27/ptm_ratio, 41/ptm_ratio)  ,  new b2Vec2(50/ptm_ratio, 42/ptm_ratio)  ,  new b2Vec2(97/ptm_ratio, 67/ptm_ratio)  ,  new b2Vec2(49/ptm_ratio, 118/ptm_ratio)  ,  new b2Vec2(1/ptm_ratio, 69/ptm_ratio)  ,  new b2Vec2(6/ptm_ratio, 51/ptm_ratio)  ] ,
+                                                [   new b2Vec2(97/ptm_ratio, 67/ptm_ratio)  ,  new b2Vec2(139/ptm_ratio, 65/ptm_ratio)  ,  new b2Vec2(193/ptm_ratio, 144/ptm_ratio)  ,  new b2Vec2(55/ptm_ratio, 153/ptm_ratio)  ,  new b2Vec2(49/ptm_ratio, 118/ptm_ratio)  ] ,
+                                                [   new b2Vec2(166.997512817383/ptm_ratio, 45.0893325805664/ptm_ratio)  ,  new b2Vec2(193/ptm_ratio, 144/ptm_ratio)  ,  new b2Vec2(139/ptm_ratio, 65/ptm_ratio)  ] ,
+                                                [   new b2Vec2(193/ptm_ratio, 0/ptm_ratio)  ,  new b2Vec2(193/ptm_ratio, 144/ptm_ratio)  ,  new b2Vec2(166.997512817383/ptm_ratio, 45.0893325805664/ptm_ratio)  ]
 											]
 
 										]
@@ -217,7 +206,7 @@ package Component.Block
 
 										[
 											// density, friction, restitution
-                                            99, 0.5, 0.8,
+                                            0, 0.8, 0.5,
                                             // categoryBits, maskBits, groupIndex, isSensor
 											1, 65535, 0, false,
 											'POLYGON',
@@ -225,7 +214,7 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(0/ptm_ratio, 276/ptm_ratio)  ,  new b2Vec2(339/ptm_ratio, 112/ptm_ratio)  ,  new b2Vec2(343/ptm_ratio, 128/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 296/ptm_ratio)  ]
+                                                [   new b2Vec2(1/ptm_ratio, 231/ptm_ratio)  ,  new b2Vec2(242/ptm_ratio, 137/ptm_ratio)  ,  new b2Vec2(243/ptm_ratio, 149/ptm_ratio)  ,  new b2Vec2(1/ptm_ratio, 259/ptm_ratio)  ]
 											]
 
 										]
@@ -236,7 +225,7 @@ package Component.Block
 
 										[
 											// density, friction, restitution
-                                            99, 0.5, 0.8,
+                                            0, 0.8, 0.5,
                                             // categoryBits, maskBits, groupIndex, isSensor
 											1, 65535, 0, false,
 											'POLYGON',
@@ -244,7 +233,7 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(-337/ptm_ratio, 126/ptm_ratio)  ,  new b2Vec2(-338/ptm_ratio, 111/ptm_ratio)  ,  new b2Vec2(-2/ptm_ratio, 274/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 295/ptm_ratio)  ]
+                                                [   new b2Vec2(-242/ptm_ratio, 155/ptm_ratio)  ,  new b2Vec2(-240/ptm_ratio, 141/ptm_ratio)  ,  new b2Vec2(-1/ptm_ratio, 225/ptm_ratio)  ,  new b2Vec2(-1/ptm_ratio, 263/ptm_ratio)  ]
 											]
 
 										]
@@ -255,7 +244,7 @@ package Component.Block
 
 										[
 											// density, friction, restitution
-                                            99, 0.5, 0.8,
+                                            0, 0.8, 0.5,
                                             // categoryBits, maskBits, groupIndex, isSensor
 											1, 65535, 0, false,
 											'POLYGON',
@@ -263,17 +252,190 @@ package Component.Block
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(298/ptm_ratio, 343/ptm_ratio)  ,  new b2Vec2(305/ptm_ratio, 281/ptm_ratio)  ,  new b2Vec2(324/ptm_ratio, 328/ptm_ratio)  ,  new b2Vec2(317/ptm_ratio, 350/ptm_ratio)  ,  new b2Vec2(305/ptm_ratio, 354/ptm_ratio)  ] ,
-                                                [   new b2Vec2(0/ptm_ratio, 282/ptm_ratio)  ,  new b2Vec2(20/ptm_ratio, 254/ptm_ratio)  ,  new b2Vec2(40/ptm_ratio, 242/ptm_ratio)  ,  new b2Vec2(54/ptm_ratio, 303/ptm_ratio)  ,  new b2Vec2(2/ptm_ratio, 316/ptm_ratio)  ] ,
-                                                [   new b2Vec2(250/ptm_ratio, 338/ptm_ratio)  ,  new b2Vec2(196/ptm_ratio, 307/ptm_ratio)  ,  new b2Vec2(106/ptm_ratio, 173/ptm_ratio)  ,  new b2Vec2(240/ptm_ratio, 178/ptm_ratio)  ,  new b2Vec2(277/ptm_ratio, 216/ptm_ratio)  ,  new b2Vec2(300/ptm_ratio, 254/ptm_ratio)  ,  new b2Vec2(305/ptm_ratio, 281/ptm_ratio)  ,  new b2Vec2(298/ptm_ratio, 343/ptm_ratio)  ] ,
-                                                [   new b2Vec2(192/ptm_ratio, 23/ptm_ratio)  ,  new b2Vec2(217/ptm_ratio, 138/ptm_ratio)  ,  new b2Vec2(141/ptm_ratio, 118/ptm_ratio)  ,  new b2Vec2(166/ptm_ratio, 14/ptm_ratio)  ,  new b2Vec2(170/ptm_ratio, 5/ptm_ratio)  ,  new b2Vec2(180/ptm_ratio, 0/ptm_ratio)  ] ,
-                                                [   new b2Vec2(40/ptm_ratio, 242/ptm_ratio)  ,  new b2Vec2(61/ptm_ratio, 236/ptm_ratio)  ,  new b2Vec2(148/ptm_ratio, 310/ptm_ratio)  ,  new b2Vec2(54/ptm_ratio, 303/ptm_ratio)  ] ,
-                                                [   new b2Vec2(240/ptm_ratio, 178/ptm_ratio)  ,  new b2Vec2(106/ptm_ratio, 173/ptm_ratio)  ,  new b2Vec2(106/ptm_ratio, 141/ptm_ratio)  ,  new b2Vec2(141/ptm_ratio, 118/ptm_ratio)  ,  new b2Vec2(217/ptm_ratio, 138/ptm_ratio)  ] ,
-                                                [   new b2Vec2(141/ptm_ratio, 118/ptm_ratio)  ,  new b2Vec2(106/ptm_ratio, 141/ptm_ratio)  ,  new b2Vec2(109/ptm_ratio, 125/ptm_ratio)  ,  new b2Vec2(117/ptm_ratio, 117/ptm_ratio)  ,  new b2Vec2(131/ptm_ratio, 114/ptm_ratio)  ] ,
-                                                [   new b2Vec2(148/ptm_ratio, 310/ptm_ratio)  ,  new b2Vec2(103/ptm_ratio, 194/ptm_ratio)  ,  new b2Vec2(106/ptm_ratio, 173/ptm_ratio)  ,  new b2Vec2(196/ptm_ratio, 307/ptm_ratio)  ] ,
-                                                [   new b2Vec2(82/ptm_ratio, 222/ptm_ratio)  ,  new b2Vec2(148/ptm_ratio, 310/ptm_ratio)  ,  new b2Vec2(61/ptm_ratio, 236/ptm_ratio)  ] ,
-                                                [   new b2Vec2(103/ptm_ratio, 194/ptm_ratio)  ,  new b2Vec2(148/ptm_ratio, 310/ptm_ratio)  ,  new b2Vec2(82/ptm_ratio, 222/ptm_ratio)  ]
+                                                [   new b2Vec2(145/ptm_ratio, 0/ptm_ratio)  ,  new b2Vec2(174/ptm_ratio, 112/ptm_ratio)  ,  new b2Vec2(115/ptm_ratio, 92/ptm_ratio)  ,  new b2Vec2(133/ptm_ratio, 10/ptm_ratio)  ,  new b2Vec2(137/ptm_ratio, 0/ptm_ratio)  ] ,
+                                                [   new b2Vec2(19/ptm_ratio, 200/ptm_ratio)  ,  new b2Vec2(48/ptm_ratio, 189/ptm_ratio)  ,  new b2Vec2(111/ptm_ratio, 244/ptm_ratio)  ,  new b2Vec2(1/ptm_ratio, 253/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 226/ptm_ratio)  ] ,
+                                                [   new b2Vec2(115/ptm_ratio, 92/ptm_ratio)  ,  new b2Vec2(169/ptm_ratio, 255/ptm_ratio)  ,  new b2Vec2(111/ptm_ratio, 244/ptm_ratio)  ,  new b2Vec2(76/ptm_ratio, 166/ptm_ratio)  ,  new b2Vec2(89/ptm_ratio, 98/ptm_ratio)  ] ,
+                                                [   new b2Vec2(76/ptm_ratio, 166/ptm_ratio)  ,  new b2Vec2(111/ptm_ratio, 244/ptm_ratio)  ,  new b2Vec2(48/ptm_ratio, 189/ptm_ratio)  ] ,
+                                                [   new b2Vec2(115/ptm_ratio, 92/ptm_ratio)  ,  new b2Vec2(174/ptm_ratio, 112/ptm_ratio)  ,  new b2Vec2(241/ptm_ratio, 206/ptm_ratio)  ,  new b2Vec2(257/ptm_ratio, 276/ptm_ratio)  ,  new b2Vec2(247/ptm_ratio, 283/ptm_ratio)  ,  new b2Vec2(169/ptm_ratio, 255/ptm_ratio)  ]
 											]
+
+										]
+
+									];
+			dict["block15"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'CIRCLE',
+
+                                            // center, radius
+                                            new b2Vec2(44.595/ptm_ratio,66.027/ptm_ratio),
+                                            25.020/ptm_ratio
+
+										]
+
+									];
+
+			dict["block9"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'POLYGON',
+
+                                            // vertexes of decomposed polygons
+                                            [
+
+                                                [   new b2Vec2(4/ptm_ratio, 60/ptm_ratio)  ,  new b2Vec2(4/ptm_ratio, 38/ptm_ratio)  ,  new b2Vec2(112/ptm_ratio, 36/ptm_ratio)  ,  new b2Vec2(119/ptm_ratio, 63/ptm_ratio)  ,  new b2Vec2(112/ptm_ratio, 89/ptm_ratio)  ,  new b2Vec2(58/ptm_ratio, 100/ptm_ratio)  ,  new b2Vec2(11/ptm_ratio, 88/ptm_ratio)  ]
+											]
+
+										]
+
+									];
+
+			dict["block10"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'POLYGON',
+
+                                            // vertexes of decomposed polygons
+                                            [
+
+                                                [   new b2Vec2(16/ptm_ratio, 18/ptm_ratio)  ,  new b2Vec2(103/ptm_ratio, 16/ptm_ratio)  ,  new b2Vec2(125/ptm_ratio, 45/ptm_ratio)  ,  new b2Vec2(116.483512878418/ptm_ratio, 70.7912101745605/ptm_ratio)  ,  new b2Vec2(62.6373596191406/ptm_ratio, 83.7032968997955/ptm_ratio)  ,  new b2Vec2(13.4615383148193/ptm_ratio, 70.7912101745605/ptm_ratio)  ,  new b2Vec2(3/ptm_ratio, 43/ptm_ratio)  ,  new b2Vec2(4/ptm_ratio, 23/ptm_ratio)  ] ,
+                                                [   new b2Vec2(125/ptm_ratio, 45/ptm_ratio)  ,  new b2Vec2(103/ptm_ratio, 16/ptm_ratio)  ,  new b2Vec2(116/ptm_ratio, 18/ptm_ratio)  ]
+											]
+
+										]
+
+									];
+
+			dict["block11"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'POLYGON',
+
+                                            // vertexes of decomposed polygons
+                                            [
+
+                                                [   new b2Vec2(79/ptm_ratio, 105/ptm_ratio)  ,  new b2Vec2(33/ptm_ratio, 90/ptm_ratio)  ,  new b2Vec2(26/ptm_ratio, 63/ptm_ratio)  ,  new b2Vec2(31/ptm_ratio, 38/ptm_ratio)  ,  new b2Vec2(124/ptm_ratio, 35/ptm_ratio)  ,  new b2Vec2(132/ptm_ratio, 64/ptm_ratio)  ,  new b2Vec2(126/ptm_ratio, 91/ptm_ratio)  ]
+											]
+
+										]
+
+									];
+
+			dict["block12"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'POLYGON',
+
+                                            // vertexes of decomposed polygons
+                                            [
+
+                                                [   new b2Vec2(144/ptm_ratio, 83/ptm_ratio)  ,  new b2Vec2(54/ptm_ratio, 106/ptm_ratio)  ,  new b2Vec2(17/ptm_ratio, 92/ptm_ratio)  ,  new b2Vec2(9.72972965240479/ptm_ratio, 64.6216125488281/ptm_ratio)  ,  new b2Vec2(12/ptm_ratio, 45/ptm_ratio)  ,  new b2Vec2(79/ptm_ratio, 25/ptm_ratio)  ,  new b2Vec2(150/ptm_ratio, 36/ptm_ratio)  ]
+											]
+
+										]
+
+									];
+
+			dict["block13"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'CIRCLE',
+
+                                            // center, radius
+                                            new b2Vec2(50.000/ptm_ratio,88.622/ptm_ratio),
+                                            27.731/ptm_ratio
+
+										]
+
+									];
+
+			dict["block14"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'CIRCLE',
+
+                                            // center, radius
+                                            new b2Vec2(52.162/ptm_ratio,52.270/ptm_ratio),
+                                            29.967/ptm_ratio
+
+										]
+
+									];
+			dict["block15"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'CIRCLE',
+
+                                            // center, radius
+                                            new b2Vec2(52.162/ptm_ratio,52.270/ptm_ratio),
+                                            29.967/ptm_ratio
+
+										]
+
+									];
+									
+			dict["block16"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.5, 0.8,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'POLYGON',
+
+                                            // vertexes of decomposed polygons
+                                            [
+
+                                                [   new b2Vec2(4/ptm_ratio, 18/ptm_ratio)  ,  new b2Vec2(170/ptm_ratio, 18/ptm_ratio)  ,  new b2Vec2(178/ptm_ratio, 59/ptm_ratio)  ,  new b2Vec2(169/ptm_ratio, 89/ptm_ratio)  ,  new b2Vec2(108/ptm_ratio, 103/ptm_ratio)  ,  new b2Vec2(14/ptm_ratio, 72/ptm_ratio)  ]
+											]
+
+										]
+
+									];
+			dict["protect"] = [
+
+										[
+											// density, friction, restitution
+                                            0, 0.8, 0.5,
+                                            // categoryBits, maskBits, groupIndex, isSensor
+											1, 65535, 0, false,
+											'CIRCLE',
+
+                                            // center, radius
+                                            new b2Vec2(47.838/ptm_ratio,47.703/ptm_ratio),
+                                            43.829/ptm_ratio
 
 										]
 

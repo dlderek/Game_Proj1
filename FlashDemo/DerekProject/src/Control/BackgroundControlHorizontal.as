@@ -22,16 +22,16 @@ package Control
 			random = _random;
 			bgList = imgs.concat();
 		}
-		
-		protected override function onStage(e:Event):void
+		public function start():void
 		{
-			super.onStage(e);
 			for (var i:int = 0 ; i < bgList.length; i++)
 			{
 				bgList[i].y = 0;
 				bgList[i].x = i * (bgList[i].width - 5);
 				ui.addChild(bgList[i]);
 			}
+			ui.removeEventListener(Event.ADDED_TO_STAGE, onStage);
+			ui.addEventListener(Event.REMOVED_FROM_STAGE, offStage);
 			ui.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		

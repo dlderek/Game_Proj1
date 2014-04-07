@@ -49,7 +49,7 @@ package Control
 			world.StartGame();
 			BlockGenerator.start();
 			GameLoopManager.Core.stage.addEventListener("B2PlayerStack", onPlayerStack);
-			GameLoopManager.Core.stage.addEventListener("PlayerDie", onPlayerDie);
+			//GameLoopManager.Core.stage.addEventListener("PlayerDie", onPlayerDie);
 			GameLoopManager.Core.stage.addEventListener("PlayerCollide", onPlayerCollide);
 			GameLoopManager.Core.stage.addEventListener("PlayerCollection", onPlayerCollection);
 		}
@@ -57,7 +57,7 @@ package Control
 		{
 			super.offStage(e);
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerStack", onPlayerStack);
-			GameLoopManager.Core.stage.removeEventListener("PlayerDie", onPlayerDie);
+			//GameLoopManager.Core.stage.removeEventListener("PlayerDie", onPlayerDie);
 			GameLoopManager.Core.stage.removeEventListener("PlayerCollide", onPlayerCollide);
 			GameLoopManager.Core.stage.removeEventListener("PlayerCollection", onPlayerCollection);
 		}
@@ -77,6 +77,9 @@ package Control
 		
 		private function onPlayerStack(e:B2PlayerStackEvent):void
 		{
+			if (world.proteted)
+				return;
+				
 			if (unStackMe && unStackMe2 && unStackMe.parent && unStackMe2.parent)
 			{
 				unStackMe.parent.removeChild(unStackMe);
@@ -95,10 +98,10 @@ package Control
 			//GameLoopManager.Core.layers[LayerList.Popup].addChild(unStackMe);
 		}
 		
-		private function onPlayerDie(e:Event):void
-		{
-			Reset();
-		}
+		//private function onPlayerDie(e:Event):void
+		//{
+			//Reset();
+		//}
 		
 		private function onPlayerCollide(e:PlayerCollideEvent):void
 		{

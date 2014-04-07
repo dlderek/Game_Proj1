@@ -29,11 +29,25 @@ package Enum
 		public static const CLASS_BLOCK6:String = "jl.battlepage.block6";
 		public static const CLASS_BLOCK7:String = "jl.battlepage.block7";
 		public static const CLASS_BLOCK8:String = "jl.battlepage.block8";
+		public static const CLASS_BLOCK9:String = "jl.battlepage.block9";
+		public static const CLASS_BLOCK10:String = "jl.battlepage.block10";
+		public static const CLASS_BLOCK11:String = "jl.battlepage.block11";
+		public static const CLASS_BLOCK12:String = "jl.battlepage.block12";
+		public static const CLASS_BLOCK13:String = "jl.battlepage.block13";
+		public static const CLASS_BLOCK14:String = "jl.battlepage.block14";
+		public static const CLASS_BLOCK15:String = "jl.battlepage.block15";
+		public static const CLASS_BLOCK16:String = "jl.battlepage.block16";
 		public static const CLASS_ROOF:String = "jl.battlepage.roof";
 		public static const CLASS_BG:String = "jl.battlepage.bg";
 		public static const CLASS_UNSTACKME:String = "jl.battlepage.unstackme";
 		public static const CLASS_ARROW:String = "jl.battlepage.arrow";
 		public static const CLASS_COLLECTION:String = "jl.battlepage.collection";
+		public static const CLASS_PROTECT:String = "jl.battlepage.protect";
+		
+		
+		public static const UI_GAMEOVERPAGE:String = "GameOverPage";
+		
+		public static const CLASS_GAMEOVERPAGE:String = "jl.gameoverpage";
 	}
 
 }

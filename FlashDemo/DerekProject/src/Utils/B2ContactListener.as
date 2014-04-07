@@ -43,6 +43,7 @@ package Utils
 				{
 					switch((target.GetUserData().mc as BaseBlock).playerAction)
 					{
+						case BaseBlock.ACTION_SLIDE_STACK:
 						case BaseBlock.ACTION_STACK:
 							var planeNormal:b2Vec2 = contact.GetManifold().m_localPlaneNormal;
 							if (planeNormal.y < -0.8)
@@ -56,23 +57,32 @@ package Utils
 							}
 							
 						break;
-					case BaseBlock.ACTION_PAUSE:
-							target.GetUserData().active = false;
-							GameLoopManager.Core.stage.dispatchEvent(new B2PlayerPauseEvent(target));
-							
-						break;
-					case BaseBlock.ACTION_NONE:
 						
-						break;
-					case BaseBlock.ACTION_JUMP:
-					case BaseBlock.ACTION_SLIDE:
-							GameLoopManager.Core.stage.dispatchEvent(new B2PlayerPlatformEvent(contact.GetManifold().m_localPlaneNormal));
-						break;
-					case BaseBlock.ACTION_GET:
-							GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(target));
-							GameLoopManager.Core.stage.dispatchEvent(new PlayerCollectionEvent());
-							break PlayerPack;
-						break;
+					case BaseBlock.ACTION_WATERFALL:
+						GameLoopManager.Core.stage.dispatchEvent(new B2PlayerWaterFallEvent(target));
+						break PlayerPack;
+						
+						case BaseBlock.ACTION_PAUSE:
+								target.GetUserData().active = false;
+								GameLoopManager.Core.stage.dispatchEvent(new B2PlayerPauseEvent(target));
+								
+							break;
+						case BaseBlock.ACTION_NONE:
+							
+							break;
+						case BaseBlock.ACTION_JUMP:
+						case BaseBlock.ACTION_SLIDE:
+								GameLoopManager.Core.stage.dispatchEvent(new B2PlayerPlatformEvent(contact.GetManifold().m_localPlaneNormal));
+							break;
+						case BaseBlock.ACTION_GET:
+								GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(target));
+								GameLoopManager.Core.stage.dispatchEvent(new PlayerCollectionEvent());
+								break PlayerPack; // don't trigger the playerCollideEvent
+							break;
+						case BaseBlock.ACTION_PROTECT:
+								GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(target));
+								GameLoopManager.Core.stage.dispatchEvent(new B2PlayerProtectEvent());
+							break PlayerPack; // don't trigger the playerCollideEvent
 					}
 					GameLoopManager.Core.stage.dispatchEvent(new PlayerCollideEvent(player.GetLinearVelocity().Length(), player_point));
 				}

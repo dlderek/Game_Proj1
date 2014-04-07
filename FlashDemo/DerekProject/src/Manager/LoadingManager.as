@@ -49,10 +49,19 @@ package Manager
 		public static function loadFiles():void
 		{
 			var files:XML = XMLManager.files;
+			
 			for each(var item:String in files.jpg.*)
 				loader.add("atlas/" + item + ".jpg");
+				
+			for each(item in files.png.*)
+				loader.add("atlas/" + item + ".png");
+				
+			for each(item in files.xml.*)
+				loader.add("atlas/" + item + ".xml");
+				
 			for each(item in files.swf.*)
 				loader.add("swf/" + item + ".swf");
+				
 			//for each(item in files.wav.*)
 				//loader.add("sound/" + item + ".wav");
 			loader.addEventListener(BulkLoader.COMPLETE, loaded);

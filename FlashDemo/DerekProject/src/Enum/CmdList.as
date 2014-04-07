@@ -17,6 +17,9 @@ package Enum
 		
 		public static const CMD_SHOW_STAGE_PAGE:String = "cmd.show.stage.page";
 		public static const CMD_HIDE_STAGE_PAGE:String = "cmd.hide.stage.page";
+		
+		public static const CMD_SHOW_GAMEOVER_PAGE:String = "cmd.show.gameover.page";
+		public static const CMD_HIDE_GAMEOVER_PAGE:String = "cmd.hide.gameover.page";
 	}
 
 }

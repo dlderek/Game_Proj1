@@ -3,6 +3,8 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import Manager.GameLoopManager;
+	import flash.ui.Multitouch;
+	import flash.ui.MultitouchInputMode;
 	
 	/**
 	 * ...
@@ -20,6 +22,7 @@ package
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			Multitouch.inputMode = MultitouchInputMode.GESTURE;
 			stage.quality = "high"
 			new GameLoopManager(stage);
 		}

@@ -3,4 +3,9 @@
 <swf>HomePage</swf>
 <swf>StagePage</swf>
 <swf>BattlePage</swf>
+<swf>GameOverPage</swf>
+<png>character</png>
+<xml>character</xml>
+<png>waterfall</png>
+<xml>waterfall</xml>
 </data>

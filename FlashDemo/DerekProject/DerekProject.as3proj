@@ -11,7 +11,7 @@
     <movie version="3" />
     <movie minorVersion="9" />
     <movie platform="AIR Mobile" />
-    <movie background="#3D3D3D" />
+    <movie background="#45B6D1" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -54,8 +54,7 @@
   <libraryPaths>
     <element path="lib\bulk_loader.swc" />
     <element path="lib\greensock.swc" />
-    <element path="lib\Stardust 1.3.186.swc" />
-    <element path="lib\starling.swc" />
+    <element path="lib\GraphAPI_Mobile_1_8_1.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

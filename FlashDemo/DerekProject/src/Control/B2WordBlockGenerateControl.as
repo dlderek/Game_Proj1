@@ -16,6 +16,7 @@ package Control
 	import flash.utils.getTimer;
 	import flash.utils.setInterval;
 	import Manager.GameLoopManager;
+	import Manager.GameStateManager;
 	import Manager.ObstacleGroupManager;
 	import Manager.XMLManager;
 	import Utils.B2DestroyEvent;
@@ -36,7 +37,7 @@ package Control
 		public function B2WordBlockGenerateControl(_world:B2World) 
 		{
 			physicsData = ObstacleGroupManager.PhyData;
-			RunTimeCreateClass = [Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Collection];
+			RunTimeCreateClass = [Block1, Block2, Block3, Block4, Block5, Block6, Block7, Block8, Collection, Block9, Block10, Block11, Block12, Block13, Block14, Block15, Block16, protect];
 			world = _world;
 			world.addEventListener(Event.ADDED_TO_STAGE, onStage);
 		}
@@ -62,6 +63,7 @@ package Control
             draw_box(560,1000,20,2000,"right");
             draw_box(270, 20, 540, 10, "ceiling");
 			//draw_box(270,2500,540,200,"ground");
+			//trace(GameStateManager.CurrentStage);
 			GroupCreateId = Math.floor(Math.random() * ObstacleGroupManager.ObstacleGroup.length);
 			//fixBlockGeneratorInterval = setInterval(GenerateBlock, 550);
 			GameLoopManager.Core.stage.addEventListener("B2NewBlockGroup", GenerateBlocks);
@@ -88,6 +90,7 @@ package Control
 					LastBlock = block;
 				if (WorldCreateId > 999)
 					WorldCreateId = 0;
+				//block.alpha = 0.5;
 				draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, b2Body.b2_kinematicBody, blockObj.fixture );
 				WorldCreateId++;
 			}
@@ -158,10 +161,10 @@ package Control
 		
 		private function RandomBlockGroup():Array
 		{
-			var Group:Array = ObstacleGroupManager.ObstacleGroup[GroupCreateId];
-			
+			var Group:Array = ObstacleGroupManager.ObstacleGroupX[GroupCreateId];
+			//trace("Group : " + GroupCreateId);
 			GroupCreateId++;
-			if (GroupCreateId >= ObstacleGroupManager.ObstacleGroup.length)
+			if (GroupCreateId >= ObstacleGroupManager.ObstacleGroupX.length)
 				GroupCreateId = 0;
 			return Group;
 			//var totalNum:int = ObstacleGroupManager.ObstacleGroup.length;

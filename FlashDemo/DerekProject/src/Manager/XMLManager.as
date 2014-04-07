@@ -8,12 +8,17 @@ package Manager
 	{
 		public static var config:XML;
 		public static var files:XML;
-		private static var obstacleGroup:XML;
+		public static var obstacleGroup:XML;
+		public static var obstacleGroup2:XML;
 		
 		public static function set ObstacleGroup(OG:XML):void
 		{
 			obstacleGroup = OG;
-			ObstacleGroupManager.init(obstacleGroup);
+		}
+		
+		public static function set ObstacleGroup2(OG:XML):void
+		{
+			obstacleGroup2 = OG;
 		}
 	}
 

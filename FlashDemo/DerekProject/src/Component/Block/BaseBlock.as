@@ -20,18 +20,26 @@ package Component.Block
 	 */
 	public class BaseBlock extends BaseComponent
 	{
+		
 		public static const ACTION_STACK:String = "stack";
 		public static const ACTION_PAUSE:String = "pause";
 		public static const ACTION_NONE:String = "none";
 		public static const ACTION_JUMP:String = "jump";
 		public static const ACTION_SLIDE:String = "slide";
+		public static const ACTION_SLIDE_STACK:String = "slidestack";
 		public static const ACTION_GET:String = "get";
+		public static const ACTION_WATERFALL:String = "waterfall";
+		public static const ACTION_FALL_AND_STACK:String = "fallandstack";
+		public static const ACTION_PROTECT:String = "protect";
+		
+		public var ui:DisplayObject;
 		
 		public var stackLevel:int;
 		public var type:String = "free";
 		public var playerAction:String = "stack";
 		public var PhysicsKey:String;
 		public var sided:Boolean = false;
+		public var mode:int = 0;
 		
 		public var InitX:Number;
 		public var InitY:Number;
@@ -39,9 +47,10 @@ package Component.Block
 		
 		public function BaseBlock(ui:Object) 
 		{
-			super(ui);
-			(ui as DisplayObject).cacheAsBitmap = true;
-			(ui as DisplayObject).cacheAsBitmapMatrix = new Matrix();
+			this.ui = ui as DisplayObject;
+			super(this.ui);
+			this.ui.cacheAsBitmap = true;
+			//(ui as DisplayObject).cacheAsBitmapMatrix = new Matrix();
 		}
 	}
 }

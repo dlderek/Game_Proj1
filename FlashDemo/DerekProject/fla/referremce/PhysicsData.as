@@ -82,28 +82,7 @@ package
 			dict = new Dictionary();
 			
 
-			dict["block4"] = [
-
-										[
-											// density, friction, restitution
-                                            0, 0.5, 0.8,
-                                            // categoryBits, maskBits, groupIndex, isSensor
-											1, 65535, 0, false,
-											'POLYGON',
-
-                                            // vertexes of decomposed polygons
-                                            [
-												
-                                                [   new b2Vec2(1/ptm_ratio, 179/ptm_ratio)  ,  new b2Vec2(112/ptm_ratio, 82/ptm_ratio)  ,  new b2Vec2(197/ptm_ratio, 48/ptm_ratio)  ,  new b2Vec2(243/ptm_ratio, 78/ptm_ratio)  ,  new b2Vec2(168/ptm_ratio, 191/ptm_ratio)  ] ,
-                                                [   new b2Vec2(53/ptm_ratio, 71/ptm_ratio)  ,  new b2Vec2(1/ptm_ratio, 179/ptm_ratio)  ,  new b2Vec2(1/ptm_ratio, 0/ptm_ratio)  ] ,
-                                                [   new b2Vec2(112/ptm_ratio, 82/ptm_ratio)  ,  new b2Vec2(1/ptm_ratio, 179/ptm_ratio)  ,  new b2Vec2(53/ptm_ratio, 71/ptm_ratio)  ]
-											]
-
-										]
-
-									];
-
-			dict["block5"] = [
+			dict["block16"] = [
 
 										[
 											// density, friction, restitution
@@ -115,33 +94,7 @@ package
                                             // vertexes of decomposed polygons
                                             [
 
-                                                [   new b2Vec2(240/ptm_ratio, 179/ptm_ratio)  ,  new b2Vec2(178/ptm_ratio, 79/ptm_ratio)  ,  new b2Vec2(240/ptm_ratio, 0/ptm_ratio)  ] ,
-                                                [   new b2Vec2(69/ptm_ratio, 195/ptm_ratio)  ,  new b2Vec2(122/ptm_ratio, 82/ptm_ratio)  ,  new b2Vec2(178/ptm_ratio, 79/ptm_ratio)  ,  new b2Vec2(240/ptm_ratio, 179/ptm_ratio)  ] ,
-                                                [   new b2Vec2(122/ptm_ratio, 82/ptm_ratio)  ,  new b2Vec2(69/ptm_ratio, 195/ptm_ratio)  ,  new b2Vec2(0/ptm_ratio, 77/ptm_ratio)  ,  new b2Vec2(38/ptm_ratio, 47/ptm_ratio)  ]
-											]
-
-										]
-
-									];
-
-			dict["block8"] = [
-
-										[
-											// density, friction, restitution
-                                            0, 0.5, 0.8,
-                                            // categoryBits, maskBits, groupIndex, isSensor
-											1, 65535, 0, false,
-											'POLYGON',
-
-                                            // vertexes of decomposed polygons
-                                            [
-
-                                                [   new b2Vec2(184/ptm_ratio, 306/ptm_ratio)  ,  new b2Vec2(214/ptm_ratio, 140/ptm_ratio)  ,  new b2Vec2(293/ptm_ratio, 243/ptm_ratio)  ,  new b2Vec2(322/ptm_ratio, 342/ptm_ratio)  ] ,
-                                                [   new b2Vec2(-2/ptm_ratio, 313/ptm_ratio)  ,  new b2Vec2(79/ptm_ratio, 229/ptm_ratio)  ,  new b2Vec2(214/ptm_ratio, 140/ptm_ratio)  ,  new b2Vec2(184/ptm_ratio, 306/ptm_ratio)  ] ,
-                                                [   new b2Vec2(214/ptm_ratio, 140/ptm_ratio)  ,  new b2Vec2(148/ptm_ratio, 108/ptm_ratio)  ,  new b2Vec2(179/ptm_ratio, -3/ptm_ratio)  ] ,
-                                                [   new b2Vec2(79/ptm_ratio, 229/ptm_ratio)  ,  new b2Vec2(-2/ptm_ratio, 313/ptm_ratio)  ,  new b2Vec2(21/ptm_ratio, 249/ptm_ratio)  ] ,
-                                                [   new b2Vec2(148/ptm_ratio, 108/ptm_ratio)  ,  new b2Vec2(214/ptm_ratio, 140/ptm_ratio)  ,  new b2Vec2(106/ptm_ratio, 173/ptm_ratio)  ,  new b2Vec2(116/ptm_ratio, 119/ptm_ratio)  ] ,
-                                                [   new b2Vec2(214/ptm_ratio, 140/ptm_ratio)  ,  new b2Vec2(79/ptm_ratio, 229/ptm_ratio)  ,  new b2Vec2(106/ptm_ratio, 173/ptm_ratio)  ]
+                                                [   new b2Vec2(4/ptm_ratio, 18/ptm_ratio)  ,  new b2Vec2(170/ptm_ratio, 18/ptm_ratio)  ,  new b2Vec2(178/ptm_ratio, 59/ptm_ratio)  ,  new b2Vec2(169/ptm_ratio, 89/ptm_ratio)  ,  new b2Vec2(108/ptm_ratio, 103/ptm_ratio)  ,  new b2Vec2(14/ptm_ratio, 72/ptm_ratio)  ]
 											]
 
 										]
