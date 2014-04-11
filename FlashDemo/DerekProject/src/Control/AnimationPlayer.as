@@ -1,11 +1,12 @@
 package Control 
 {
-	import flash.display.Bitmap;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import starling.display.Image;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import flash.geom.Point;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
+	import starling.textures.Texture;
 	/**
 	 * ...
 	 * @author JL
@@ -13,22 +14,24 @@ package Control
 	public class AnimationPlayer extends BaseComponentControl
 	{
 		public function get canvas():Sprite{return ui as Sprite};
-		public var AnimationPackage:Vector.<Bitmap>;
+		public var AnimationPackage:Vector.<Image>;
 		public var fps:int;
 		public var loop:Boolean;
 		public var pivot:Point;
 		public var ClearMemoryAfterRemoved:Boolean;
 		
 		private var AnimationHandler:uint;
-		private var currentFrame:Bitmap;
+		private var currentFrame:Image;
 		private var stopped:Boolean;
 		private var currentFrameId:int = 0;
 		private var alignToCenter:Boolean;
 		
-		public function AnimationPlayer(canvas:Sprite, AnimationPackage:Vector.<Bitmap>, fps:int, loop:Boolean, alignToCenter:Boolean = true, pivot:Point = null, ClearMemoryAfterRemoved:Boolean = true) 
+		public function AnimationPlayer(canvas:Sprite, AnimationPackage:Vector.<Texture>, fps:int, loop:Boolean, alignToCenter:Boolean = true, pivot:Point = null, ClearMemoryAfterRemoved:Boolean = true) 
 		{
 			super(canvas);
-			this.AnimationPackage = AnimationPackage;
+			this.AnimationPackage = new Vector.<Image>();
+			for (var i:int = 0 ; i < AnimationPackage.length; i++)
+				this.AnimationPackage.push(new Image(AnimationPackage[i]));
 			this.fps = fps;
 			this.loop = loop;
 			this.alignToCenter = alignToCenter;
@@ -55,7 +58,7 @@ package Control
 			if (stopped)
 				return;
 				
-			var newFrame:Bitmap = AnimationPackage[currentFrameId];
+			var newFrame:Image = AnimationPackage[currentFrameId];
 				
 			if (alignToCenter)
 			{

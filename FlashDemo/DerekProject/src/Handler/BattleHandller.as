@@ -1,19 +1,23 @@
 package Handler 
 {
 	import Control.B2WorldControl;
-	import Control.BackgroundControl;
 	import Control.BackgroundControlHorizontal;
 	import Control.BackgroundControlRotation;
 	import Control.BackgroundControlStatic;
-	import Enum.AssetList;
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.events.TouchEvent;
+	import starling.display.Button;
+	import starling.display.Image;
+	import starling.display.DisplayObject;
+	import starling.display.Sprite;
+	import starling.events.Event;
+	import starling.events.TouchEvent;
+	import starling.events.Touch;
+	import starling.events.TouchPhase;
+	import starling.extensions.pixelmask.PixelMaskDisplayObject;
+	//import flash.events.MouseEvent;
+	//import flash.events.TouchEvent;
 	import flash.geom.Point;
+	import starling.text.TextField;
+	//import flash.text.TextField;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 	import Manager.GameLoopManager;
@@ -31,7 +35,8 @@ package Handler
 	public class BattleHandller extends BaseHandler
 	{
 		private var view:BattleView;
-		private var BattlePage:Object;
+		private var BattlePage:Sprite;
+		private var BattlePageMask:Sprite;
 		private var B2World:B2WorldControl;
 		
 		//theme1
@@ -43,6 +48,9 @@ package Handler
 		
 		private var BGSoundEffectInterval:uint;
 		private var ScoreUpdateInterval:uint;
+		
+		private var score1:TextField;
+		private var score2:TextField;
 		
 		public function BattleHandller(GameMain:GameLoopManager) 
 		{
@@ -73,11 +81,19 @@ package Handler
 		private function Init():void
 		{
 			view = new BattleView();
-			BattlePage = view.BattlePage as Object;
-			B2World = new B2WorldControl(BattlePage.origin);
-			BgControlH = new BackgroundControlHorizontal(BattlePage.backgroundPoint2, [ToolKit.getBgSprite(1), ToolKit.getBgSprite(1)], 600);
-			BGControlR = new BackgroundControlRotation(BattlePage.backgroundPoint2, ToolKit.getBgSprite(2), 0.05);
-			BGControlS = new BackgroundControlStatic(BattlePage.backgroundPoint2, ToolKit.getBgSprite(3));
+			BattlePage = view.BattlePage;
+			BattlePageMask = view.BattlePageMask;
+			//var maskedDisplayObject:PixelMaskDisplayObject = new PixelMaskDisplayObject( -1, false);
+			//maskedDisplayObject.addChild(BattlePage);
+			//maskedDisplayObject.mask = BattlePageMask;
+			
+			//BattlePage.mask = BattlePageMask;
+			score1 = BattlePage.getChildByName("score") as TextField;
+			score2 = BattlePage.getChildByName("score2") as TextField;
+			B2World = new B2WorldControl(BattlePage.getChildByName("origin"));
+			BgControlH = new BackgroundControlHorizontal(BattlePage.getChildByName("backgroundPoint2") as Sprite, [ToolKit.getBgSprite(1), ToolKit.getBgSprite(1)], 600);
+			BGControlR = new BackgroundControlRotation(BattlePage.getChildByName("backgroundPoint2") as Sprite, 0.001);
+			BGControlS = new BackgroundControlStatic(BattlePage.getChildByName("backgroundPoint2") as Sprite, ToolKit.getBgSprite(3));
 		}
 		
 		private function ShowUp():void
@@ -85,7 +101,7 @@ package Handler
 			GameStateManager.CurrentPage = "Battle";
 			addChildAt(BattlePage, LayerList.UI);
 			B2World.Reset();
-			(BattlePage as MovieClip).addEventListener(MouseEvent.CLICK, onTouch);
+			BattlePage.addEventListener(TouchEvent.TOUCH, onTouch);
 			GameLoopManager.Core.stage.addEventListener("PlayerDie", onPlayerDie);
 			BGSoundEffectInterval = setInterval(PlayRandomBGSoundEffect, 10000);
 			ScoreUpdateInterval = setInterval(ScoreUpdate, 100);
@@ -104,15 +120,28 @@ package Handler
 		private function HideOut():void
 		{
 			removeChild(BattlePage);
-			(BattlePage as MovieClip).removeEventListener(MouseEvent.CLICK, onTouch);
+			BattlePage.removeEventListener(TouchEvent.TOUCH, onTouch);
 			GameLoopManager.Core.stage.removeEventListener("PlayerDie", onPlayerDie);
 			clearInterval(BGSoundEffectInterval);
 			clearInterval(ScoreUpdateInterval);
 		}
 		
-		private function onTouch(e:MouseEvent):void
+		private function onTouch(e:TouchEvent):void
 		{
-			switch(e.target.name)
+			var touch:Touch = e.getTouch(BattlePage); 
+			if (!touch)
+				return;
+			if (touch.phase != TouchPhase.ENDED)
+				return;
+			try{
+				if (!((e.target as DisplayObject).parent.parent is Button))
+					return;
+			}catch(e:Error){return}
+			var Target:String = ((e.target as DisplayObject).parent.parent as Button).name;
+			
+			if (Target.indexOf("btn") == -1)
+				return;
+			switch(Target)
 			{
 				case "btn_reset":
 					B2World.Reset();
@@ -145,8 +174,8 @@ package Handler
 		private function ScoreUpdate():void
 		{
 			B2World.CurrentScore += 0.1;
-			BattlePage.score.text = Math.round(B2World.CurrentScore) + " M";
-			BattlePage.score2.text = B2World.CurrentCollection;
+			score1.text = Math.round(B2World.CurrentScore) + " M";
+			score2.text = B2World.CurrentCollection.toString();
 		}
 	}
 }

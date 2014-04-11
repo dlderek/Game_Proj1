@@ -1,9 +1,9 @@
 package Control 
 {
-	import Enum.AssetList;
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import starling.display.DisplayObject;
+	import starling.display.DisplayObjectContainer;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import Manager.LoadingManager;
 	/**
 	 * ...
@@ -15,7 +15,7 @@ package Control
 		private var oneLoopTime:Number;
 		private var random:Boolean;
 		
-		public function BackgroundControlHorizontal(backgroundPoint:Object, imgs:Array, period:Number, _random:Boolean = false) 
+		public function BackgroundControlHorizontal(backgroundPoint:Sprite, imgs:Array, period:Number, _random:Boolean = false) 
 		{
 			super(backgroundPoint);
 			oneLoopTime = period;
@@ -28,7 +28,7 @@ package Control
 			{
 				bgList[i].y = 0;
 				bgList[i].x = i * (bgList[i].width - 5);
-				ui.addChild(bgList[i]);
+				(ui as DisplayObjectContainer).addChild(bgList[i]);
 			}
 			ui.removeEventListener(Event.ADDED_TO_STAGE, onStage);
 			ui.addEventListener(Event.REMOVED_FROM_STAGE, offStage);

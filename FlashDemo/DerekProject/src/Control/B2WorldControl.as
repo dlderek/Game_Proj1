@@ -7,9 +7,10 @@ package Control
 	import Component.Block.BaseBlock;
 	import Component.UnStackMe;
 	import Enum.LayerList;
-	import flash.display.MovieClip;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import starling.display.DisplayObject;
+	import starling.display.DisplayObjectContainer;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.utils.clearInterval;
@@ -34,11 +35,11 @@ package Control
 		public var CurrentScore:Number = 0;
 		public var CurrentCollection:int = 0;
 		
-		public function B2WorldControl(_origin:Object) 
+		public function B2WorldControl(_origin:DisplayObject) 
 		{
 			super(_origin);
 			world = new B2World();
-			ui.addChild(world);
+			(ui as DisplayObjectContainer).addChild(world);
 			BlockGenerator = new B2WordBlockGenerateControl(world);
 			
 		}
@@ -68,7 +69,7 @@ package Control
 				world.parent.removeChild(world);
 			world = new B2World();
 			BlockGenerator = new B2WordBlockGenerateControl(world);
-			ui.addChild(world);
+			(ui as DisplayObjectContainer).addChild(world);
 			world.StartGame();
 			BlockGenerator.start();
 			CurrentScore = 0;

@@ -6,12 +6,15 @@ package Manager
 	import br.com.stimuli.loading.loadingtypes.LoadingItem;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.DisplayObject; 
-	import flash.events.Event;
+	import starling.display.Image;
+	import starling.textures.Texture;
+	import starling.display.DisplayObject; 
+	import starling.events.Event;
 	import flash.media.Sound;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	import flash.xml.XMLNode;
+	import Utils.BTool;
 	/**
 	 * ...
 	 * @author JL
@@ -49,11 +52,8 @@ package Manager
 		public static function loadFiles():void
 		{
 			var files:XML = XMLManager.files;
-			
-			for each(var item:String in files.jpg.*)
-				loader.add("atlas/" + item + ".jpg");
 				
-			for each(item in files.png.*)
+			for each(var item:String in files.png.*)
 				loader.add("atlas/" + item + ".png");
 				
 			for each(item in files.xml.*)
@@ -64,18 +64,27 @@ package Manager
 				
 			//for each(item in files.wav.*)
 				//loader.add("sound/" + item + ".wav");
-			loader.addEventListener(BulkLoader.COMPLETE, loaded);
+			loader.addEventListener(BulkLoader.COMPLETE, loadedFiles);
 			loader.start();
+		}
+		
+		private static function loadedFiles(e:BulkProgressEvent):void
+		{
+			var worker:BulkLoader = (e.target as BulkLoader);
+			worker.removeEventListener(e.type, arguments.callee);
+			
+			var files:XML = XMLManager.files;
+			for each(var item:String in files.xml.*)
+			{
+				BTool.Put(item, getBitmapFromSwf(item), getXML("atlas/" + item + ".xml"));
+			}
+			trace(loader.remove("swf/Atlas.swf"));
+			GameLoopManager.Core.stage.dispatchEvent(new Event("LoadingComplete"));
 		}
 		
 		public static function getXML(key:String):XML
 		{
 			return loader.getXML(key, true);
-		}
-		
-		public static function getBitmap(key:String):Bitmap
-		{
-			return loader.getBitmap(key);
 		}
 		
 		public static function getClass(key:String, className:String):Class
@@ -85,16 +94,10 @@ package Manager
 			return cls;
 		}
 		
-		public static function getItem(key:String, asLink:String):DisplayObject
+		public static function getBitmapFromSwf(asLink:String):Bitmap
 		{
-			var cls:Class = LoadingManager.getClass(key, asLink);
-			return new cls() as DisplayObject;
-		}
-		
-		public static function getBitmapItem(key:String, asLink:String):DisplayObject
-		{
-			var cls:Class = LoadingManager.getClass(key, asLink);
-			return new Bitmap( new cls() as BitmapData) as DisplayObject;
+			var cls:Class = LoadingManager.getClass("Atlas", asLink);
+			return new Bitmap(new cls() as BitmapData);
 		}
 		
 		public static function getSound(key:String):Sound

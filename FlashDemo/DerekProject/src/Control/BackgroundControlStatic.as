@@ -1,10 +1,9 @@
 package Control 
 {
-	import Enum.AssetList;
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.filters.BlurFilter;
+	import starling.display.DisplayObjectContainer;
+	import starling.display.DisplayObject;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import Manager.LoadingManager;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Linear;
@@ -15,7 +14,7 @@ package Control
 	public class BackgroundControlStatic extends BaseComponentControl
 	{
 		private var img:DisplayObject;
-		public function BackgroundControlStatic(backgroundPoint:Object, img:DisplayObject) 
+		public function BackgroundControlStatic(backgroundPoint:Sprite, img:DisplayObject) 
 		{
 			//while (backgroundPoint.numChildren > 0)
 				//backgroundPoint.removeChildAt(0);
@@ -26,7 +25,7 @@ package Control
 		
 		public function start():void
 		{
-			ui.addChild(img);
+			(ui as DisplayObjectContainer).addChild(img);
 		}
 		
 		protected override function offStage(e:Event):void

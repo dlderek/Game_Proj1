@@ -1,34 +1,39 @@
 package Manager 
 {
 	import Enum.CmdList;
-	import flash.display.Sprite;
-	import flash.display.Stage;
-	import flash.events.Event;
+	import Enum.LayerList;
+	import flash.system.Capabilities;
+	import starling.core.StatsDisplay;
+	import starling.display.DisplayObject;
+	import starling.display.Image;
+	import flash.display.IBitmapDrawable;
+	import starling.display.Shape;
+	import starling.display.Sprite;
+	import starling.display.Stage;
+	import starling.events.Event;
 	import flash.system.System;
-	import flash.text.Font;
-	import flash.text.FontStyle;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
+	//import flash.text.Font;
+	//import flash.text.FontStyle;
+	import starling.text.TextField;
+	//import flash.text.TextField;
+	//import flash.text.TextFormat;
 	import flash.utils.Dictionary;
+	import flash.utils.setInterval;
 	import Handler.*;
-	import Utils.ToolBitmapClipping;
+	import starling.textures.Texture;
+	import Utils.BTool;
 	/**
 	 * ...This class is responsible for Handling SAO.
 	 * @author JL
 	 */
 	public class GameLoopManager 
 	{
-		private static const TaskLimitPerFrame:int = 10;
-		
 		public static var Core:GameLoopManager;
-		public var stage:Stage;
+		public var stage:Sprite;
 		public var layers:Vector.<Sprite>;
 		private var HandlerList:Vector.<BaseHandler>;
-		private var TaskQueue:Vector.<Object>;
 		
-		private var traceMsg:TextField;
-		
-		public function GameLoopManager(stage:Stage) 
+		public function GameLoopManager(stage:Sprite) 
 		{
 			Core = this;
 			this.stage = stage;
@@ -38,7 +43,14 @@ package Manager
 		private function ConstructHandler():void
 		{
 			HandlerList = new Vector.<BaseHandler>();
-			HandlerList.push(new HomeHandler(this), new PageHandler(this), new BattleHandller(this), new StageHandler(this), new GameOverHandler(this));
+			HandlerList.push(
+			new PageHandler(this), 
+			new BattleHandller(this), 
+			new StageHandler(this), 
+			new GameOverHandler(this),
+			new RecordHandler(this),
+			new SettingHandler(this)
+			);
 		}
 		
 		private function InitXML():void
@@ -63,24 +75,30 @@ package Manager
 		private function FilesLoaded(e:Event):void
 		{
 			e.target.removeEventListener(e.type, arguments.callee);
-			InitGameElements();
 			GameStart();
 		}
 		
-		/**
-		 * Create the bitmapAtlas
-		 */
-		private function InitGameElements():void
-		{
-			ToolBitmapClipping.Put("character", LoadingManager.getBitmap("atlas/character.png"), LoadingManager.getXML("atlas/character.xml"));
-			ToolBitmapClipping.Put("waterfall", LoadingManager.getBitmap("atlas/waterfall.png"), LoadingManager.getXML("atlas/waterfall.xml"));
-		}
+		
 		
 		/**
 		 * @Info Game Start here, At this point, all the files needed were loaded/ inited completely.
 		 */
 		private function GameStart():void
 		{
+			while (stage.numChildren > 0)
+				stage.removeChildAt(0);
+			
+			if (Main.onDevice)
+			{
+				var sh:Shape = new Shape();
+				sh.graphics.beginFill(0);
+				sh.graphics.drawRect(0, 0, 600, 1000);
+				sh.graphics.endFill();
+				stage.addChild(sh);
+				stage.width = Capabilities.screenResolutionX;
+				stage.height = Capabilities.screenResolutionY * 0.95;
+			}
+			
 			layers = new Vector.<Sprite>();
 			for (var i:int = 0; i < 5; i ++)
 			{
@@ -89,48 +107,48 @@ package Manager
 				stage.addChild(layer);
 			}
 			
-			traceMsg = new TextField();
-			traceMsg.mouseEnabled = false;
-			traceMsg.width = 300;
-			traceMsg.height = 200;
-			//layers[4].addChild(traceMsg);
-			setMsg("hello");
-			
-			TaskQueue = new Vector.<Object>();
 			ConstructHandler();
 			addTask( { cmd:CmdList.CMD_INIT_HANDLER } );
 			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
-			stage.addEventListener(Event.ENTER_FRAME, TaskLoop);
+			setInterval(gc, 2000);
+			//stage.addEventListener(Event.ENTER_FRAME, UselessLoop);
+			Main.removeLoadingImage();
 		}
 		
 		
 		public function addTask(task:Object):void
 		{
-			TaskQueue.push(task);
-		}
-		
-		private function TaskLoop(e:Event):void
-		{
-			if (TaskQueue.length == 0)
-				return;
-			for (var i:int = 0; i < TaskLimitPerFrame; i ++)
+			for each(var handler:BaseHandler in HandlerList)
 			{
-				var task:Object = TaskQueue.shift();
-				if (!task)
-					return;
-				for each(var handler:BaseHandler in HandlerList)
+				if (handler.TaskList[task.cmd])
 				{
-					if (handler.TaskList[task.cmd])
-					{
-						handler.process(task);
-					}
+					handler.process(task);
 				}
 			}
 		}
 		
-		public function setMsg(msg:*):void
+		//private function UselessLoop(e:Event):void
+		//{
+			//for (var i:int = 0 ; i < 1; i++)
+			//{
+				//var bmd:BitmapData = new BitmapData(600,1000);
+				//bmd.draw(layers[LayerList.UI] as IBitmapDrawable, null, null, null, null, true);
+				//var bm:Bitmap = new Bitmap(bmd, "always", true);
+			//}
+		//}
+		
+		public function gc():Boolean
 		{
-			traceMsg.text = msg.toString();
+			 try
+			 {
+			   System.gc()
+			   return true;
+			 }
+			 catch (e:Error)
+			 {
+			   return false;
+			 }
+			 return true;
 		}
 	}
 }

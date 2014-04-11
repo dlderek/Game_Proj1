@@ -1,8 +1,8 @@
 package Control 
 {
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import starling.display.DisplayObject;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import Manager.GameLoopManager;
 	import Manager.LoadingManager;
 	/**
@@ -11,8 +11,8 @@ package Control
 	 */
 	public class BaseComponentControl extends Sprite
 	{
-		public var ui:Object;
-		public function BaseComponentControl(_ui:Object) 
+		public var ui:DisplayObject;
+		public function BaseComponentControl(_ui:DisplayObject) 
 		{
 			ui = _ui;
 			ui.addEventListener(Event.ADDED_TO_STAGE, onStage);

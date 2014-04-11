@@ -1,6 +1,6 @@
 package View 
 {
-	import flash.display.DisplayObject;
+	import starling.display.DisplayObject;
 	import Manager.LoadingManager;
 	/**
 	 * ...

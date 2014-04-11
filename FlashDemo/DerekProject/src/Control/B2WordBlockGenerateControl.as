@@ -9,8 +9,8 @@ package Control
 	import Component.B2World;
 	import Component.Block.BaseBlock;
 	import Component.Block.*;
-	import flash.display.DisplayObject;
-	import flash.events.Event;
+	import starling.display.DisplayObject;
+	import starling.events.Event;
 	import flash.utils.clearInterval;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getTimer;
@@ -106,7 +106,7 @@ package Control
 				e.target.removeEventListener(Event.REMOVED_FROM_STAGE, arguments.callee);
 				return;
 			}
-			if (e.target.y < 775)
+			if ((e.target as DisplayObject).y < 775)
 			{
 				e.target.removeEventListener(Event.ENTER_FRAME, arguments.callee);
 				e.target.removeEventListener(Event.REMOVED_FROM_STAGE, arguments.callee);

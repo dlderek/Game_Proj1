@@ -1,6 +1,6 @@
 package Utils 
 {
-	import flash.events.Event;
+	import starling.events.Event;
 	/**
 	 * ...
 	 * @author JL

@@ -2,20 +2,24 @@ package Handler
 {
 	import com.greensock.TweenLite;
 	import Component.Character;
-	import Enum.AssetList;
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import starling.display.Button;
+	import starling.display.Image;
+	import starling.display.DisplayObject;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import flash.events.TransformGestureEvent;
+	import starling.display.Image;
 	import Manager.GameLoopManager;
 	import Enum.CmdList;
 	import Enum.LayerList;
 	import Manager.GameStateManager;
 	import Manager.LoadingManager;
 	import Manager.SoundManager;
-	import flash.events.MouseEvent;
+	import starling.events.Touch;
+	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
+	//import flash.events.MouseEvent;
+	import Utils.BTool;
 	import View.StageView;
 	import flash.desktop.NativeApplication;
 	
@@ -26,11 +30,11 @@ package Handler
 	public class StageHandler extends BaseHandler
 	{
 		private var view:StageView;
-		private var StagePage:Object; 
+		private var StagePage:Sprite; 
 		private var CurrentSelectedStage:int = 1;
 		private var character:Character;
-		private var background:MovieClip;
-		private var bgList:Vector.<Bitmap> = new Vector.<Bitmap>();
+		private var background:Sprite;
+		private var bgList:Vector.<Image> = new Vector.<Image>();
 		
 		public function StageHandler(GameMain:GameLoopManager) 
 		{
@@ -62,19 +66,18 @@ package Handler
 		{
 			view = new StageView();
 			StagePage = view.StagePage;
-			background = StagePage.background;
-			background.gotoAndStop(CurrentSelectedStage);
+			background = StagePage.getChildByName("background") as Sprite;
 			for (var i:int = 1; i < 4; i ++)
-				bgList.push(LoadingManager.getBitmapItem(AssetList.UI_STAGEPAGE, "jl.stagepage.bg".concat(i)));
+				bgList.push(new Image(BTool.GetImage("stage_bg", "stage".concat(i))));
 			for (i = 0; i < 3; i++)
 				background.addChild(bgList[2 - i]);
 				
 			character = new Character();
-			character.y = 537;
+			character.y = 400;
 			character.x = 100;
 			character.scaleX = 1.5;
 			character.scaleY = 1.5;
-			StagePage.characterPoint.addChild(character);
+			(StagePage.getChildByName("characterPoint") as Sprite).addChild(character);
 			
 		}
 		
@@ -96,13 +99,13 @@ package Handler
 		{
 			if (value)
 			{
-				StagePage.addEventListener(MouseEvent.CLICK, onMouseCLick);
+				StagePage.addEventListener(TouchEvent.TOUCH, onTouch);
 				StagePage.addEventListener(TransformGestureEvent.GESTURE_SWIPE, onSwpie);
 				character.addEventListener(Event.ENTER_FRAME, CharacterMotion);
 			}
 			else
 			{
-				StagePage.removeEventListener(MouseEvent.CLICK, onMouseCLick);
+				StagePage.removeEventListener(TouchEvent.TOUCH, onTouch);
 				StagePage.removeEventListener(TransformGestureEvent.GESTURE_SWIPE, onSwpie);
 				character.removeEventListener(Event.ENTER_FRAME, CharacterMotion);
 			}
@@ -122,9 +125,18 @@ package Handler
 			}
 		}
 		
-		private function onMouseCLick(e:MouseEvent):void
+		private function onTouch(e:TouchEvent):void
 		{
-			var Target:String = e.target.name;
+			var touch:Touch = e.getTouch(StagePage); 
+			if (!touch)
+				return;
+			if (touch.phase != TouchPhase.ENDED)
+				return;
+			try{
+				if (!((e.target as DisplayObject).parent.parent is Button))
+					return;
+			}catch(e:Error){return}
+			var Target:String = ((e.target as DisplayObject).parent.parent as Button).name;
 			switch(Target)
 			{
 				case "btn_stage1":
@@ -141,6 +153,12 @@ package Handler
 					break;
 				case "btn_play":
 					Play(CurrentSelectedStage);
+					break;
+				case "btn_config":
+					Config();
+					break;
+				case "btn_record":
+					Record();
 					break;
 			}
 		}
@@ -162,8 +180,8 @@ package Handler
 					targetY = -506.1;
 					bgAlpha = 0;
 				}
-				var obj:DisplayObject = StagePage["btn_stage" + i];
-				var bg:Bitmap = bgList[i - 1];
+				var obj:DisplayObject = StagePage.getChildByName("btn_stage" + i);
+				var bg:Image = bgList[i - 1];
 				TweenLite.killTweensOf(obj);
 				TweenLite.killTweensOf(bg);
 				TweenLite.to(obj, 0.5, { y: targetY } );
@@ -182,16 +200,25 @@ package Handler
 		private function Exit():void
 		{
 			NativeApplication.nativeApplication.exit();
-			//GameMain.addTask({cmd:CmdList.CMD_SWICH_PAGE, page:"Home"});
 		}
 		
 		private function CharacterMotion(e:Event):void
 		{
 			var dx:Number = character.x -( 100 + (CurrentSelectedStage -1) * 200);
 			character.x -= dx / 20;
-			character.rotation -= 2 + 1 * dx/5;
+			character.rotation -= 0.05 + 0.05 * Math.abs(dx) / 30;
 			if (character.rotation < -360)
 				character.rotation = 0;
+		}
+		
+		private function Config():void
+		{
+			GameMain.addTask({cmd:CmdList.CMD_SWICH_PAGE, page:"Setting"});
+		}
+		
+		private function Record():void
+		{
+			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Record"} );
 		}
 	}
 }

@@ -1,25 +1,20 @@
 package Component 
 {
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.InteractiveObject;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import starling.display.Image;
+	import starling.display.DisplayObject;
+	import starling.display.DisplayObjectContainer
+	import starling.display.Sprite;
+	import starling.events.Event;
 	/**
 	 * ...
 	 * @author JL
 	 */
 	public class BaseComponent extends Sprite
 	{
-		public function BaseComponent(_ui:Object) 
+		public function BaseComponent(_ui:DisplayObject) 
 		{
-			if (_ui is InteractiveObject)
-			{
-				_ui.mouseEnabled = false;
-				_ui.mouseChildren = false;
-			}
-			this.addChild(_ui as DisplayObject);
+			_ui.touchable = false;
+			this.addChild(_ui);
 			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
 		}
 		

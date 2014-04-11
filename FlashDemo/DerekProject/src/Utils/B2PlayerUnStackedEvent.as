@@ -1,7 +1,7 @@
 package Utils 
 {
 	import Box2D.Common.Math.b2Vec2;
-	import flash.events.Event;
+	import starling.events.Event;
 	/**
 	 * ...
 	 * @author hello

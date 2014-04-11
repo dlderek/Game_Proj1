@@ -1,6 +1,6 @@
 package Handler 
 {
-	import flash.display.DisplayObject;
+	import starling.display.DisplayObject;
 	import flash.utils.Dictionary;
 	import Manager.GameLoopManager;
 	/**

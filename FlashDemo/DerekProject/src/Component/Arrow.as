@@ -1,7 +1,8 @@
 package Component 
 {
-	import Enum.AssetList;
 	import Manager.LoadingManager;
+	import starling.display.Image;
+	import Utils.BTool;
 	/**
 	 * ...
 	 * @author JL
@@ -11,8 +12,7 @@ package Component
 		
 		public function Arrow() 
 		{
-			super(LoadingManager.getItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_ARROW));
-			this.mouseEnabled = false;
+			super(new Image(BTool.GetImage("BattlePage_element", "arrow")));
 		}
 		
 	}

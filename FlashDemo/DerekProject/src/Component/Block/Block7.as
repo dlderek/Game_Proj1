@@ -1,17 +1,22 @@
 package Component.Block 
 {
-	import flash.display.DisplayObject;
+	import starling.display.Image;
+	import starling.textures.Texture;
+	import starling.display.DisplayObject;
 	import Manager.LoadingManager;
-	import Enum.AssetList;
+	import Utils.BTool;
 	/**
 	 * ...
 	 * @author hello
 	 */
 	public class Block7 extends BaseBlock
 	{
+		private static var bmd:Texture;
 		public function Block7() 
 		{
-			var img:DisplayObject = LoadingManager.getBitmapItem(AssetList.UI_BATTLEPAGE, AssetList.CLASS_BLOCK7);
+			if (!bmd)
+				bmd = BTool.GetImage("BattlePage_element", "block7");
+			var img:DisplayObject = new Image(bmd);
 			img.x = -img.width;
 			super(img);
 			stackLevel = 0;

@@ -9,11 +9,7 @@ package Component.Block
 	import Box2D.Dynamics.b2FixtureDef;
 	import Box2D.Dynamics.b2World;
 	import Component.BaseComponent;
-	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
-	import flash.display.Shape;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
+	import starling.display.DisplayObject;
 	/**
 	 * ...
 	 * @author hello
@@ -45,12 +41,10 @@ package Component.Block
 		public var InitY:Number;
 		public var flip:Boolean = false;
 		
-		public function BaseBlock(ui:Object) 
+		public function BaseBlock(ui:DisplayObject) 
 		{
-			this.ui = ui as DisplayObject;
+			this.ui = ui;
 			super(this.ui);
-			this.ui.cacheAsBitmap = true;
-			//(ui as DisplayObject).cacheAsBitmapMatrix = new Matrix();
 		}
 	}
 }

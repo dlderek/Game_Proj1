@@ -9,9 +9,7 @@ package Utils
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Bounce;
 	import Component.Block.BaseBlock;
-	import flash.display.MovieClip;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
+	import starling.events.Event;
 	import flash.utils.setTimeout;
 	import Manager.GameLoopManager;
 	/**
@@ -30,17 +28,16 @@ package Utils
 			var B:b2Body = contact.GetFixtureB().GetBody();
 			if (A == null || B == null)
 				return;
-			var target:b2Body;
+			var player:b2Body = Contain("player", A, B);
+			var target:b2Body = Contain("block", A, B);
 			
-			PlayerPack: if (Contain("player", A, B) != null)
+			PlayerPack: if (player != null)
 			{
-				var player:b2Body = Contain("player", A, B);
-				var contact_point:b2Vec2 = contact.GetManifold().m_points[0].m_localPoint;
-				var player_point:b2Vec2 = new b2Vec2(player.GetWorldPoint(contact_point).x * 30, player.GetWorldPoint(contact_point).y * 30);
-				
-				target = Contain("block", A, B);
 				if (target != null && target.GetUserData().active)
 				{
+					var contact_point:b2Vec2 = contact.GetManifold().m_points[0].m_localPoint;
+					var player_point:b2Vec2 = new b2Vec2(player.GetWorldPoint(contact_point).x * 30, player.GetWorldPoint(contact_point).y * 30);
+					
 					switch((target.GetUserData().mc as BaseBlock).playerAction)
 					{
 						case BaseBlock.ACTION_SLIDE_STACK:
@@ -77,12 +74,11 @@ package Utils
 						case BaseBlock.ACTION_GET:
 								GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(target));
 								GameLoopManager.Core.stage.dispatchEvent(new PlayerCollectionEvent());
-								break PlayerPack; // don't trigger the playerCollideEvent
-							break;
+							return; // don't trigger the playerCollideEvent
 						case BaseBlock.ACTION_PROTECT:
 								GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(target));
 								GameLoopManager.Core.stage.dispatchEvent(new B2PlayerProtectEvent());
-							break PlayerPack; // don't trigger the playerCollideEvent
+							return; // don't trigger the playerCollideEvent
 					}
 					GameLoopManager.Core.stage.dispatchEvent(new PlayerCollideEvent(player.GetLinearVelocity().Length(), player_point));
 				}

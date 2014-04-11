@@ -55,6 +55,8 @@
     <element path="lib\bulk_loader.swc" />
     <element path="lib\greensock.swc" />
     <element path="lib\GraphAPI_Mobile_1_8_1.swc" />
+    <element path="lib\starling.swc" />
+    <element path="lib\Starling-Extension-Graphics.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
@@ -79,6 +81,7 @@
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
     <hidden path="obj" />
+    <hidden path="PackageApp.bat" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />
@@ -86,7 +89,7 @@
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->
   <options>
-    <option showHiddenPaths="False" />
+    <option showHiddenPaths="True" />
     <option testMovie="Custom" />
     <option testMovieCommand="Run.bat" />
   </options>

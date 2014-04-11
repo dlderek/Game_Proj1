@@ -3,13 +3,16 @@
 <music>on</music>
 <sound>on</sound>
 <PlayerDensity>1</PlayerDensity>
-<PlayerRestitution>0.5</PlayerRestitution>
+<PlayerRestitution>0.6</PlayerRestitution>
 <PlayerLinearDamping>1</PlayerLinearDamping>
 <PlayerAngularDamping>0</PlayerAngularDamping>
 <WorldGravity>5</WorldGravity>
 <blockUpSpeed>-3</blockUpSpeed>
-<PlayerTouchForceLevel>3</PlayerTouchForceLevel>
+<PlayerTouchForceLevel>1.8</PlayerTouchForceLevel>
 <PlayerSwipeForceLevel>1.3</PlayerSwipeForceLevel>
 
 <WaterFallPower>10</WaterFallPower>
+
+<ControlStyle>0</ControlStyle>
+<AccFactor>10</AccFactor>
 </data>

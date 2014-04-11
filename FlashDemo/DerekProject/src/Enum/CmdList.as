@@ -20,6 +20,14 @@ package Enum
 		
 		public static const CMD_SHOW_GAMEOVER_PAGE:String = "cmd.show.gameover.page";
 		public static const CMD_HIDE_GAMEOVER_PAGE:String = "cmd.hide.gameover.page";
+		public static const CMD_SHOW_FEED_DIALOG:String = "cmd.show.feed.dialog";
+		public static const CMD_HIDE_FEED_DIALOG:String = "cmd.hide.feed.dialog";
+		
+		public static const CMD_SHOW_SETTING_PAGE:String = "cmd.show.setting.page";
+		public static const CMD_HIDE_SETTING_PAGE:String = "cmd.hide.setting.page";
+		
+		public static const CMD_SHOW_RECORD_PAGE:String = "cmd.show.record.page";
+		public static const CMD_HIDE_RECORD_PAGE:String = "cmd.hide.record.page";
 	}
 
 }

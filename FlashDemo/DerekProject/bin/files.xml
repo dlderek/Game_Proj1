@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
-<swf>HomePage</swf>
-<swf>StagePage</swf>
-<swf>BattlePage</swf>
-<swf>GameOverPage</swf>
-<png>character</png>
+<swf>Font</swf>
+<swf>Atlas</swf>
+
 <xml>character</xml>
-<png>waterfall</png>
 <xml>waterfall</xml>
+<xml>stage_bg</xml>
+<xml>StagePage_element</xml>
+<xml>SettingPage_element</xml>
+<xml>RecordPage_element</xml>
+<xml>BattlePage_element</xml>
+<xml>GameOverPage_element</xml>
+<xml>BattlePage_bg</xml>
+<xml>BattlePage_bg2</xml>
 </data>

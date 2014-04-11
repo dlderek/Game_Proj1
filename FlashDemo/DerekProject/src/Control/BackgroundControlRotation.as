@@ -1,13 +1,13 @@
 package Control 
 {
-	import Enum.AssetList;
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import starling.display.Image;
+	import starling.display.DisplayObject;
+	import starling.display.DisplayObjectContainer;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import flash.geom.Point;
 	import Manager.LoadingManager;
+	import Utils.BTool;
 	/**
 	 * ...
 	 * @author hello
@@ -17,14 +17,14 @@ package Control
 		private var bgList:Array = []
 		private var speed:Number;
 		
-		public function BackgroundControlRotation(backgroundPoint:Object, img:Bitmap, speed:Number) 
+		public function BackgroundControlRotation(backgroundPoint:Sprite, speed:Number) 
 		{
 			super(backgroundPoint);
 			this.speed = speed;
 			
-			for (var i:int = 0; i < 4; i++)
+			for (var i:int = 0; i < 3; i++)
 			{
-				var newImage:Bitmap = new Bitmap(img.bitmapData.clone());
+				var newImage:Image = new Image(BTool.GetImage("BattlePage_bg2", "bg2"));
 				var newSprite:Sprite = new Sprite();
 				newImage.x = -newImage.width / 2;
 				newImage.y = -newImage.height * 1.5;
@@ -38,10 +38,10 @@ package Control
 		{
 			for (var i:int = 0 ; i < bgList.length; i++)
 			{
-				bgList[i].y = 1000 * 1.58;
+				bgList[i].y = 1000 * 1.75;
 				bgList[i].x = 300;
-				bgList[i].rotation = -90 + 45 * i;
-				ui.addChild(bgList[i]);
+				bgList[i].rotation = (-90 + 60 * i) * Math.PI / 180;
+				(ui as DisplayObjectContainer).addChild(bgList[i]);
 			}
 			ui.removeEventListener(Event.ADDED_TO_STAGE, onStage);
 			ui.addEventListener(Event.REMOVED_FROM_STAGE, offStage);
