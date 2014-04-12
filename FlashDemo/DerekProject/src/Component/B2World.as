@@ -87,7 +87,7 @@ package Component
 		{
 			world.ClearForces();
 			e.target.removeEventListener(e.type, arguments.callee);
-			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
+			//this.addEventListener(Event.ADDED_TO_STAGE, onStage);
 			removeEventListener(Event.ENTER_FRAME, B2WorldUpdate);
 			removeEventListener(Event.ENTER_FRAME, Update);
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerStack", PlayerStack);
@@ -183,6 +183,8 @@ package Component
 		
 		private function onTouch(e:TouchEvent):void
 		{
+			if (stackedLevel > 0)
+					return;
 			var touch:Touch = e.getTouch(GameLoopManager.Core.stage);
 			if (!touch)
 				return;
@@ -192,24 +194,24 @@ package Component
 					return;
 					
 				case TouchPhase.BEGAN:
-					if (stackedLevel > 0)
-						return;
 					touchPoint = new b2Vec2(touch.globalX, touch.globalY);
-					
+					fixTouchInterval = setInterval(onArrowShow, 50);
 					return;
 					
 					
 				case TouchPhase.ENDED:
 					if (pointerArrow.parent)
 						pointerArrow.parent.removeChild(pointerArrow);
-					
+					clearInterval(fixTouchInterval);
 					return;
 			}
-			
-			
+			touchPoint = new b2Vec2(touch.globalX, touch.globalY);
+		}
+		
+		private function onArrowShow():void
+		{
 			if (stackedLevel > 0)
 				return;
-			trace(touchPoint.x);
 			if (touchPoint.x > 300)
 			{
 				pointerArrow.x = 483.5;
@@ -224,7 +226,7 @@ package Component
 			}
 			if (!pointerArrow.parent)
 				this.addChild(pointerArrow);
-			touchPoint = new b2Vec2(touch.globalX, touch.globalY);
+			
 			var side:int = touchPoint.x > 300?playerTouchForceLevel: -playerTouchForceLevel;
 			player.ApplyImpulse(new b2Vec2(side, 0), player.GetPosition());
 		}
@@ -290,7 +292,7 @@ package Component
 		private function updatePlayerPosition():void
 		{
 			var playerPosition:b2Vec2 = player.GetPosition();
-			if (playerPosition.y > 35)
+			if (playerPosition.y > 35 || playerPosition.y < 0)
 				GameLoopManager.Core.stage.dispatchEvent(new Event("PlayerDie"));
 			
 			var mc:DisplayObject = player.GetUserData().mc;
@@ -353,6 +355,7 @@ package Component
 			if (proteted)
 				return;
 				
+			SoundManager.PlaySound("mud");
 			stackedLevel = e.stackLevel;
 			var jointDef:b2WeldJointDef = new b2WeldJointDef();
 			jointDef.Initialize(player, e.stackObject, e.stackPoint);
@@ -469,6 +472,8 @@ package Component
 			mc.addChild(protect);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerUnProtect", onPlayerUnProtect);
 			unProtectTimeout = setTimeout(unProtectDispatchEvent, 5000);
+			
+			SoundManager.PlaySound("protect");
 		}
 		
 		private function unProtectDispatchEvent():void
@@ -490,6 +495,7 @@ package Component
 		
 		private function onPlayerWaterFall(e:B2PlayerWaterFallEvent):void
 		{
+			SoundManager.PlaySound("waterfall");
 			e.waterFall.SetActive(false);
 			player.GetLinearVelocity().Add(new b2Vec2(0, waterFallPower));
 			BlockList.splice(BlockList.indexOf(e.waterFall), 1);

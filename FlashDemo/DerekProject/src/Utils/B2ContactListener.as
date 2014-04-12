@@ -53,7 +53,7 @@ package Utils
 								//}
 							}
 							
-						break;
+						return;
 						
 					case BaseBlock.ACTION_WATERFALL:
 						GameLoopManager.Core.stage.dispatchEvent(new B2PlayerWaterFallEvent(target));
@@ -73,14 +73,14 @@ package Utils
 							break;
 						case BaseBlock.ACTION_GET:
 								GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(target));
-								GameLoopManager.Core.stage.dispatchEvent(new PlayerCollectionEvent());
+								GameLoopManager.Core.stage.dispatchEvent(new PlayerCollectionEvent(player_point));
 							return; // don't trigger the playerCollideEvent
 						case BaseBlock.ACTION_PROTECT:
 								GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(target));
 								GameLoopManager.Core.stage.dispatchEvent(new B2PlayerProtectEvent());
 							return; // don't trigger the playerCollideEvent
 					}
-					GameLoopManager.Core.stage.dispatchEvent(new PlayerCollideEvent(player.GetLinearVelocity().Length(), player_point));
+					GameLoopManager.Core.stage.dispatchEvent(new PlayerCollideEvent(player.GetLinearVelocity().Length(), player_point, target ));
 				}
 				
 				target = Contain("ceiling", A, B);

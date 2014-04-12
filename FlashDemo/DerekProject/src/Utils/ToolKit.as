@@ -1,5 +1,6 @@
 package Utils 
 {
+	import starling.display.Button;
 	import starling.display.Image;
 	import starling.textures.Texture;
 	import starling.display.DisplayObject;
@@ -41,6 +42,21 @@ package Utils
 			return bg;
 		}
 		
+		public static function getDefaultButton(msg:String, name:String, template:int = 0, x:Number = 0, y:Number = 0, scale:Number = 1, color:uint = 0xFFFFFF ):Button
+		{
+			var btnColor:String = template == 0?"blue":"green";
+			
+			var btn:Button;
+			btn = new Button(BTool.GetImage("btn", "btn_" + btnColor + "_up"), msg, BTool.GetImage("btn", "btn_" + btnColor));
+			btn.fontName = "Showcard Gothic";
+			btn.fontColor = color;
+			btn.x = x;
+			btn.y = y;
+			btn.fontSize = 45;
+			btn.scaleX = scale;
+			btn.scaleY = scale;
+			btn.name = name;
+			return btn;
+		}
 	}
-
 }

@@ -86,7 +86,7 @@ package Handler
 			GameStateManager.CurrentPage = "Stage";
 			addChildAt(StagePage, LayerList.UI);
 			addEvent(true);
-			//SoundManager.PlayBGM("bg");
+			SoundManager.PlayBGM("bg0");
 		}
 		
 		private function HideOut():void
@@ -141,24 +141,31 @@ package Handler
 			{
 				case "btn_stage1":
 					SwitchStage(1);
+					SoundManager.PlaySound("ok2");
 					break;
 				case "btn_stage2":
 					SwitchStage(2);
+					SoundManager.PlaySound("ok2");
 					break;
 				case "btn_stage3":
 					SwitchStage(3);
+					SoundManager.PlaySound("ok2");
 					break;
 				case "btn_exit":
 					Exit();
+					SoundManager.PlaySound("back");
 					break;
 				case "btn_play":
 					Play(CurrentSelectedStage);
+					SoundManager.PlaySound("collect");
 					break;
 				case "btn_config":
 					Config();
+					SoundManager.PlaySound("ok");
 					break;
 				case "btn_record":
 					Record();
+					SoundManager.PlaySound("ok");
 					break;
 			}
 		}

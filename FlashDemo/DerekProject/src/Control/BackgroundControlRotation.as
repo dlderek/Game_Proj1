@@ -22,7 +22,7 @@ package Control
 			super(backgroundPoint);
 			this.speed = speed;
 			
-			for (var i:int = 0; i < 3; i++)
+			for (var i:int = 0; i < 4; i++)
 			{
 				var newImage:Image = new Image(BTool.GetImage("BattlePage_bg2", "bg2"));
 				var newSprite:Sprite = new Sprite();
@@ -40,7 +40,7 @@ package Control
 			{
 				bgList[i].y = 1000 * 1.75;
 				bgList[i].x = 300;
-				bgList[i].rotation = (-90 + 60 * i) * Math.PI / 180;
+				bgList[i].rotation = (-90 + (180/4) * i) * Math.PI / 180;
 				(ui as DisplayObjectContainer).addChild(bgList[i]);
 			}
 			ui.removeEventListener(Event.ADDED_TO_STAGE, onStage);
@@ -64,9 +64,9 @@ package Control
 			for each(var img:DisplayObject in bgList)
 			{
 				img.rotation -= speed;
-				if (img.rotation < -90)
+				if (img.rotation < -1.57)
 				{
-					img.rotation = 90;
+					img.rotation = 1.57;
 				}
 			}
 		}

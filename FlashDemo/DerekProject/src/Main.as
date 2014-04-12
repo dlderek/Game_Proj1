@@ -17,11 +17,13 @@ package
 	import Manager.GameLoopManager;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
+	import Manager.SoundManager;
 	import Manager.StarlingMain;
 	import starling.core.Starling;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
 	import flash.system.Capabilities;
+	import com.greensock.TweenLite;
 	/**
 	 * ...
 	 * @author JL
@@ -61,8 +63,14 @@ package
 		private function onLoader(e:Event):void
 		{
 			loadingImage = (e.target as LoaderInfo).content as Bitmap;
+			loadingImage.alpha = 0;
 			stage.addChild(loadingImage);
+			TweenLite.to(loadingImage, 0.5, {alpha:1, onComplete:StarlingSetup});
 			e.target.removeEventListener(e.type, arguments.callee);
+		}
+		
+		private function StarlingSetup():void
+		{
 			if(onDevice)
 				Starling.handleLostContext = true;
 			intilStarling = new Starling(StarlingMain, stage);
@@ -84,8 +92,12 @@ package
 		
 		public static function removeLoadingImage():void
 		{
-			if (loadingImage.parent)
-				loadingImage.parent.removeChild(loadingImage);
+			TweenLite.killTweensOf(loadingImage);
+			TweenLite.to(loadingImage, 2, { alpha:0, onComplete:function():void
+			{
+				if (loadingImage.parent)
+					loadingImage.parent.removeChild(loadingImage);
+			}})
 		}
 	}
 }

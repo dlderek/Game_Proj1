@@ -95,6 +95,8 @@ package Handler
 			(GameOverPage.getChildByName("result1") as TextField).text = GameStateManager.CurrentScore.toString().concat("M");
 			(GameOverPage.getChildByName("result2") as TextField).text = GameStateManager.CurrentCollection.toString();
 			(GameOverPage.getChildByName("btn_facebook") as Button).touchable = true;
+			
+			SoundManager.PlayBGM("bgover");
 		}
 		
 		private function HideOut():void
@@ -131,18 +133,23 @@ package Handler
 			{
 				case "btn_retry":
 					Retry();
+					SoundManager.PlaySound("ok");
 					break;
 				case "btn_quit":
 					Quit();
+					SoundManager.PlaySound("back");
 					break;
 				case "btn_facebook":
 					FacebookAction();
+					SoundManager.PlaySound("ok");
 					break;
 				case "btn_ok":
 					AddFeed();
+					SoundManager.PlaySound("ok");
 					break;
 				case "btn_back":
 					addTask( { cmd:CmdList.CMD_HIDE_FEED_DIALOG } );
+					SoundManager.PlaySound("back");
 					break;
 			}
 		}

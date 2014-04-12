@@ -20,6 +20,8 @@ package Manager
 		private static var BGEffect:SoundChannel = new SoundChannel();
 		private static var Effect:SoundChannel = new SoundChannel();
 		
+		private static var CurrentBGMKey:String = "";
+		
 		public static function PlaySound(id:String):void
 		{
 			if (soundList[id] == null)
@@ -38,6 +40,15 @@ package Manager
 		
 		public static function PlayBGM(id:String):void
 		{
+			if (CurrentBGMKey == id)
+				return;
+				
+			CurrentBGMKey = id;
+			if (BGM)
+			{
+				BGM.stop();
+				BGM = null;
+			}
 			if (soundList[id] == null)
 			{
 				var request:URLRequest = new URLRequest("sound/" + id + ".mp3");
@@ -79,6 +90,7 @@ package Manager
 			e.target.removeEventListener(e.type, arguments.callee);
 			var id:String = (e.target as Sound).url.substr(11).replace(".mp3", "");
 			soundList[id] = e.target as Sound;
+			CurrentBGMKey = "";
 			PlayBGM(id);
 		}
 		

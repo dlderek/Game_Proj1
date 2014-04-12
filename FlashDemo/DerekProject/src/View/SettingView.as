@@ -6,6 +6,7 @@ package View
 	import starling.display.Sprite;
 	import Manager.LoadingManager;
 	import Utils.BTool;
+	import Utils.ToolKit;
 	/**
 	 * ...
 	 * @author JL
@@ -27,9 +28,7 @@ package View
 			var bm:Image = new Image( BTool.GetImage("SettingPage_element", "bg"));
 			SettingPage.addChild(bm);
 			
-			var btn:Button = new Button(BTool.GetImage("SettingPage_element", "btnback"));
-			btn.x = 104.05; btn.y = 852.4;
-			btn.name = "btn_back";
+			var btn:Button = ToolKit.getDefaultButton("Back", "btn_back", 0, 160, 850, 1.5);
 			SettingPage.addChild(btn);
 			
 			btn = new Button(BTool.GetImage("SettingPage_element", "btnset1"));

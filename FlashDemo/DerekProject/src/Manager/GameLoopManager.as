@@ -3,6 +3,7 @@ package Manager
 	import Enum.CmdList;
 	import Enum.LayerList;
 	import flash.system.Capabilities;
+	import flash.utils.setTimeout;
 	import starling.core.StatsDisplay;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -109,10 +110,10 @@ package Manager
 			
 			ConstructHandler();
 			addTask( { cmd:CmdList.CMD_INIT_HANDLER } );
-			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
-			setInterval(gc, 2000);
+			//setInterval(gc, 10000);
 			//stage.addEventListener(Event.ENTER_FRAME, UselessLoop);
 			Main.removeLoadingImage();
+			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
 		}
 		
 		

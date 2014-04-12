@@ -6,6 +6,7 @@ package View
 	import starling.display.Sprite;
 	import Manager.LoadingManager;
 	import Utils.BTool;
+	import Utils.ToolKit;
 	/**
 	 * ...
 	 * @author JL
@@ -42,9 +43,7 @@ package View
 			btn.name = "btn_theme2";
 			RecordPage.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("RecordPage_element", "btnback"));
-			btn.x = 105.4; btn.y = 853.45;
-			btn.name = "btn_back";
+			btn = ToolKit.getDefaultButton("Back", "btn_back", 0, 160, 850, 1.5);
 			RecordPage.addChild(btn);
 		}
 		

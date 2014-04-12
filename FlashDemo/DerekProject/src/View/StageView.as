@@ -7,6 +7,8 @@ package View
 	import starling.display.Sprite;
 	import Manager.LoadingManager;
 	import Utils.BTool;
+	import Utils.TextTool;
+	import Utils.ToolKit;
 	/**
 	 * ...
 	 * @author JL
@@ -62,24 +64,16 @@ package View
 			sp.name = "characterPoint";
 			StagePage.addChild(sp);
 			
-			btn = new Button(BTool.GetImage("StagePage_element", "btncontrolsetting"));
-			btn.x = 30.5; btn.y = 718;
-			btn.name = "btn_config";
+			btn = ToolKit.getDefaultButton("Control Setting", "btn_config", 0, 30, 720);
 			StagePage.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("StagePage_element", "btnrecord"));
-			btn.x = 284.35; btn.y = 679.1;
-			btn.name = "btn_record";
+			btn = ToolKit.getDefaultButton("Record", "btn_record", 0, 300, 720);
 			StagePage.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("StagePage_element", "btnexit"));
-			btn.x = 33.5; btn.y = 862.05;
-			btn.name = "btn_exit";
+			btn = ToolKit.getDefaultButton("Exit", "btn_exit", 0, 30, 840);
 			StagePage.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("StagePage_element", "btnstart"));
-			btn.x = 331.35; btn.y = 843.3;
-			btn.name = "btn_play";
+			btn = ToolKit.getDefaultButton("Play", "btn_play", 0, 300, 840);
 			StagePage.addChild(btn);
 		}
 	}

@@ -27,7 +27,7 @@ package Component
 		protected function offStage(e:Event):void
 		{
 			e.target.removeEventListener(e.type, arguments.callee);
-			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
+			//this.addEventListener(Event.ADDED_TO_STAGE, onStage);
 		}
 		
 	}

@@ -1,5 +1,6 @@
 package Handler 
 {
+	import com.greensock.TweenLite;
 	import starling.display.DisplayObject;
 	import flash.utils.Dictionary;
 	import Manager.GameLoopManager;
@@ -28,15 +29,21 @@ package Handler
 			GameMain.addTask(task);
 		}
 		
-		protected function addChildAt(child:Object, layer:int = 1):void
+		protected function addChildAt(child:DisplayObject, layer:int = 1):void
 		{
+			child.alpha = 0;
 			GameMain.layers[layer].addChild(child as DisplayObject);
+			TweenLite.to(child, 1, {alpha:1})
 		}
 		
-		protected function removeChild(child:Object):void
+		protected function removeChild(child:DisplayObject):void
 		{
-			if (child.parent)
-				child.parent.removeChild(child as DisplayObject);
+			TweenLite.to(child, 1, { alpha:0, onComplete:function():void
+			{
+				TweenLite.killTweensOf(child);
+				if (child.parent)
+					child.parent.removeChild(child as DisplayObject);
+			}})
 		}
 	}
 }

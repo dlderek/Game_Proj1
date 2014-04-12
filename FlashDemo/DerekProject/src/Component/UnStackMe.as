@@ -29,7 +29,7 @@ package Component
 		private var stackLevel:int;
 		private var currentStackLevel:int;
 		
-		public function UnStackMe(_stackLevel:int) 
+		public function UnStackMe() 
 		{
 			if (!upbmd)
 				upbmd = BTool.GetImage("BattlePage_element", "colorarrow");
@@ -37,8 +37,8 @@ package Component
 				bgbmd = BTool.GetImage("BattlePage_element", "arrowbg");
 			if (!mbmd)
 				mbmd = BTool.GetImage("BattlePage_element", "colorbox");
-			stackLevel = _stackLevel;
-			currentStackLevel = 0;
+			//stackLevel = _stackLevel;
+			//currentStackLevel = 0;
 			ui = new Sprite();
 			super(ui);
 			
@@ -57,6 +57,14 @@ package Component
 			//maskedDisplayObject.addChild(up);
 			//maskedDisplayObject.mask = m;
 			//up.mask = m;
+		}
+		
+		public function set StackLevel(v:int):void 
+		{ 
+			stackLevel = v;
+			currentStackLevel = 0;
+			refreshDisplay();
+			ui.alpha = 1;
 		}
 		
 		protected override function onStage(e:Event):void

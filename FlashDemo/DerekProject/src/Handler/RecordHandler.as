@@ -102,10 +102,13 @@ package Handler
 			{
 				case "btn_back":
 					Back();
+					SoundManager.PlaySound("back");
 					break;
 				case "btn_theme1":
+					SoundManager.PlaySound("ok");
 					break;
 				case "btn_theme2":
+					SoundManager.PlaySound("ok");
 					break;
 			}
 		}

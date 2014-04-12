@@ -8,6 +8,7 @@ package View
 	import Manager.LoadingManager;
 	import Utils.BTool;
 	import Utils.TextTool;
+	import Utils.ToolKit;
 	/**
 	 * ...
 	 * @author JL
@@ -37,14 +38,10 @@ package View
 			btn.name = "btn_facebook";
 			GameOverPage.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("GameOverPage_element", "btnretry"));
-			btn.x = 51.85; btn.y = 850.25;
-			btn.name = "btn_retry";
+			btn = ToolKit.getDefaultButton("Retry", "btn_retry", 0, 51.85, 850.25);
 			GameOverPage.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("GameOverPage_element", "btnquit"));
-			btn.x = 341.25; btn.y = 849.25;
-			btn.name = "btn_quit";
+			btn = ToolKit.getDefaultButton("Quit", "btn_quit", 0, 341.25, 849.25);
 			GameOverPage.addChild(btn);
 			
 			var text:TextField = TextTool.DefaultTextfield(310.3, 107.95,84);
@@ -67,14 +64,10 @@ package View
 			var bm:Image = new Image( BTool.GetImage("GameOverPage_element", "dialogbg"));
 			FeedDialog.addChild(bm);
 			
-			var btn:Button = new Button(BTool.GetImage("GameOverPage_element", "btnok"));
-			btn.x = 374.95; btn.y = 693.95;
-			btn.name = "btn_ok";
+			var btn:Button = ToolKit.getDefaultButton("OK", "btn_ok", 0, 374.95, 693.95);
 			FeedDialog.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("GameOverPage_element", "btnback"));
-			btn.x = 35.95; btn.y = 693.95;
-			btn.name = "btn_back";
+			btn = ToolKit.getDefaultButton("Back", "btn_back", 0, 35.95, 693.95);
 			FeedDialog.addChild(btn);
 			
 			var text:TextField = TextTool.DefaultTextfield(496.9, 566.05,50);

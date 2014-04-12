@@ -1,6 +1,7 @@
 package Handler 
 {
 	import Enum.CmdList;
+	import flash.utils.setTimeout;
 	import Manager.GameLoopManager;
 	import Manager.GameStateManager;
 	/**
@@ -21,11 +22,14 @@ package Handler
 			switch(task.cmd)
 			{
 				case CmdList.CMD_SWICH_PAGE:
-					if (GameStateManager.CurrentPage != task.page)
-					{
+					//if (GameStateManager.CurrentPage != task.page)
+					//{
 						addTask( { cmd:"cmd.hide." + GameStateManager.CurrentPage.toLowerCase() + ".page" } );
-						addTask( { cmd:"cmd.show." + task.page.toLowerCase() + ".page" } );
-					}
+						
+						setTimeout(function():void{
+							addTask( { cmd:"cmd.show." + task.page.toLowerCase() + ".page" } );
+						}, 1000);
+					//}
 					break;
 			}
 		}

@@ -1,9 +1,14 @@
 package Handler 
 {
+	import Component.Star;
 	import Control.B2WorldControl;
 	import Control.BackgroundControlHorizontal;
 	import Control.BackgroundControlRotation;
 	import Control.BackgroundControlStatic;
+	import flash.display.BitmapData;
+	import flash.geom.ColorTransform;
+	import flash.system.System;
+	import flash.utils.setTimeout;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.DisplayObject;
@@ -13,6 +18,7 @@ package Handler
 	import starling.events.Touch;
 	import starling.events.TouchPhase;
 	import starling.extensions.pixelmask.PixelMaskDisplayObject;
+	import starling.textures.Texture;
 	//import flash.events.MouseEvent;
 	//import flash.events.TouchEvent;
 	import flash.geom.Point;
@@ -38,6 +44,7 @@ package Handler
 		private var BattlePage:Sprite;
 		private var BattlePageMask:Sprite;
 		private var B2World:B2WorldControl;
+		private var b2Origin:Sprite;
 		
 		//theme1
 		private var BgControlH:BackgroundControlHorizontal;
@@ -90,7 +97,8 @@ package Handler
 			//BattlePage.mask = BattlePageMask;
 			score1 = BattlePage.getChildByName("score") as TextField;
 			score2 = BattlePage.getChildByName("score2") as TextField;
-			B2World = new B2WorldControl(BattlePage.getChildByName("origin"));
+			b2Origin = BattlePage.getChildByName("origin") as Sprite;
+			B2World = new B2WorldControl(b2Origin);
 			BgControlH = new BackgroundControlHorizontal(BattlePage.getChildByName("backgroundPoint2") as Sprite, [ToolKit.getBgSprite(1), ToolKit.getBgSprite(1)], 600);
 			BGControlR = new BackgroundControlRotation(BattlePage.getChildByName("backgroundPoint2") as Sprite, 0.001);
 			BGControlS = new BackgroundControlStatic(BattlePage.getChildByName("backgroundPoint2") as Sprite, ToolKit.getBgSprite(3));
@@ -100,7 +108,14 @@ package Handler
 		{
 			GameStateManager.CurrentPage = "Battle";
 			addChildAt(BattlePage, LayerList.UI);
-			B2World.Reset();
+			//for (var i:int = 0 ; i < 500; i ++)
+			//{
+				B2World.Reset();
+				try
+				{
+					System.gc();
+				}catch (e:Error) { };
+			//}
 			BattlePage.addEventListener(TouchEvent.TOUCH, onTouch);
 			GameLoopManager.Core.stage.addEventListener("PlayerDie", onPlayerDie);
 			BGSoundEffectInterval = setInterval(PlayRandomBGSoundEffect, 10000);
@@ -109,11 +124,13 @@ package Handler
 			if (GameStateManager.CurrentStage == 0)
 			{
 				BgControlH.start();
+				SoundManager.PlayBGM("bg1");
 			}
 			else if (GameStateManager.CurrentStage == 1)
 			{
 				BGControlR.start();
 				BGControlS.start();
+				SoundManager.PlayBGM("bg2");
 			}
 		}
 		
@@ -144,10 +161,12 @@ package Handler
 			switch(Target)
 			{
 				case "btn_reset":
-					B2World.Reset();
+					GameMain.addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Battle" } );
+					SoundManager.PlaySound("ok");
 					break;
 				case "btn_back":
 					GameMain.addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
+					SoundManager.PlaySound("back");
 					break;
 			}
 		}
@@ -168,7 +187,29 @@ package Handler
 		{
 			GameStateManager.CurrentScore = B2World.CurrentScore;
 			GameStateManager.CurrentCollection = B2World.CurrentCollection;
-			GameMain.addTask({cmd:CmdList.CMD_SWICH_PAGE, page:"GameOver"});
+			var star:Star = new Star(1);
+			star.x = B2World.world.player.GetPosition().x * 30;
+			star.y = B2World.world.player.GetPosition().y * 30;
+			var bmd:BitmapData = GameLoopManager.Core.stage.stage.drawToBitmapData();
+			bmd.colorTransform(bmd.rect, new ColorTransform(1,.2,.2));
+			var dieImage:Image = new Image(Texture.fromBitmapData(bmd));
+			BattlePage.addChild(dieImage);
+			SoundManager.PlaySound("die");
+			setTimeout(function():void
+			{
+				star.start(1);
+				SoundManager.PlaySound("exp");
+				//setTimeout(function():void
+				//{
+					setTimeout(star.dispose, 4000);
+					BattlePage.removeChild(dieImage);
+					GameMain.addTask({cmd:CmdList.CMD_SWICH_PAGE, page:"GameOver"});
+				//}, 500);
+			}, 1000)
+			
+			if(B2World.world.parent)
+				B2World.world.parent.removeChild(B2World.world);
+			//GameMain.addTask({cmd:CmdList.CMD_SWICH_PAGE, page:"GameOver"});
 		}
 		
 		private function ScoreUpdate():void

@@ -13,4 +13,6 @@
 <xml>GameOverPage_element</xml>
 <xml>BattlePage_bg</xml>
 <xml>BattlePage_bg2</xml>
+<xml>btn</xml>
+<xml>Particle</xml>
 </data>

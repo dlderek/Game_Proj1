@@ -2,6 +2,7 @@ package Handler
 {
 	import starling.display.Button;
 	import starling.display.DisplayObject;
+	import starling.filters.BlurFilter;
 	//import flash.display.SimpleButton;
 	import starling.display.Sprite;
 	import Manager.GameLoopManager;
@@ -98,12 +99,15 @@ package Handler
 			{
 				case "btn_back":
 					Back();
+					SoundManager.PlaySound("back");
 					break;
 				case "btn_set1":
 					SetControlStyle(0);
+					SoundManager.PlaySound("ok2");
 					break;
 				case "btn_set2":
 					SetControlStyle(1);
+					SoundManager.PlaySound("ok2");
 					break;
 			}
 		}

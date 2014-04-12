@@ -12,9 +12,11 @@ package Utils
 	{
 		public var speed:Number
 		public var position:Point;
-		public function PlayerCollideEvent(_speed:Number, _position:b2Vec2 ) 
+		public var obj:b2Body;
+		public function PlayerCollideEvent(_speed:Number, _position:b2Vec2, obj:b2Body ) 
 		{
 			speed = _speed;
+			this.obj = obj;
 			position = new Point(_position.x, _position.y);
 			super("PlayerCollide");
 		}
