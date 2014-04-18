@@ -52,7 +52,9 @@ package Utils
 									GameLoopManager.Core.stage.dispatchEvent(new B2PlayerStackEvent(target, target_point, player_point, target.GetUserData().mc.stackLevel ));
 								//}
 							}
-							
+						return;
+					case BaseBlock.ACTION_FALL_AND_STACK:
+						GameLoopManager.Core.stage.dispatchEvent(new B2PlayerCatchedEvent(target, target.GetUserData().mc.stackLevel));
 						return;
 						
 					case BaseBlock.ACTION_WATERFALL:

@@ -7,8 +7,10 @@ package Handler
 	import Control.BackgroundControlStatic;
 	import flash.display.BitmapData;
 	import flash.geom.ColorTransform;
+	import flash.system.Capabilities;
 	import flash.system.System;
 	import flash.utils.setTimeout;
+	import Manager.XMLManager;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.DisplayObject;
@@ -19,6 +21,7 @@ package Handler
 	import starling.events.TouchPhase;
 	import starling.extensions.pixelmask.PixelMaskDisplayObject;
 	import starling.textures.Texture;
+	import Utils.BTool;
 	//import flash.events.MouseEvent;
 	//import flash.events.TouchEvent;
 	import flash.geom.Point;
@@ -42,9 +45,9 @@ package Handler
 	{
 		private var view:BattleView;
 		private var BattlePage:Sprite;
-		private var BattlePageMask:Sprite;
 		private var B2World:B2WorldControl;
 		private var b2Origin:Sprite;
+		private var roof:Sprite;
 		
 		//theme1
 		private var BgControlH:BackgroundControlHorizontal;
@@ -89,12 +92,8 @@ package Handler
 		{
 			view = new BattleView();
 			BattlePage = view.BattlePage;
-			BattlePageMask = view.BattlePageMask;
-			//var maskedDisplayObject:PixelMaskDisplayObject = new PixelMaskDisplayObject( -1, false);
-			//maskedDisplayObject.addChild(BattlePage);
-			//maskedDisplayObject.mask = BattlePageMask;
+			roof = BattlePage.getChildByName("roof") as Sprite;
 			
-			//BattlePage.mask = BattlePageMask;
 			score1 = BattlePage.getChildByName("score") as TextField;
 			score2 = BattlePage.getChildByName("score2") as TextField;
 			b2Origin = BattlePage.getChildByName("origin") as Sprite;
@@ -132,6 +131,10 @@ package Handler
 				BGControlS.start();
 				SoundManager.PlayBGM("bg2");
 			}
+			
+			while (roof.numChildren > 0)
+				roof.removeChildAt(0);
+			roof.addChild(new Image(BTool.GetImage("BattlePage_element", "roof".concat(GameStateManager.CurrentStage + 1)) ) );
 		}
 		
 		private function HideOut():void
@@ -191,8 +194,11 @@ package Handler
 			star.x = B2World.world.player.GetPosition().x * 30;
 			star.y = B2World.world.player.GetPosition().y * 30;
 			var bmd:BitmapData = GameLoopManager.Core.stage.stage.drawToBitmapData();
-			bmd.colorTransform(bmd.rect, new ColorTransform(1,.2,.2));
+			GameOverHandler.screenShot = bmd.clone();
+			bmd.colorTransform(bmd.rect, new ColorTransform(1, .2, .2));
 			var dieImage:Image = new Image(Texture.fromBitmapData(bmd));
+			dieImage.width = 600;
+			dieImage.height = 1000;
 			BattlePage.addChild(dieImage);
 			SoundManager.PlaySound("die");
 			setTimeout(function():void
@@ -217,6 +223,7 @@ package Handler
 			B2World.CurrentScore += 0.1;
 			score1.text = Math.round(B2World.CurrentScore) + " M";
 			score2.text = B2World.CurrentCollection.toString();
+			B2World.world.blockUpSpeed -= XMLManager.config["speedIncreasePerOneTenSecond"];
 		}
 	}
 }

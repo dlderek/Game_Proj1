@@ -31,6 +31,9 @@ package Component
     public class B2World extends Sprite {
 		private var theAcc:Accelerometer = new Accelerometer();
 		private var AccFactor:Number;
+		private var lastShake:Number = 0;
+		private var shakeWait:Number = 100;
+		private var AccShakeEscapeSpeed:Number;
 		
         public var world:b2World;
         public var world_scale:int=30;
@@ -44,7 +47,7 @@ package Component
 		public var BlockList:Vector.<b2Body> = new Vector.<b2Body>();
 		public var DestroyList:Array = [];
 		private var stackJoint:b2Joint;
-		private var stackedLevel:int;
+		public var stackedLevel:int;
 		public var proteted:Boolean;
 		private var jam:Boolean;
 		private var touchPoint:b2Vec2;
@@ -68,11 +71,11 @@ package Component
 			playerSwipeForceLevel = XMLManager.config["PlayerSwipeForceLevel"];
 			waterFallPower = XMLManager.config["WaterFallPower"];
 			AccFactor = XMLManager.config["AccFactor"];
+			AccShakeEscapeSpeed = XMLManager.config["AccShakeEscapeSpeed"];
 			pointerArrow = new Arrow();
 			pointerArrow.alpha = 0.75;
 			ContactListener = new B2ContactListener();
 			world.SetContactListener(ContactListener);
-            //debug_draw();
 			add_player(270, 150, new Character());
 			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
         }
@@ -87,7 +90,6 @@ package Component
 		{
 			world.ClearForces();
 			e.target.removeEventListener(e.type, arguments.callee);
-			//this.addEventListener(Event.ADDED_TO_STAGE, onStage);
 			removeEventListener(Event.ENTER_FRAME, B2WorldUpdate);
 			removeEventListener(Event.ENTER_FRAME, Update);
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerStack", PlayerStack);
@@ -104,7 +106,9 @@ package Component
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerUnProtect", onPlayerUnProtect);
 			clearTimeout(unProtectTimeout);
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerWaterFall", onPlayerWaterFall);
+			GameLoopManager.Core.stage.removeEventListener("B2PlayerCatched", onPlayerCatched);
 			theAcc.removeEventListener(AccelerometerEvent.UPDATE, onAccUpdate);
+			theAcc.removeEventListener(AccelerometerEvent.UPDATE, onDeviceShake);
 		}
 		
 		public function StartGame():void
@@ -114,11 +118,11 @@ package Component
 			GameLoopManager.Core.stage.addEventListener("B2PlayerStack", PlayerStack);
 			addEventListener(Event.ENTER_FRAME, DestroyBlockList);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerPause", onPlayerPause);
-			GameLoopManager.Core.stage.addEventListener(TouchEvent.TOUCH, onSwipe);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerPlatform", onPlayerPlatform);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerHitCeil", onPlayerHitCeil);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerProtect", onPlayerProtect);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerWaterFall", onPlayerWaterFall);
+			GameLoopManager.Core.stage.addEventListener("B2PlayerCatched", onPlayerCatched);
 			
 			//PlayerControl
 			if (int(XMLManager.config["ControlStyle"]) == 0)
@@ -127,15 +131,18 @@ package Component
 				if (Accelerometer.isSupported == true) 
 				{
 					theAcc.addEventListener(AccelerometerEvent.UPDATE, onAccUpdate);
+					theAcc.addEventListener(AccelerometerEvent.UPDATE, onDeviceShake);
 				}
 				else
 				{
 					GameLoopManager.Core.stage.addEventListener(TouchEvent.TOUCH, onTouch);
+					GameLoopManager.Core.stage.addEventListener(TouchEvent.TOUCH, onSwipe);
 				}
 			}
 			else
 			{
 				GameLoopManager.Core.stage.addEventListener(TouchEvent.TOUCH, onTouch);
+				GameLoopManager.Core.stage.addEventListener(TouchEvent.TOUCH, onSwipe);
 			}
 		}
 		
@@ -143,11 +150,6 @@ package Component
             var my_body:b2BodyDef= new b2BodyDef();
             my_body.position.Set(px/world_scale, py/world_scale);
             my_body.type = b2Body.b2_dynamicBody;
-            //var my_circle:b2PolygonShape = new b2PolygonShape();
-			//my_circle.SetAsArray([new b2Vec2(0 / world_scale, -30 / world_scale), new b2Vec2(14 / world_scale, -16 / world_scale), new b2Vec2(15 / world_scale, -7 / world_scale), 
-									//new b2Vec2(25 / world_scale, 10 / world_scale), new b2Vec2(17 / world_scale, 23 / world_scale), new b2Vec2(0 / world_scale, 30 / world_scale), 
-									//new b2Vec2( -17 / world_scale, 24 / world_scale), new b2Vec2( -25 / world_scale, 9 / world_scale), new b2Vec2( -19 / world_scale, -4 / world_scale), 
-									//new b2Vec2( -20 / world_scale, -12 / world_scale), new b2Vec2( -11 / world_scale, -22 / world_scale)], 11);
 			var my_circle:b2CircleShape = new b2CircleShape(30/ world_scale);
             var my_fixture:b2FixtureDef = new b2FixtureDef();
             my_fixture.shape = my_circle;
@@ -158,25 +160,10 @@ package Component
 			player.SetLinearDamping(XMLManager.config["PlayerLinearDamping"]);
 			player.SetAngularDamping(XMLManager.config["PlayerAngularDamping"]);
 			player.SetUserData( { name:"player", mc:mc } );
-			//mc.alpha = 0.5;
 			mc.x = px;
 			mc.y = py;
 			addChild(mc);
         }
-		// debug draw
-        //public function debug_draw():void {
-            //var debug_draw:b2DebugDraw = new b2DebugDraw();
-            //var debug_sprite:Sprite = new Sprite();
-            //addChild(debug_sprite);
-			//debug_draw.SetFillAlpha(1);
-			//debug_draw.SetAlpha(1);
-            //debug_draw.SetSprite(debug_sprite);
-            //debug_draw.SetDrawScale(world_scale);
-            //debug_draw.SetFlags(b2DebugDraw.e_shapeBit);
-            //world.SetDebugDraw(debug_draw);
-        //}
-		
-		//} endregion
 		
 		
 		//{ UserControl
@@ -190,15 +177,12 @@ package Component
 				return;
 			switch(touch.phase)
 			{
-				case TouchPhase.HOVER:
-					return;
-					
 				case TouchPhase.BEGAN:
 					touchPoint = new b2Vec2(touch.globalX, touch.globalY);
 					fixTouchInterval = setInterval(onArrowShow, 50);
 					return;
 					
-					
+				case TouchPhase.HOVER:
 				case TouchPhase.ENDED:
 					if (pointerArrow.parent)
 						pointerArrow.parent.removeChild(pointerArrow);
@@ -266,6 +250,24 @@ package Component
 			player.ApplyImpulse(new b2Vec2(-AccFactor*e.accelerationX, 0), player.GetPosition());
 		}
 		
+		private function onDeviceShake ( e:AccelerometerEvent ):void 
+		{
+			if(getTimer() - lastShake > shakeWait && (e.accelerationX >= 1.1 || e.accelerationY >= 1.1 || e.accelerationZ >= 1.1))
+			{
+				onShake(e.accelerationX);
+				lastShake = getTimer();
+			}
+		}
+		
+		private function onShake(shakeLevel:Number):void
+		{
+			var speed:b2Vec2 = new b2Vec2((Math.random()>.5?-shakeLevel:shakeLevel) * AccShakeEscapeSpeed * 3, 0);
+			if (stackedLevel == 0)
+					player.ApplyImpulse(speed, player.GetPosition());
+			else
+				GameLoopManager.Core.stage.dispatchEvent(new B2PlayerUnStackEvent(speed));
+		}
+		
 		//}
         
 		
@@ -278,8 +280,6 @@ package Component
 			}
 			catch (e:Error)
 			{trace("Error in B2WorldUpdate Catched : " + e.message)};
-            //world.ClearForces();
-            //world.DrawDebugData();		
 			
         }
 		
@@ -311,23 +311,34 @@ package Component
 				mc.x = block.GetPosition().x * world_scale;
 				mc.y = block.GetPosition().y * world_scale;
 				
-				block.SetLinearVelocity(new b2Vec2(0,blockUpSpeed));
-				if (mc.playerAction == BaseBlock.ACTION_SLIDE || mc.playerAction == BaseBlock.ACTION_SLIDE_STACK)
+				if (mc.playerAction != BaseBlock.ACTION_FALL_AND_STACK)
 				{
-					var v:b2Vec2 = block.GetLinearVelocity();
-					v.Add(new b2Vec2(mc.sided?3: -3, 0));
-					if (mc.x < 0 )
-						mc.sided = true;
-					else if (mc.x > 600 - mc.width)
-						mc.sided = false;
+					block.SetLinearVelocity(new b2Vec2(0,blockUpSpeed));
+					if (mc.playerAction == BaseBlock.ACTION_SLIDE || mc.playerAction == BaseBlock.ACTION_SLIDE_STACK)
+					{
+						var v:b2Vec2 = block.GetLinearVelocity();
+						v.Add(new b2Vec2(mc.sided?3: -3, 0));
+						if (mc.x < 0 )
+							mc.sided = true;
+						else if (mc.x > 600 - mc.width)
+							mc.sided = false;
+					}
+					
+					if (mc.y < -200)
+					{
+						if(stage)
+							GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(block));
+					}
 				}
-				
-				if (mc.y < -200)
+				else
 				{
-					if(stage)
-						GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(block));
+					block.SetLinearVelocity(new b2Vec2(0, 1));
+					if (mc.y > 1050)
+					{
+						if(stage)
+							GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(block));
+					}
 				}
-				//mc.rotation = block.GetAngle() * 180 / Math.PI;
 			}
 		}
 		
@@ -352,7 +363,7 @@ package Component
 		//{ EventListenerTigger
 		private function PlayerStack(e:B2PlayerStackEvent):void
 		{
-			if (proteted)
+			if (proteted || stackedLevel > 0)
 				return;
 				
 			SoundManager.PlaySound("mud");
@@ -369,8 +380,9 @@ package Component
 		{
 			if (stackedLevel == 0)
 				return;
+				trace("hihi");
 			stackedLevel--;
-			if (stackedLevel == 0)
+			if (stackedLevel <= 0)
 			{
 				GameLoopManager.Core.stage.dispatchEvent(new B2PlayerUnStackedEvent(e.escapV));
 				GameLoopManager.Core.stage.removeEventListener("B2PlayerUnStack", PlayerUnStack);
@@ -380,8 +392,9 @@ package Component
 		private function PlyerUnStacked(e:B2PlayerUnStackedEvent):void
 		{
 			stackedLevel = 0;
-			world.DestroyJoint(stackJoint);
-			//DestroyList.push(stackJoint);
+			SoundManager.PlaySound("escape");
+			if(stackJoint)
+				world.DestroyJoint(stackJoint);
 			setTimeout(function():void
 			{
 				player.ApplyImpulse(new b2Vec2(e.escapV.x / 10, -e.escapV.y / 20), player.GetPosition());
@@ -396,12 +409,8 @@ package Component
 			switch (mc.mode)
 			{
 				case 0:
-					//Tweener.addTween(mc, {time:0.25, rotation:mc.flip?-10:10, onComplete:function():void
 					TweenNano.to(mc, 0.25, { rotation: mc.flip? -.1:.1, onComplete:function():void
 					{
-						//myTween.reverse();
-						//Tweener.removeTweens(mc);
-						//Tweener.addTween(mc, { time:0.25, rotation:mc.flip?10: -10});
 						TweenNano.killTweensOf(mc);
 						TweenNano.to(mc, 0.25, { rotation:mc.flip? .1:-.1});
 						BlockList.splice(BlockList.indexOf(e.body), 1);
@@ -437,6 +446,8 @@ package Component
 		private function onPlayerPlatform(e:B2PlayerPlatformEvent):void
 		{
 			//jump effect
+			if (stackedLevel > 0)
+				return;
 			var normal:b2Vec2 = e.planeNormal.Copy();
 			if (normal.y > -0.5)
 				return;
@@ -472,6 +483,7 @@ package Component
 			mc.addChild(protect);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerUnProtect", onPlayerUnProtect);
 			unProtectTimeout = setTimeout(unProtectDispatchEvent, 5000);
+			GameLoopManager.Core.stage.dispatchEvent(new B2PlayerUnStackedEvent(new b2Vec2()));
 			
 			SoundManager.PlaySound("protect");
 		}
@@ -501,6 +513,19 @@ package Component
 			BlockList.splice(BlockList.indexOf(e.waterFall), 1);
 			DestroyList.push(e.waterFall);
 			e.waterFall.GetUserData().mc.addEventListener(Event.ENTER_FRAME, TweenMcAfterDestroyBody);
+		}
+		
+		private function onPlayerCatched(e:B2PlayerCatchedEvent):void
+		{
+			if (proteted)
+			{
+				GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(e.stackObject));
+				return;
+			}
+			GameLoopManager.Core.stage.dispatchEvent(new B2DestroyEvent(e.stackObject));
+			stackedLevel = e.stackLevel;
+			GameLoopManager.Core.stage.addEventListener("B2PlayerUnStack", PlayerUnStack);
+			GameLoopManager.Core.stage.addEventListener("B2PlayerUnStacked", PlyerUnStacked);
 		}
 		
 		//}

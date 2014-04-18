@@ -58,8 +58,66 @@ package Control
 			if (stopped)
 				return;
 				
+			Draw();
+			currentFrameId++;
+			if (currentFrameId >= AnimationPackage.length)
+			{
+				currentFrameId = 0;
+				stopped = !loop;
+				canvas.dispatchEvent(new Event("AnimationComplete"));
+			}
+		}
+		
+		/**
+		 * With removing the current Image from the canvas
+		 */
+		public function stop():void
+		{
+			stopped = true;
+			if (currentFrame && currentFrame.parent)
+				currentFrame.parent.removeChild(currentFrame);
+		}
+		
+		public function gotoAndPlay(id:int):void
+		{
+			stopped = false;
+			currentFrameId = id;
+		}
+		
+		public function gotoAndStop(id:int):void
+		{
+			stopped = true;
+			currentFrameId = id;
+			Draw();
+		}
+		
+		public function previousFrame():void
+		{
+			currentFrameId--;
+			trace(currentFrameId);
+			if (currentFrameId < 0)
+				currentFrameId = AnimationPackage.length - 1;
+			Draw();
+		}
+		
+		public function nextFrame():void
+		{
+			currentFrameId++;
+			if (currentFrameId >= AnimationPackage.length)
+				currentFrameId = 0;
+			Draw();
+		}
+		
+		public function play():void
+		{
+			stopped = false;
+			if(currentFrame)
+				canvas.addChild(currentFrame);
+		}
+		
+		private function Draw():void
+		{
 			var newFrame:Image = AnimationPackage[currentFrameId];
-				
 			if (alignToCenter)
 			{
 				newFrame.x = -newFrame.width / 2;
@@ -75,31 +133,6 @@ package Control
 			if (currentFrame && currentFrame.parent)
 				currentFrame.parent.removeChild(currentFrame);
 			currentFrame = newFrame;
-			currentFrameId++;
-			if (currentFrameId >= AnimationPackage.length)
-			{
-				currentFrameId = 0;
-				stopped = !loop;
-				canvas.dispatchEvent(new Event("AnimationComplete"));
-			}
-		}
-		
-		public function stop():void
-		{
-			stopped = true;
-			if (currentFrame && currentFrame.parent)
-				currentFrame.parent.removeChild(currentFrame);
-		}
-		
-		public function gotoAndPlay(id:int):void
-		{
-			stopped = false;
-			currentFrameId = id;
-		}
-		
-		public function play():void
-		{
-			stopped = false;
 		}
 	}
 }

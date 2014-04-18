@@ -99,6 +99,7 @@ package Handler
 			{
 				case "btn_back":
 					Back();
+					XMLManager.SaveConfig();
 					SoundManager.PlaySound("back");
 					break;
 				case "btn_set1":

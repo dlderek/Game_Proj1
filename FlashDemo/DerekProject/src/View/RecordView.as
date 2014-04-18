@@ -26,24 +26,31 @@ package View
 		{
 			RecordPage = new Sprite();
 			
-			var sp:Sprite = new Sprite();
-			sp.name = "backgroundPoint";
-			RecordPage.addChild(sp);
-			
-			var bm:Image = new Image( BTool.GetImage("RecordPage_element", "frame"));
+			var bm:Image = new Image(BTool.GetImage("RecordPage_element", "bg"));
+			bm.width = 600;
+			bm.height = 1000;
 			RecordPage.addChild(bm);
 			
-			var btn:Button = new Button(BTool.GetImage("RecordPage_element", "btntheme1"));
-			btn.x = 135.4; btn.y = 207.15;
-			btn.name = "btn_theme1";
+			var sp:Sprite = new Sprite();
+			sp.x = 31.3;
+			sp.y = 39.1;
+			sp.name = "ImagePoint";
+			RecordPage.addChild(sp);
+			
+			var btn:Button = new Button(BTool.GetImage("RecordPage_element", "arrowbtn_up"), "", BTool.GetImage("RecordPage_element", "arrowbtn"));
+			btn.x = 31.3; btn.y = 894;
+			btn.name = "btn_previous";
 			RecordPage.addChild(btn);
 			
-			btn = new Button(BTool.GetImage("RecordPage_element", "btntheme2"));
-			btn.x = 304.05; btn.y = 207.15;
-			btn.name = "btn_theme2";
+			btn = new Button(BTool.GetImage("RecordPage_element", "arrowbtn_up"), "", BTool.GetImage("RecordPage_element", "arrowbtn"));
+			btn.scaleX = -1;
+			btn.x = 387.3 + btn.width; btn.y = 894;
+			btn.name = "btn_next";
 			RecordPage.addChild(btn);
 			
-			btn = ToolKit.getDefaultButton("Back", "btn_back", 0, 160, 850, 1.5);
+			btn = new Button(BTool.GetImage("RecordPage_element", "backbtn_up"), "", BTool.GetImage("RecordPage_element", "backbtn"));
+			btn.x = 240.2; btn.y = 894;
+			btn.name = "btn_back";
 			RecordPage.addChild(btn);
 		}
 		

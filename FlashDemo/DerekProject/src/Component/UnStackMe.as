@@ -1,6 +1,7 @@
 package Component 
 {
 	import com.greensock.TweenLite;
+	import flash.utils.getTimer;
 	import Manager.GameLoopManager;
 	import starling.display.Image;
 	import starling.extensions.pixelmask.PixelMaskDisplayObject;
@@ -72,6 +73,7 @@ package Component
 			super.onStage(e);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerUnStack", onPlayerUnStack);
 			GameLoopManager.Core.stage.addEventListener("B2PlayerUnStacked", onPlayerUnStacked);
+			ui.addEventListener(Event.ENTER_FRAME, Vibration);
 			refreshDisplay();
 		}
 		
@@ -80,6 +82,7 @@ package Component
 			super.offStage(e);
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerUnStack", onPlayerUnStack);
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerUnStacked", onPlayerUnStacked);
+			ui.removeEventListener(Event.ENTER_FRAME, Vibration);
 		}
 		
 		private function onPlayerUnStack(e:B2PlayerUnStackEvent):void
@@ -90,7 +93,11 @@ package Component
 		
 		private function onPlayerUnStacked(e:B2PlayerUnStackedEvent):void
 		{
-			TweenLite.to(ui, 1, { alpha:0 } );
+			TweenLite.to(ui, 1, { alpha:0, onComplete:function():void
+			{
+				if (this.parent)
+					this.parent.removeChild(this);
+			}} );
 		}
 		
 		private function refreshDisplay():void
@@ -99,6 +106,11 @@ package Component
 			//up.setVertexAlpha(0, currentStackLevel / stackLevel);
 			//up.setVertexAlpha(2, currentStackLevel / stackLevel);
 			//m.x = -100 * currentStackLevel / stackLevel;
+		}
+		
+		private function Vibration(e:Event):void
+		{
+			ui.x = 15 * Math.sin(2 * Math.PI * getTimer()/250);
 		}
 	}
 }

@@ -15,12 +15,33 @@ package Manager
 	 */
 	public class SoundManager
 	{
+		public static var SoundActive:Boolean;
+		
 		private static var soundList:Dictionary = new Dictionary();
 		private static var BGM:SoundChannel = new SoundChannel();
+		private static var BGMsound:Sound;
 		private static var BGEffect:SoundChannel = new SoundChannel();
 		private static var Effect:SoundChannel = new SoundChannel();
 		
 		private static var CurrentBGMKey:String = "";
+		
+		public static function PauseBGM():void
+		{
+			if(BGM)
+				BGM.stop();
+		}
+		
+		public static function ResumeBGM():void
+		{
+			if (BGM)
+			{
+				BGM.stop();
+				BGM = null;
+			}
+			if (BGMsound)
+				if(SoundActive)
+					BGM = BGMsound.play(0, 99999);
+		}
 		
 		public static function PlaySound(id:String):void
 		{
@@ -34,7 +55,8 @@ package Manager
 			else
 			{
 				var sound:Sound = soundList[id] as Sound;
-				Effect = sound.play();
+				if(SoundActive)
+					Effect = sound.play();
 			}
 		}
 		
@@ -49,16 +71,19 @@ package Manager
 				BGM.stop();
 				BGM = null;
 			}
+			
 			if (soundList[id] == null)
 			{
 				var request:URLRequest = new URLRequest("sound/" + id + ".mp3");
-				var newSound:Sound = new Sound();
-				newSound.addEventListener(Event.COMPLETE, onBGMLoaded);
-				newSound.load(request);
+				BGMsound = new Sound();
+				BGMsound.addEventListener(Event.COMPLETE, onBGMLoaded);
+				BGMsound.load(request);
 			}
 			else
 			{
-				BGM = (soundList[id] as Sound).play(0,99999);
+				BGMsound = soundList[id];
+				if(SoundActive)
+					BGM = BGMsound.play(0, 99999);
 			}
 		}
 		
@@ -73,7 +98,8 @@ package Manager
 			}
 			else
 			{
-				BGEffect = (soundList[id] as Sound).play();
+				if(SoundActive)
+					BGEffect = (soundList[id] as Sound).play();
 			}
 		}
 		

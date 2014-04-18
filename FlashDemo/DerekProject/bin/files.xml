@@ -4,6 +4,7 @@
 <swf>Atlas</swf>
 
 <xml>character</xml>
+<xml>character2</xml>
 <xml>waterfall</xml>
 <xml>stage_bg</xml>
 <xml>StagePage_element</xml>

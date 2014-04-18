@@ -1,5 +1,6 @@
 package View 
 {
+	import Component.SoundSwitcher;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.DisplayObject;
@@ -64,17 +65,21 @@ package View
 			sp.name = "characterPoint";
 			StagePage.addChild(sp);
 			
-			btn = ToolKit.getDefaultButton("Control Setting", "btn_config", 0, 30, 720);
+			btn = ToolKit.getDefaultButton("Control Setting", "btn_config", 0, 46.95, 738.95, 1.1);
 			StagePage.addChild(btn);
 			
-			btn = ToolKit.getDefaultButton("Record", "btn_record", 0, 300, 720);
+			btn = ToolKit.getDefaultButton("How To Play", "btn_record", 0, 322.95, 738.95, 1.1);
 			StagePage.addChild(btn);
 			
-			btn = ToolKit.getDefaultButton("Exit", "btn_exit", 0, 30, 840);
+			btn = ToolKit.getDefaultButton("Exit", "btn_exit", 0, 46.95, 880.35, 1.1);
 			StagePage.addChild(btn);
 			
-			btn = ToolKit.getDefaultButton("Play", "btn_play", 0, 300, 840);
+			btn = ToolKit.getDefaultButton("Play", "btn_play", 0, 322.95, 880.35, 1.1);
 			StagePage.addChild(btn);
+			
+			var soundSwitcher:SoundSwitcher = new SoundSwitcher(BTool.GetImage("StagePage_element", "soundon"),  BTool.GetImage("StagePage_element", "soundoff"));
+			soundSwitcher.x = 444.8; soundSwitcher.y = 430.6;
+			StagePage.addChild(soundSwitcher);
 		}
 	}
 }

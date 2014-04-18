@@ -216,8 +216,8 @@
       <y>520</y>
     </collection>
     <block7>
-      <x>280</x>
-      <y>760</y>
+      <x>300</x>
+      <y>780</y>
     </block7>
     <block1>
       <x>0</x>
@@ -334,12 +334,12 @@
       <y>1220</y>
     </block6>
     <collection>
-      <x>60</x>
-      <y>1400</y>
+      <x>20</x>
+      <y>1420</y>
     </collection>
     <collection>
-      <x>0</x>
-      <y>1480</y>
+      <x>-20</x>
+      <y>1500</y>
     </collection>
     <collection>
       <x>-40</x>
@@ -566,15 +566,15 @@
       <y>600</y>
     </block1>
     <collection>
-      <x>200</x>
-      <y>500</y>
+      <x>220</x>
+      <y>480</y>
     </collection>
     <collection>
-      <x>180</x>
-      <y>580</y>
+      <x>100</x>
+      <y>480</y>
     </collection>
     <collection>
-      <x>280</x>
+      <x>320</x>
       <y>580</y>
     </collection>
     <block2>
@@ -588,15 +588,15 @@
   </group>
   <group>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>1140</y>
     </block6>
     <block6>
-      <x>0</x>
-      <y>980</y>
+      <x>-20</x>
+      <y>940</y>
     </block6>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>1300</y>
     </block6>
     <block6>
@@ -636,7 +636,7 @@
       <y>1920</y>
     </block3>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>1280</y>
     </block7>
     <block7>
@@ -801,7 +801,7 @@
     </block5>
     <block5>
       <x>360</x>
-      <y>840</y>
+      <y>880</y>
     </block5>
     <block1>
       <x>0</x>
@@ -856,15 +856,15 @@
       <y>780</y>
     </collection>
     <block6>
-      <x>0</x>
-      <y>1160</y>
+      <x>-20</x>
+      <y>1120</y>
     </block6>
     <block6>
       <x>-20</x>
       <y>1460</y>
     </block6>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>1580</y>
     </block6>
     <block1>
@@ -888,7 +888,7 @@
       <y>200</y>
     </collection>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>1300</y>
     </block6>
     <block3>
@@ -1040,7 +1040,7 @@
       <y>100</y>
     </block3>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>240</y>
     </block7>
     <block1>
@@ -1095,6 +1095,14 @@
       <x>280</x>
       <y>20</y>
     </block1>
+    <collection>
+      <x>220</x>
+      <y>540</y>
+    </collection>
+    <collection>
+      <x>220</x>
+      <y>460</y>
+    </collection>
   </group>
   <group>
     <block4>
@@ -1114,7 +1122,7 @@
       <y>1400</y>
     </block6>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>1360</y>
     </block7>
     <block6>
@@ -1122,12 +1130,12 @@
       <y>960</y>
     </block6>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>1220</y>
     </block6>
     <block7>
-      <x>280</x>
-      <y>1540</y>
+      <x>300</x>
+      <y>1580</y>
     </block7>
     <block7>
       <x>320</x>
@@ -1434,32 +1442,32 @@
       <y>280</y>
     </block7>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>600</y>
     </block7>
     <block7>
-      <x>300</x>
-      <y>780</y>
+      <x>280</x>
+      <y>760</y>
     </block7>
     <block7>
-      <x>260</x>
-      <y>940</y>
+      <x>280</x>
+      <y>960</y>
     </block7>
     <block2>
       <x>0</x>
       <y>0</y>
     </block2>
     <collection>
-      <x>340</x>
-      <y>1600</y>
+      <x>400</x>
+      <y>1580</y>
     </collection>
     <collection>
-      <x>260</x>
-      <y>1700</y>
+      <x>400</x>
+      <y>1660</y>
     </collection>
     <collection>
-      <x>180</x>
-      <y>1800</y>
+      <x>400</x>
+      <y>1760</y>
     </collection>
   </group>
   <group>
@@ -1520,7 +1528,7 @@
       <y>720</y>
     </block6>
     <block7>
-      <x>260</x>
+      <x>280</x>
       <y>0</y>
     </block7>
     <block1>
@@ -1551,6 +1559,10 @@
       <x>0</x>
       <y>1780</y>
     </block6>
+    <collection>
+      <x>0</x>
+      <y>0</y>
+    </collection>
   </group>
   <group>
     <block5>
@@ -1566,7 +1578,7 @@
       <y>1280</y>
     </block2>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>360</y>
     </block6>
     <block7>
@@ -1595,7 +1607,7 @@
     </block1>
     <block7>
       <x>280</x>
-      <y>580</y>
+      <y>600</y>
     </block7>
     <block1>
       <x>0</x>
@@ -1936,7 +1948,7 @@
       <y>1620</y>
     </block2>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>840</y>
     </block7>
     <block5>
@@ -1988,7 +2000,7 @@
       <y>360</y>
     </collection>
     <collection>
-      <x>400</x>
+      <x>380</x>
       <y>1260</y>
     </collection>
     <collection>
@@ -1996,8 +2008,8 @@
       <y>1200</y>
     </collection>
     <block7>
-      <x>280</x>
-      <y>1000</y>
+      <x>300</x>
+      <y>1020</y>
     </block7>
     <block1>
       <x>80</x>
@@ -2066,19 +2078,19 @@
       <y>1920</y>
     </block1>
     <collection>
-      <x>160</x>
+      <x>200</x>
       <y>20</y>
     </collection>
     <collection>
-      <x>180</x>
+      <x>200</x>
       <y>320</y>
     </collection>
     <collection>
-      <x>180</x>
+      <x>200</x>
       <y>200</y>
     </collection>
     <collection>
-      <x>160</x>
+      <x>200</x>
       <y>100</y>
     </collection>
     <collection>
@@ -2094,7 +2106,7 @@
       <y>620</y>
     </collection>
     <collection>
-      <x>220</x>
+      <x>200</x>
       <y>720</y>
     </collection>
     <block1>
@@ -2110,7 +2122,7 @@
       <y>1520</y>
     </block5>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>1620</y>
     </block7>
     <block7>
@@ -2274,7 +2286,7 @@
       <y>1960</y>
     </block3>
     <block7>
-      <x>260</x>
+      <x>280</x>
       <y>1240</y>
     </block7>
     <block3>
@@ -2306,11 +2318,11 @@
       <y>680</y>
     </collection>
     <collection>
-      <x>-60</x>
+      <x>-40</x>
       <y>1220</y>
     </collection>
     <block7>
-      <x>260</x>
+      <x>280</x>
       <y>-100</y>
     </block7>
     <collection>
@@ -2592,7 +2604,7 @@
       <y>1500</y>
     </block2>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>-20</y>
     </block7>
     <block6>
@@ -2644,8 +2656,8 @@
       <y>1100</y>
     </block6>
     <block7>
-      <x>280</x>
-      <y>1460</y>
+      <x>300</x>
+      <y>1440</y>
     </block7>
     <block1>
       <x>0</x>
@@ -2669,7 +2681,7 @@
     </block7>
     <collection>
       <x>0</x>
-      <y>1600</y>
+      <y>1620</y>
     </collection>
     <collection>
       <x>120</x>
@@ -2677,7 +2689,7 @@
     </collection>
     <collection>
       <x>240</x>
-      <y>1640</y>
+      <y>1620</y>
     </collection>
   </group>
   <group>
@@ -2840,7 +2852,7 @@
       <y>1320</y>
     </block6>
     <block7>
-      <x>260</x>
+      <x>280</x>
       <y>1520</y>
     </block7>
     <block1>
@@ -2970,7 +2982,7 @@
       <y>20</y>
     </block6>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>120</y>
     </block6>
     <collection>
@@ -3056,7 +3068,7 @@
       <y>-20</y>
     </block3>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>500</y>
     </block6>
     <block7>
@@ -3107,6 +3119,10 @@
       <x>80</x>
       <y>1460</y>
     </block1>
+    <collection>
+      <x>120</x>
+      <y>1700</y>
+    </collection>
   </group>
   <group>
     <block5>
@@ -3130,7 +3146,7 @@
       <y>500</y>
     </block5>
     <block7>
-      <x>260</x>
+      <x>280</x>
       <y>140</y>
     </block7>
     <block3>
@@ -3224,7 +3240,7 @@
       <y>0</y>
     </block2>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>440</y>
     </block6>
     <block6>
@@ -3294,8 +3310,8 @@
       <y>-280</y>
     </block6>
     <block7>
-      <x>200</x>
-      <y>-280</y>
+      <x>300</x>
+      <y>-160</y>
     </block7>
     <block6>
       <x>-60</x>
@@ -3303,23 +3319,23 @@
     </block6>
     <block7>
       <x>300</x>
-      <y>-80</y>
+      <y>180</y>
     </block7>
     <block6>
-      <x>-140</x>
-      <y>80</y>
+      <x>-80</x>
+      <y>60</y>
     </block6>
     <block7>
       <x>340</x>
       <y>80</y>
     </block7>
     <block6>
-      <x>0</x>
-      <y>100</y>
+      <x>-40</x>
+      <y>160</y>
     </block6>
     <block7>
-      <x>260</x>
-      <y>120</y>
+      <x>320</x>
+      <y>-60</y>
     </block7>
     <block6>
       <x>-20</x>
@@ -3478,8 +3494,8 @@
   </group>
   <group>
     <block6>
-      <x>0</x>
-      <y>1060</y>
+      <x>-20</x>
+      <y>1080</y>
     </block6>
     <block5>
       <x>380</x>
@@ -3632,7 +3648,7 @@
       <y>0</y>
     </block1>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>1280</y>
     </block6>
     <block2>
@@ -3662,8 +3678,8 @@
       <y>1280</y>
     </block2>
     <block7>
-      <x>260</x>
-      <y>820</y>
+      <x>280</x>
+      <y>840</y>
     </block7>
     <block3>
       <x>0</x>
@@ -3722,7 +3738,7 @@
       <y>1480</y>
     </block1>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>800</y>
     </block6>
     <block6>
@@ -3746,7 +3762,7 @@
       <y>520</y>
     </collection>
     <collection>
-      <x>-60</x>
+      <x>-40</x>
       <y>440</y>
     </collection>
     <block1>
@@ -3761,6 +3777,10 @@
       <x>0</x>
       <y>1700</y>
     </block4>
+    <collection>
+      <x>0</x>
+      <y>240</y>
+    </collection>
   </group>
   <group>
     <block5>
@@ -3784,7 +3804,7 @@
       <y>180</y>
     </block6>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>260</y>
     </block7>
     <block7>
@@ -3883,6 +3903,10 @@
       <x>-80</x>
       <y>160</y>
     </block1>
+    <collection>
+      <x>-40</x>
+      <y>1020</y>
+    </collection>
   </group>
   <group>
     <block6>
@@ -3946,7 +3970,7 @@
       <y>300</y>
     </block3>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>500</y>
     </block7>
     <block1>
@@ -3973,6 +3997,14 @@
       <x>300</x>
       <y>1680</y>
     </block7>
+    <collection>
+      <x>400</x>
+      <y>840</y>
+    </collection>
+    <collection>
+      <x>400</x>
+      <y>920</y>
+    </collection>
   </group>
   <group>
     <block1>
@@ -4146,8 +4178,8 @@
       <y>-20</y>
     </block7>
     <collection>
-      <x>0</x>
-      <y>320</y>
+      <x>-40</x>
+      <y>360</y>
     </collection>
     <collection>
       <x>-20</x>
@@ -4200,7 +4232,7 @@
       <y>160</y>
     </block7>
     <block6>
-      <x>0</x>
+      <x>-20</x>
       <y>680</y>
     </block6>
     <block5>
@@ -4227,12 +4259,8 @@
       <x>340</x>
       <y>1160</y>
     </block3>
-    <block2>
-      <x>320</x>
-      <y>1320</y>
-    </block2>
     <block7>
-      <x>260</x>
+      <x>280</x>
       <y>1340</y>
     </block7>
     <block6>
@@ -4248,7 +4276,7 @@
       <y>1540</y>
     </block6>
     <block7>
-      <x>280</x>
+      <x>300</x>
       <y>1640</y>
     </block7>
     <block3>
@@ -4271,5 +4299,13 @@
       <x>0</x>
       <y>400</y>
     </collection>
+    <collection>
+      <x>80</x>
+      <y>180</y>
+    </collection>
+    <block1>
+      <x>340</x>
+      <y>1300</y>
+    </block1>
   </group>
 </data>

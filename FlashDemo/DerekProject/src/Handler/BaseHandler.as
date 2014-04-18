@@ -32,17 +32,23 @@ package Handler
 		protected function addChildAt(child:DisplayObject, layer:int = 1):void
 		{
 			child.alpha = 0;
+			child.touchable = false;
 			GameMain.layers[layer].addChild(child as DisplayObject);
-			TweenLite.to(child, 1, {alpha:1})
+			TweenLite.to(child, 1, { alpha:1, onComplete:function():void
+			{
+				child.touchable = true;
+			}})
 		}
 		
 		protected function removeChild(child:DisplayObject):void
 		{
+			child.touchable = false;
 			TweenLite.to(child, 1, { alpha:0, onComplete:function():void
 			{
 				TweenLite.killTweensOf(child);
 				if (child.parent)
 					child.parent.removeChild(child as DisplayObject);
+				child.touchable = true;
 			}})
 		}
 	}

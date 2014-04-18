@@ -1,5 +1,6 @@
 package Handler 
 {
+	import Control.AnimationPlayer;
 	import starling.display.Button;
 	import starling.display.DisplayObject;
 	import starling.display.Sprite;
@@ -12,6 +13,7 @@ package Handler
 	import starling.events.TouchPhase;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
+	import Utils.BTool;
 	//import flash.events.MouseEvent;
 	import Utils.ToolKit;
 	import View.RecordView;
@@ -26,6 +28,8 @@ package Handler
 	{
 		private var view:RecordView;
 		private var RecordPage:Sprite;
+		private var ImagePoint:Sprite;
+		private var TutorAnimator:AnimationPlayer;
 		
 		public function RecordHandler(GameMain:GameLoopManager) 
 		{
@@ -57,6 +61,9 @@ package Handler
 		{
 			view = new RecordView();
 			RecordPage = view.RecordPage;
+			ImagePoint = RecordPage.getChildByName("ImagePoint") as Sprite;
+			TutorAnimator = new AnimationPlayer(ImagePoint, BTool.GetImagePackage("RecordPage_element", "tutor"), 1, true, false);
+			TutorAnimator.gotoAndStop(0);
 		}
 		
 		private function ShowUp():void
@@ -64,8 +71,6 @@ package Handler
 			GameStateManager.CurrentPage = "Record";
 			addChildAt(RecordPage, LayerList.UI);
 			Event(true);
-			//SoundManager.PlayBGM("bg");
-			FacebookMobile.init(ToolKit.APP_ID, onFacebookInit, null );
 		}
 		
 		private function HideOut():void
@@ -104,11 +109,13 @@ package Handler
 					Back();
 					SoundManager.PlaySound("back");
 					break;
-				case "btn_theme1":
+				case "btn_next":
 					SoundManager.PlaySound("ok");
+					TutorAnimator.nextFrame();
 					break;
-				case "btn_theme2":
+				case "btn_previous":
 					SoundManager.PlaySound("ok");
+					TutorAnimator.previousFrame();
 					break;
 			}
 		}
@@ -116,62 +123,6 @@ package Handler
 		private function Back():void
 		{
 			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
-		}
-		
-		
-		private function onFacebookInit(response:Object, fail:Object):void
-		{
-			trace("onFacebookInit", response, fail);
-			if (response)
-				getScoreList();
-            else
-                loginUser();
-		}
-		
-		private function loginUser():void 
-		{
-			var FacebookView:StageWebView
-			FacebookView = new StageWebView();
-			FacebookView.stage = Main.fstage;
-			FacebookView.viewPort = new Rectangle(0,0,600, 1000);
-            FacebookMobile.login(loginHandler, Main.fstage, ["publish_actions"], FacebookView);
-        }
-		
-		private function loginHandler(result:Object, fail:Object):void
-		{
-		  if (result)
-		  {
-			getScoreList();
-		  }else {
-			trace("Login Fail");
-		  }
-		}
-		
-		private function getScoreList():void
-		{
-			FacebookMobile.api("/app/scores?limit=3", onGetScoreList);
-			//FacebookMobile.fqlQuery("",onGetFriendList);
-		}
-		
-		private function onGetScoreList(response:Object, fail:Object):void
-		{
-			if (response)
-			{
-				
-			}
-			else
-			{
-				
-			}
-		}
-		
-		private function DisplayScore(list:Array):void
-		{
-			for (var i:int = 0 ; i < list.length; i++)
-			{
-				var score:Number = list[i].score;
-				var name:String = list[i].user.name;
-			}
 		}
 	}
 }

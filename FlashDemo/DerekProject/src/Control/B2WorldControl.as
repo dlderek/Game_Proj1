@@ -6,6 +6,7 @@ package Control
 	import Component.B2World;
 	import Component.Block.BaseBlock;
 	import Component.Bubble;
+	import Component.Character;
 	import Component.Leave;
 	import Component.Spot;
 	import Component.Star;
@@ -13,6 +14,7 @@ package Control
 	import Enum.LayerList;
 	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import flash.events.TimerEvent;
@@ -23,7 +25,9 @@ package Control
 	import flash.utils.Timer;
 	import Manager.GameLoopManager;
 	import Manager.SoundManager;
+	import Utils.B2PlayerCatchedEvent;
 	import Utils.B2PlayerStackEvent;
+	import Utils.B2PlayerUnStackedEvent;
 	import Utils.PlayerCollectionEvent;
 	import Utils.PlayerCollideEvent;
 	/**
@@ -33,11 +37,11 @@ package Control
 	public class B2WorldControl extends BaseComponentControl
 	{
 		public var world:B2World;
-		private var unStackMe:UnStackMe;
-		private var unStackMe2:UnStackMe;
 		private var BlockGenerator:B2WordBlockGenerateControl;
 		public var CurrentScore:Number = 0;
 		public var CurrentCollection:int = 0;
+		
+		private var catchedImage:Image;
 		
 		private static var star:Star;
 		private static var leave:Leave;
@@ -47,25 +51,18 @@ package Control
 		public function B2WorldControl(_origin:DisplayObject) 
 		{
 			super(_origin);
-			//world = new B2World();
-			//(ui as DisplayObjectContainer).addChild(world);
-			//BlockGenerator = new B2WordBlockGenerateControl(world);
 			star = new Star();
 			leave = new Leave();
 			bubble = new Bubble();
 			spot = new Spot();
-			
-			unStackMe = new UnStackMe();
-			unStackMe2 = new UnStackMe();
 		}
 		
 		protected override function onStage(e:Event):void
 		{
 			super.onStage(e);
-			//world.StartGame();
-			//BlockGenerator.start();
 			GameLoopManager.Core.stage.addEventListener("B2PlayerStack", onPlayerStack);
-			//GameLoopManager.Core.stage.addEventListener("PlayerDie", onPlayerDie);
+			GameLoopManager.Core.stage.addEventListener("B2PlayerUnStacked", onPlayerUnstacked);
+			GameLoopManager.Core.stage.addEventListener("B2PlayerCatched", onPlayerCatched);
 			GameLoopManager.Core.stage.addEventListener("PlayerCollide", onPlayerCollide);
 			GameLoopManager.Core.stage.addEventListener("PlayerCollection", onPlayerCollection);
 		}
@@ -73,7 +70,8 @@ package Control
 		{
 			super.offStage(e);
 			GameLoopManager.Core.stage.removeEventListener("B2PlayerStack", onPlayerStack);
-			//GameLoopManager.Core.stage.removeEventListener("PlayerDie", onPlayerDie);
+			GameLoopManager.Core.stage.removeEventListener("B2PlayerUnStacked", onPlayerUnstacked);
+			GameLoopManager.Core.stage.removeEventListener("B2PlayerCatched", onPlayerCatched);
 			GameLoopManager.Core.stage.removeEventListener("PlayerCollide", onPlayerCollide);
 			GameLoopManager.Core.stage.removeEventListener("PlayerCollection", onPlayerCollection);
 		}
@@ -93,15 +91,12 @@ package Control
 		
 		private function onPlayerStack(e:B2PlayerStackEvent):void
 		{
-			if (world.proteted)
+			if (world.proteted || world.stackedLevel > 0)
 				return;
 				
-			if (unStackMe && unStackMe2 && unStackMe.parent && unStackMe2.parent)
-			{
-				unStackMe.parent.removeChild(unStackMe);
-				unStackMe2.parent.removeChild(unStackMe2);
-			}
 			var targetMC:BaseBlock = e.stackObject.GetUserData().mc;
+			var unStackMe:UnStackMe = new UnStackMe();
+			var unStackMe2:UnStackMe = new UnStackMe();
 			unStackMe.StackLevel = e.stackLevel;
 			unStackMe2.StackLevel = e.stackLevel;
 			unStackMe.alpha = 0.7;
@@ -115,23 +110,45 @@ package Control
 			bubble.x = e.playerPoint.x;
 			bubble.y = e.playerPoint.y;
 			bubble.start();
-			//GameLoopManager.Core.layers[LayerList.Popup].addChild(unStackMe);
 		}
 		
-		//private function onPlayerDie(e:Event):void
-		//{
-			//setTimeout(function():void
-			//{
-				//if (world.parent)
-					//world.parent.removeChild(world);
-			//},500);
-		//}
+		private function onPlayerCatched(e:B2PlayerCatchedEvent):void
+		{
+			if (world.proteted)
+				return;
+				
+			if (catchedImage && catchedImage.parent)
+				catchedImage.parent.removeChild(catchedImage);
+				
+			
+			var playerMC:Character = world.player.GetUserData().mc;
+			var unStackMe:UnStackMe = new UnStackMe();
+			var unStackMe2:UnStackMe = new UnStackMe();
+			unStackMe.StackLevel = e.stackLevel;
+			unStackMe2.StackLevel = e.stackLevel;
+			unStackMe.alpha = 0.7;
+			unStackMe2.alpha = 0.7;
+			unStackMe.x = 5;
+			unStackMe2.x = -5;
+			unStackMe.scaleX = -1;
+			playerMC.addChild(unStackMe);
+			playerMC.addChild(unStackMe2);
+			catchedImage = e.stackObject.GetUserData().mc.ui;
+			catchedImage.x = -catchedImage.width / 2;
+			catchedImage.y = catchedImage.height * 2 / 3;
+			catchedImage.scaleY = -1;
+			
+			playerMC.addChild(catchedImage);
+		}
+		
+		private function onPlayerUnstacked(e:B2PlayerUnStackedEvent):void
+		{
+			if (catchedImage && catchedImage.parent)
+				catchedImage.parent.removeChild(catchedImage);
+		}
 		
 		private function onPlayerCollide(e:PlayerCollideEvent):void
 		{
-			//if (e.speed < 2.5)
-				//return;
-			
 			
 			var objType:BaseBlock = e.obj.GetUserData().mc;
 			if(objType.playerAction == BaseBlock.ACTION_PAUSE && objType.mode == 0) //Bamboo

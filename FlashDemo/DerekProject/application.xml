@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/3.9">
-  <id>air.DerekProject</id>
+  <id>air.PandaRoll</id>
   <versionNumber>0.1</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
-  <filename>DerekProject</filename>
-  <name>DerekProject</name>
+  <filename>PandaRoll</filename>
+  <name>PandaRoll</name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="8" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch" />
 </manifest>]]></manifestAdditions>
   </android>
@@ -61,10 +62,11 @@
   <allowBrowserInvocation>true</allowBrowserInvocation>
   <customUpdateUI>true</customUpdateUI>
   <icon>
-    <image48x48>icons/DerekProject48.png</image48x48>
-    <image57x57>icons/DerekProject57.png</image57x57>
-    <image72x72>icons/DerekProject72.png</image72x72>
-    <image114x114>icons/DerekProject114.png</image114x114>
-    <image512x512>icons/DerekProject512.png</image512x512>
+    <image32x32>icons/32.png</image32x32>
+    <image48x48>icons/48.png</image48x48>
+    <image57x57>icons/57.png</image57x57>
+    <image72x72>icons/72.png</image72x72>
+    <image114x114>icons/114.png</image114x114>
+    <image512x512>icons/512.png</image512x512>
   </icon>
 </application>

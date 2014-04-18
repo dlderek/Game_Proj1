@@ -23,40 +23,49 @@ package Component
 	{
 		private var ui:Sprite;
 		private static var flyingAnim:Vector.<Texture>;
+		private static var collideAnim:Vector.<Texture>;
 		
 		private var flyingAnimPlayer:AnimationPlayer;
+		private var collideAnimPlayer:AnimationPlayer;
 		
 		public function Character() 
 		{
 			ui = new Sprite();
 			if (!flyingAnim)
 				flyingAnim = BTool.GetImagePackage("character", "flying");
+			if (!collideAnim)
+				collideAnim = BTool.GetImagePackage("character2", "collision");
+			
 			flyingAnimPlayer = new AnimationPlayer(ui, BTool.CloneBitmaps(flyingAnim), 30, true);
+			collideAnimPlayer = new AnimationPlayer(ui, BTool.CloneBitmaps(collideAnim), 60, true);
+			collideAnimPlayer.stop();
 			super(ui);
 		}
 		
 		protected override function onStage(e:Event):void
 		{
 			super.onStage(e);
-			GameLoopManager.Core.stage.addEventListener("B2PlayerStack", onPlayerStack);
-			GameLoopManager.Core.stage.addEventListener("B2PlayerUnStacked", onPlayerUnStacked);
+			GameLoopManager.Core.stage.addEventListener("PlayerCollide", onPlayerCollide);
 		}
 		protected override function offStage(e:Event):void
 		{
 			super.offStage(e);
-			GameLoopManager.Core.stage.removeEventListener("B2PlayerStack", onPlayerStack);
-			GameLoopManager.Core.stage.removeEventListener("B2PlayerUnStacked", onPlayerUnStacked);
+			GameLoopManager.Core.stage.removeEventListener("PlayerCollide", onPlayerCollide);
+			ui.removeEventListener("AnimationComplete", resetAnimation);
 		}
 		
 		
-		private function onPlayerStack(e:B2PlayerStackEvent):void
+		private function onPlayerCollide(e:PlayerCollideEvent):void
 		{
-			//var panda:MovieClip = ui["ui"];
+			collideAnimPlayer.play();
+			flyingAnimPlayer.stop();
+			ui.addEventListener("AnimationComplete", resetAnimation);
 		}
 		
-		private function onPlayerUnStacked(e:B2PlayerUnStackedEvent):void
+		private function resetAnimation(e:Event):void
 		{
-			//var panda:MovieClip = ui["ui"];
+			flyingAnimPlayer.play();
+			collideAnimPlayer.stop();
 		}
 	}
 }

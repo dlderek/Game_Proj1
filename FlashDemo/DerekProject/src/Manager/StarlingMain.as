@@ -14,6 +14,8 @@ package Manager
 	import flash.ui.MultitouchInputMode;
 	import starling.textures.Texture;
 	
+	
+	
 	/**
 	 * ...
 	 * @author JL
@@ -33,6 +35,6 @@ package Manager
 			new GameLoopManager(this);
 		}
 		
+		
 	}
-	
 }

@@ -2,6 +2,9 @@ package Manager
 {
 	import Enum.CmdList;
 	import Enum.LayerList;
+	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
 	import flash.system.Capabilities;
 	import flash.utils.setTimeout;
 	import starling.core.StatsDisplay;
@@ -13,6 +16,7 @@ package Manager
 	import starling.display.Stage;
 	import starling.events.Event;
 	import flash.system.System;
+	import Utils.TextTool;
 	//import flash.text.Font;
 	//import flash.text.FontStyle;
 	import starling.text.TextField;
@@ -30,9 +34,11 @@ package Manager
 	public class GameLoopManager 
 	{
 		public static var Core:GameLoopManager;
+		private var loadLocalConfig:Boolean;
 		public var stage:Sprite;
 		public var layers:Vector.<Sprite>;
 		private var HandlerList:Vector.<BaseHandler>;
+		private var traceMsg:TextField;
 		
 		public function GameLoopManager(stage:Sprite) 
 		{
@@ -50,21 +56,35 @@ package Manager
 			new StageHandler(this), 
 			new GameOverHandler(this),
 			new RecordHandler(this),
-			new SettingHandler(this)
+			new SettingHandler(this),
+			new MasterControlHandler(this)
 			);
 		}
 		
 		private function InitXML():void
 		{
 			LoadingManager.Init();
-			LoadingManager.load("config.xml", "files.xml", "ObstacleGroup.xml", "ObstacleGroup2.xml");
+			
+			//check local config setting
+			var config:File = File.applicationStorageDirectory.resolvePath("config.xml");
+			trace("Search local Config at Path:", config.nativePath);
+			trace("local Config Exists", config.exists);
+			if(!config.exists)
+				config = File.applicationDirectory.resolvePath("config.xml");
+			var fs:FileStream = new FileStream();
+			fs.open(config, FileMode.READ);
+			XMLManager.config = XML(fs.readUTFBytes(fs.bytesAvailable));
+			SoundManager.SoundActive = XMLManager.config["music"]=="on";
+			
+			
+			LoadingManager.load("files.xml", "ObstacleGroup.xml", "ObstacleGroup2.xml");
 			stage.addEventListener("LoadingComplete", XMLLoaded);
 		}
 
 		private function XMLLoaded(e:Event):void
 		{
 			e.target.removeEventListener(e.type, arguments.callee);
-			XMLManager.config = LoadingManager.getXML("config.xml");
+			//XMLManager.config = LoadingManager.getXML(loadLocalConfig?File.applicationStorageDirectory.resolvePath("config.xml").nativePath:"config.xml");
 			XMLManager.files = LoadingManager.getXML("files.xml");
 			XMLManager.ObstacleGroup = LoadingManager.getXML("ObstacleGroup.xml");
 			XMLManager.ObstacleGroup2 = LoadingManager.getXML("ObstacleGroup2.xml");
@@ -107,13 +127,19 @@ package Manager
 				layers.push(layer);
 				stage.addChild(layer);
 			}
+			traceMsg = TextTool.DefaultTextfield(300, 200, 15, 0xFF0000);
+			traceMsg.touchable = false;
+			layers[LayerList.Top].addChild(traceMsg);
 			
 			ConstructHandler();
 			addTask( { cmd:CmdList.CMD_INIT_HANDLER } );
 			//setInterval(gc, 10000);
 			//stage.addEventListener(Event.ENTER_FRAME, UselessLoop);
 			Main.removeLoadingImage();
-			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
+			if(loadLocalConfig)
+				addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
+			else
+				addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Record" } );
 		}
 		
 		
@@ -137,6 +163,11 @@ package Manager
 				//var bm:Bitmap = new Bitmap(bmd, "always", true);
 			//}
 		//}
+		
+		public function TraceMsg(msg:String):void
+		{
+			traceMsg.text = msg;
+		}
 		
 		public function gc():Boolean
 		{

@@ -6,6 +6,7 @@ package Manager
 	import br.com.stimuli.loading.loadingtypes.LoadingItem;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.events.ErrorEvent;
 	import starling.display.Image;
 	import starling.textures.Texture;
 	import starling.display.DisplayObject; 
@@ -34,13 +35,20 @@ package Manager
 			for each(var path:String in paths)
 				loader.add(path);
 			loader.addEventListener(BulkLoader.COMPLETE, loaded);
+			loader.addEventListener(BulkLoader.ERROR, onError);
 			loader.start();
+		}
+		
+		private static function onError(e:ErrorEvent):void
+		{
+			GameLoopManager.Core.TraceMsg(e.text);
 		}
 		
 		private static function loaded(e:BulkProgressEvent):void
 		{
 			var worker:BulkLoader = (e.target as BulkLoader);
 			worker.removeEventListener(e.type, arguments.callee);
+			worker.removeEventListener(BulkLoader.ERROR, onError);
 			GameLoopManager.Core.stage.dispatchEvent(new Event("LoadingComplete"));
 		}
 		

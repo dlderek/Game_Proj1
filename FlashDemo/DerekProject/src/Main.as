@@ -58,6 +58,8 @@ package
 			Multitouch.inputMode = MultitouchInputMode.GESTURE;
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoader);
 			loader.load(new URLRequest("atlas/home.png"));
+			fstage.addEventListener(Event.ACTIVATE, onAppActivated);
+            fstage.addEventListener(Event.DEACTIVATE, onAppDeactivated);
 		}
 		
 		private function onLoader(e:Event):void
@@ -74,7 +76,7 @@ package
 			if(onDevice)
 				Starling.handleLostContext = true;
 			intilStarling = new Starling(StarlingMain, stage);
-			intilStarling.showStats = true;
+			//intilStarling.showStats = true;
 			intilStarling.antiAliasing = 1;
 			intilStarling.start();
 
@@ -98,6 +100,16 @@ package
 				if (loadingImage.parent)
 					loadingImage.parent.removeChild(loadingImage);
 			}})
+		}
+		
+		private function onAppActivated(e:Event):void
+		{
+			SoundManager.ResumeBGM();
+		}
+		
+		private function onAppDeactivated(e:Event):void
+		{
+			SoundManager.PauseBGM();
 		}
 	}
 }

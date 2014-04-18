@@ -52,27 +52,22 @@ package Control
 		{
 			GameLoopManager.Core.stage.removeEventListener("B2Destroy", DestroyBlock);
 			e.target.removeEventListener(e.type, arguments.callee);
-			//world.addEventListener(Event.ADDED_TO_STAGE, onStage);
-			//clearInterval(fixBlockGeneratorInterval);
 			GameLoopManager.Core.stage.removeEventListener("B2NewBlockGroup", GenerateBlocks);
 		}
 		
 		public function start():void
 		{
-			draw_box(-20,1000,20,2000,"left");
-            draw_box(560,1000,20,2000,"right");
+			draw_box(-20,1000,20,2200,"left");
+            draw_box(560,1000,20,2200,"right");
             draw_box(270, 20, 540, 10, "ceiling");
-			//draw_box(270,2500,540,200,"ground");
-			//trace(GameStateManager.CurrentStage);
 			GroupCreateId = Math.floor(Math.random() * ObstacleGroupManager.ObstacleGroup.length);
-			//fixBlockGeneratorInterval = setInterval(GenerateBlock, 550);
 			GameLoopManager.Core.stage.addEventListener("B2NewBlockGroup", GenerateBlocks);
 			GameLoopManager.Core.stage.addEventListener("B2Destroy", DestroyBlock);
 			GenerateBlocks(null);
 		}
 		
 		private function GenerateBlocks(e:B2NewBlockGroupEvent):void
-		{
+		{ 
 			var BlockGroup:Array = RandomBlockGroup();
 			var LastBlock:BaseBlock;
 			
@@ -90,12 +85,19 @@ package Control
 					LastBlock = block;
 				if (WorldCreateId > 999)
 					WorldCreateId = 0;
-				//block.alpha = 0.5;
-				draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, b2Body.b2_kinematicBody, blockObj.fixture );
+				draw_Obstacle(block.InitX, block.InitY, block.PhysicsKey, "block" + WorldCreateId, block, b2Body.b2_kinematicBody );
 				WorldCreateId++;
 			}
 			LastBlock.addEventListener(Event.ENTER_FRAME, onLastBlockRemoved);
 			LastBlock.addEventListener(Event.REMOVED_FROM_STAGE, onLastBlockRemoved);	
+			
+			if (GameStateManager.CurrentStage == 1)
+			{
+				if (Math.random() > 0.1)
+				{
+					RandomFlower();
+				}
+			}
 		}
 		
 		private function onLastBlockRemoved(e:Event):void
@@ -122,8 +124,6 @@ package Control
 			if(mc.parent)
 				mc.parent.removeChild(mc)
 			world.BlockList.splice(world.BlockList.indexOf(target),1);
-			//delete world.BlockList[name];
-			//trace("Destroy " + name);
 			world.DestroyList.push(target);
 		}
 		
@@ -145,14 +145,26 @@ package Control
 			world_body.SetFixedRotation(true);
         }
 		
-		private function draw_Obstacle(px:Number,py:Number, PhysicsKey:String, name:String, mc:DisplayObject , type:uint = 1, fixtureCollection:Vector.<b2FixtureDef> = null):void
+		private function RandomFlower():void
+		{
+			var flower:BaseBlock;
+			var BlockClass:Class = getDefinitionByName("Component.Block.Block" + Math.floor(13 + Math.random() * 3))  as Class;
+			flower = new BlockClass();
+			flower.InitX = 50 + Math.random() * 440;
+			flower.InitY = -50;
+			if (WorldCreateId > 999)
+				WorldCreateId = 0;
+			draw_Obstacle(flower.InitX, flower.InitY, flower.PhysicsKey, "block" + WorldCreateId, flower, b2Body.b2_kinematicBody);
+			WorldCreateId++;
+		}
+		
+		private function draw_Obstacle(px:Number,py:Number, PhysicsKey:String, name:String, mc:DisplayObject , type:uint = 1):void
 		{
 			if (mc == null)
 				return;
 			var world_body:b2Body;
 			world_body = physicsData.createBody(PhysicsKey, world.world, type, { name:name, mc:mc, active:true } );
 			world_body.SetPosition(new b2Vec2(px / world.world_scale, py / world.world_scale));
-			//world_body.SetFixedRotation(true);
 			mc.x = px;
 			mc.y = py;
 			world.addChild(mc);
@@ -162,14 +174,10 @@ package Control
 		private function RandomBlockGroup():Array
 		{
 			var Group:Array = ObstacleGroupManager.ObstacleGroupX[GroupCreateId];
-			//trace("Group : " + GroupCreateId);
 			GroupCreateId++;
 			if (GroupCreateId >= ObstacleGroupManager.ObstacleGroupX.length)
 				GroupCreateId = 0;
 			return Group;
-			//var totalNum:int = ObstacleGroupManager.ObstacleGroup.length;
-			//var randNum:int = Math.ceil(Math.random() * totalNum) - 1;
-			//return ObstacleGroupManager.ObstacleGroup[randNum];
 		}
 	}
 }

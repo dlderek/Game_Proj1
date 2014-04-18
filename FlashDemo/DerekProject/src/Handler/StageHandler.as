@@ -2,6 +2,7 @@ package Handler
 {
 	import com.greensock.TweenLite;
 	import Component.Character;
+	import Manager.XMLManager;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.DisplayObject;
@@ -18,6 +19,7 @@ package Handler
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import starling.filters.BlurFilter;
 	//import flash.events.MouseEvent;
 	import Utils.BTool;
 	import View.StageView;
@@ -129,14 +131,22 @@ package Handler
 		{
 			var touch:Touch = e.getTouch(StagePage); 
 			if (!touch)
+			{
 				return;
+			}
 			if (touch.phase != TouchPhase.ENDED)
 				return;
 			try{
 				if (!((e.target as DisplayObject).parent.parent is Button))
+				{
 					return;
-			}catch(e:Error){return}
+				}
+			}catch (e:Error) {
+				trace(e.message);
+				return
+				}
 			var Target:String = ((e.target as DisplayObject).parent.parent as Button).name;
+			trace(Target);
 			switch(Target)
 			{
 				case "btn_stage1":
@@ -206,6 +216,7 @@ package Handler
 		
 		private function Exit():void
 		{
+			XMLManager.SaveConfig();
 			NativeApplication.nativeApplication.exit();
 		}
 		
@@ -213,7 +224,7 @@ package Handler
 		{
 			var dx:Number = character.x -( 100 + (CurrentSelectedStage -1) * 200);
 			character.x -= dx / 20;
-			character.rotation -= 0.05 + 0.05 * Math.abs(dx) / 30;
+			character.rotation -= 0.1 * Math.abs(dx) / 30;
 			if (character.rotation < -360)
 				character.rotation = 0;
 		}

@@ -189,11 +189,11 @@
     </collection>
     <collection>
       <x>0</x>
-      <y>0</y>
+      <y>20</y>
     </collection>
     <collection>
       <x>0</x>
-      <y>60</y>
+      <y>80</y>
     </collection>
     <collection>
       <x>0</x>
@@ -779,17 +779,9 @@
       <x>0</x>
       <y>960</y>
     </block11>
-    <block11>
-      <x>200</x>
-      <y>1860</y>
-    </block11>
     <block9>
       <x>40</x>
       <y>1200</y>
-    </block9>
-    <block9>
-      <x>220</x>
-      <y>1340</y>
     </block9>
     <block9>
       <x>400</x>
@@ -807,6 +799,14 @@
       <x>240</x>
       <y>740</y>
     </collection>
+    <block16>
+      <x>160</x>
+      <y>1300</y>
+    </block16>
+    <block10>
+      <x>340</x>
+      <y>1880</y>
+    </block10>
   </group>
   <group>
     <block16>
@@ -3018,20 +3018,24 @@
       <y>820</y>
     </collection>
     <collection>
-      <x>60</x>
-      <y>1160</y>
+      <x>20</x>
+      <y>1200</y>
     </collection>
     <collection>
       <x>-40</x>
       <y>1460</y>
     </collection>
     <collection>
-      <x>20</x>
+      <x>40</x>
       <y>920</y>
     </collection>
     <collection>
       <x>320</x>
       <y>1500</y>
+    </collection>
+    <collection>
+      <x>240</x>
+      <y>1020</y>
     </collection>
   </group>
   <group>
@@ -3060,12 +3064,12 @@
       <y>440</y>
     </block10>
     <block10>
-      <x>60</x>
-      <y>1060</y>
+      <x>100</x>
+      <y>1120</y>
     </block10>
     <block10>
-      <x>380</x>
-      <y>1380</y>
+      <x>400</x>
+      <y>1400</y>
     </block10>
     <block12>
       <x>320</x>
@@ -3076,7 +3080,7 @@
       <y>1360</y>
     </block10>
     <block16>
-      <x>300</x>
+      <x>200</x>
       <y>1160</y>
     </block16>
     <block16>
@@ -3088,8 +3092,8 @@
       <y>1820</y>
     </block11>
     <block12>
-      <x>0</x>
-      <y>1000</y>
+      <x>-40</x>
+      <y>1100</y>
     </block12>
     <block11>
       <x>-20</x>
@@ -3123,6 +3127,10 @@
       <x>0</x>
       <y>1820</y>
     </block11>
+    <collection>
+      <x>200</x>
+      <y>1060</y>
+    </collection>
   </group>
   <group>
     <block11>

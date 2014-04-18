@@ -2,6 +2,8 @@ package Handler
 {
 	import com.adobe.images.PNGEncoder;
 	import flash.display.BitmapData;
+	import flash.geom.Point;
+	import flash.utils.setTimeout;
 	import starling.core.RenderSupport;
 	import starling.display.Image;
 	import starling.textures.Texture;
@@ -42,8 +44,8 @@ package Handler
 		private var GameOverPage:Sprite;
 		private var FeedDialog:Sprite;
 		
-		
-		//private static const APP_Secret:String = '5e294dbc4fc9568873046c4b9fb6621c';
+		public static var screenShot:BitmapData;
+		public static var FBView:StageWebView;
 		
 		public function GameOverHandler(GameMain:GameLoopManager) 
 		{
@@ -101,6 +103,8 @@ package Handler
 		
 		private function HideOut():void
 		{
+			if(FeedDialog.parent)
+				removeChild(FeedDialog);
 			removeChild(GameOverPage);
 			addEvent(false);
 		}
@@ -141,6 +145,7 @@ package Handler
 					break;
 				case "btn_facebook":
 					FacebookAction();
+					GameOverPage.touchable = false;
 					SoundManager.PlaySound("ok");
 					break;
 				case "btn_ok":
@@ -185,11 +190,11 @@ package Handler
 		
 		private function loginUser():void 
 		{
-			var FacebookView:StageWebView
-			FacebookView = new StageWebView();
-			FacebookView.stage = Main.fstage;
-			FacebookView.viewPort = new Rectangle(0,0,600, 1000);
-            FacebookMobile.login(loginHandler, Main.fstage, ["publish_actions"], FacebookView);
+			//var FacebookView:StageWebView
+			FBView = new StageWebView();
+			FBView.stage = Main.fstage;
+			FBView.viewPort = new Rectangle(0,0,600, 1000);
+            FacebookMobile.login(loginHandler, Main.fstage, ["publish_actions"], FBView);
         }
 		
 		private function loginHandler(result:Object, fail:Object):void
@@ -206,21 +211,28 @@ package Handler
 		{
 			addTask( { cmd:CmdList.CMD_HIDE_FEED_DIALOG } );
 			
-			var bmd:BitmapData = GameLoopManager.Core.stage.stage.drawToBitmapData();
-			var encoder:JPEGEncoder = new JPEGEncoder(75);
-			var bytes:ByteArray = encoder.encode(bmd);
-			
-			
-			FacebookMobile.api("/me/scores", onPostScore);
-			
-			
-			var params:Object = {
-				image:bytes,
-				fileName: "MyResult.jpg",
-				message: (FeedDialog.getChildByName("txt_input") as TextField).text
-			};
-			FacebookMobile.api("/me/photos", onFeedComplete, params);
-			(GameOverPage.getChildByName("btn_facebook") as Button).touchable = false;
+			setTimeout(function():void
+			{
+				var bmd:BitmapData = GameLoopManager.Core.stage.stage.drawToBitmapData();
+				var encoder:JPEGEncoder = new JPEGEncoder(75);
+				
+				
+				var combineBmd:BitmapData = new BitmapData(600, 500);
+				combineBmd.draw(bmd, new Matrix(.5,0,0,.5));
+				combineBmd.draw(screenShot, new Matrix(.5,0,0,.5, 300));
+				var bytes:ByteArray = encoder.encode(combineBmd);
+				
+				FacebookMobile.api("/me/scores", onPostScore);
+				
+				
+				var params:Object = {
+					image:bytes,
+					fileName: "MyResult.jpg",
+					message: (FeedDialog.getChildByName("txt_input") as TextField).text
+				};
+				FacebookMobile.api("/me/photos", onFeedComplete, params);
+				(GameOverPage.getChildByName("btn_facebook") as Button).touchable = false;
+			},1000);
 		}
 		
 		private function onPostScore(response:Object, fail:Object):void
@@ -268,6 +280,7 @@ package Handler
 		private function HideFeedDialog():void
 		{
 			removeChild(FeedDialog);
+			GameOverPage.touchable = true;
 		}
 		
 		//}
