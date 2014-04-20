@@ -57,6 +57,8 @@
     <element path="lib\GraphAPI_Mobile_1_8_1.swc" />
     <element path="lib\starling.swc" />
     <element path="lib\Starling-Extension-Graphics.swc" />
+    <element path="lib\asSQL-Beta2.8.swc" />
+    <element path="lib\App42_ActionScript_SDK_2.2.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

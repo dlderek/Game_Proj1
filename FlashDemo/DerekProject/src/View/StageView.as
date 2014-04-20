@@ -68,7 +68,7 @@ package View
 			btn = ToolKit.getDefaultButton("Control Setting", "btn_config", 0, 46.95, 738.95, 1.1);
 			StagePage.addChild(btn);
 			
-			btn = ToolKit.getDefaultButton("How To Play", "btn_record", 0, 322.95, 738.95, 1.1);
+			btn = ToolKit.getDefaultButton("Record", "btn_record", 0, 322.95, 738.95, 1.1);
 			StagePage.addChild(btn);
 			
 			btn = ToolKit.getDefaultButton("Exit", "btn_exit", 0, 46.95, 880.35, 1.1);

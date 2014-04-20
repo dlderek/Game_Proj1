@@ -236,7 +236,7 @@ package Handler
 		
 		private function Record():void
 		{
-			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Record"} );
+			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Rate"} );
 		}
 	}
 }

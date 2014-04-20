@@ -228,7 +228,7 @@ package Handler
 				var params:Object = {
 					image:bytes,
 					fileName: "MyResult.jpg",
-					message: (FeedDialog.getChildByName("txt_input") as TextField).text
+					message: (FeedDialog.getChildByName("txt_input") as TextField).text.concat(" https://play.google.com/store/apps/details?id=air.air.PandaRoll")
 				};
 				FacebookMobile.api("/me/photos", onFeedComplete, params);
 				(GameOverPage.getChildByName("btn_facebook") as Button).touchable = false;
@@ -239,13 +239,17 @@ package Handler
 		{
 			if (response)
 			{
-				var highestScore:Number = response[0].score;
+				var existScore:String = response[0].score.toString();
+				var themeScore:String = existScore.substr((GameStateManager.CurrentStage)*5, (GameStateManager.CurrentStage)*5 + 5);
 				var score:int = GameStateManager.CurrentScore + GameStateManager.CurrentCollection * 5;
-				if (highestScore >= score)
+				if (int(themeScore.substr(1)) >= score)
 					return;
-					
+				
+				var newThemeScore:String = (GameStateManager.CurrentStage+1).toString().concat(addZeros(score));
+				var newScore:String = existScore.substr(0, (GameStateManager.CurrentStage) * 5).concat(newThemeScore).concat(existScore.substr((GameStateManager.CurrentStage+2) * 5 - 1));
+				trace(newScore);
 				var params:Object = {   
-					score:score
+					score:int(newScore)
 				};
 				FacebookMobile.postData("/me/scores", onFeedComplete, params);
 			}
@@ -273,7 +277,7 @@ package Handler
 		{
 			addChildAt(FeedDialog, LayerList.Popup);
 			(FeedDialog.getChildByName("txt_input") as TextField).text = 
-			"I get " + GameStateManager.CurrentScore + "M in panda roll. Play together and challenge my record!";
+			"I get " + (GameStateManager.CurrentScore + GameStateManager.CurrentCollection * 5).toString() + "score in panda roll. Play together and challenge my record!";
 			//GameMain.stage.focus = FeedDialog.getChildByName("txt_input") as InteractiveObject;
 		}
 		
@@ -281,6 +285,20 @@ package Handler
 		{
 			removeChild(FeedDialog);
 			GameOverPage.touchable = true;
+		}
+		
+		private function addZeros(theNum:Number):String {
+			var numString:String = String(theNum);
+			if (numString.length < 4) {
+				var numZeros:Number = 4 - numString.length;
+				var finalResult:String = "";
+				for (var i:int = 0; i < numZeros; i++) {
+					finalResult += "0";
+				}
+				return finalResult + numString;
+			} else {
+				return numString;
+			}
 		}
 		
 		//}

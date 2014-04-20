@@ -28,6 +28,9 @@ package Enum
 		
 		public static const CMD_SHOW_RECORD_PAGE:String = "cmd.show.record.page";
 		public static const CMD_HIDE_RECORD_PAGE:String = "cmd.hide.record.page";
+		
+		public static const CMD_SHOW_RATE_PAGE:String = "cmd.show.rate.page";
+		public static const CMD_HIDE_RATE_PAGE:String = "cmd.hide.rate.page";
 	}
 
 }

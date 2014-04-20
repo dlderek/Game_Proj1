@@ -12,6 +12,7 @@
 <xml>RecordPage_element</xml>
 <xml>BattlePage_element</xml>
 <xml>GameOverPage_element</xml>
+<xml>RatePage_element</xml>
 <xml>BattlePage_bg</xml>
 <xml>BattlePage_bg2</xml>
 <xml>btn</xml>

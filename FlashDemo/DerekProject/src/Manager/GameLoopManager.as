@@ -57,6 +57,7 @@ package Manager
 			new GameOverHandler(this),
 			new RecordHandler(this),
 			new SettingHandler(this),
+			new RateHandler(this),
 			new MasterControlHandler(this)
 			);
 		}
