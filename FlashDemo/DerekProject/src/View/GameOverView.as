@@ -33,8 +33,8 @@ package View
 			var bm:Image = new Image( BTool.GetImage("GameOverPage_element", "bg"));
 			GameOverPage.addChild(bm);
 			
-			var btn:Button = new Button(BTool.GetImage("GameOverPage_element", "btnfacebook"));
-			btn.x = 59.35; btn.y = 582.4;
+			var btn:Button = new Button(BTool.GetImage("GameOverPage_element", "FB_up"), "", BTool.GetImage("GameOverPage_element", "FB"));
+			btn.x = 78.1; btn.y = 692.15;
 			btn.name = "btn_facebook";
 			GameOverPage.addChild(btn);
 			

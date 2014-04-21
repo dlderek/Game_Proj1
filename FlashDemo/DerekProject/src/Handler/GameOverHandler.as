@@ -240,13 +240,38 @@ package Handler
 			if (response)
 			{
 				var existScore:String = response[0].score.toString();
-				var themeScore:String = existScore.substr((GameStateManager.CurrentStage)*5, (GameStateManager.CurrentStage)*5 + 5);
-				var score:int = GameStateManager.CurrentScore + GameStateManager.CurrentCollection * 5;
-				if (int(themeScore.substr(1)) >= score)
-					return;
+				if (existScore == "0")
+					existScore = "10000";
+				var themeScore:Vector.<String> = new Vector.<String>();
 				
-				var newThemeScore:String = (GameStateManager.CurrentStage+1).toString().concat(addZeros(score));
-				var newScore:String = existScore.substr(0, (GameStateManager.CurrentStage) * 5).concat(newThemeScore).concat(existScore.substr((GameStateManager.CurrentStage+2) * 5 - 1));
+				for (var i:int = 0 ; i < existScore.length / 5; i ++)
+				{
+					themeScore.push(existScore.slice(i * 5, i * 5 + 5));
+				}
+					
+				var CurrentThemeScore:String = "";
+				for each(var sc:String in themeScore)
+				{
+					if (int(sc.substr(0, 1)) == GameStateManager.CurrentStage + 1)
+					{
+						CurrentThemeScore = sc;
+						themeScore.splice(themeScore.indexOf(sc),1);
+					}
+				}
+				if (CurrentThemeScore == "") //之前沒有這關的分數
+					CurrentThemeScore = (GameStateManager.CurrentStage + 1).toString().concat("0000");
+				
+				var score:int = GameStateManager.CurrentScore + GameStateManager.CurrentCollection * 5;
+				//if (int(CurrentThemeScore.substr(1)) > score)
+					//return;
+				
+				var newThemeScore:String = (GameStateManager.CurrentStage + 1).toString().concat(addZeros(score));
+				themeScore.push(newThemeScore);
+				var newScore:String = "";
+				for each(var ee:String in themeScore)
+				{
+					newScore += ee;
+				}
 				trace(newScore);
 				var params:Object = {   
 					score:int(newScore)

@@ -273,12 +273,12 @@ package Handler
 					var id:String = user.user.id as String;
 					var score:String = user.score.toString();
 					
-					var themeScore:Vector.<String> = new Vector.<String>();
 					if (score.length % 5 == 0) //岩格式
 					{
-						for (var i:int = 1 ; i <= score.length/5; i++)
+						for (var i:int = 0 ; i < score.length / 5; i ++)
 						{
-							ScoreList[i - 1].push({name:name, id:id, score:int(score.substr((i - 1) * 5, (i - 1) * 5 + 5).substr(1))});
+							var themeScore:String = score.slice(i * 5, i * 5 + 5);
+							ScoreList[int(themeScore.substr(0, 1)) - 1].push( { name:name, id:id, score:int(themeScore.substr(1)) } );
 						}
 					}
 				}

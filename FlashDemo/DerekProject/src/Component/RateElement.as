@@ -31,12 +31,12 @@ package Component
 			this.userName = userName;
 			this.score = score;
 			
-			pic = new Image(Texture.fromColor(130,130,0xFFFFFF));
-			txt_name = TextTool.DefaultTextfield(200, 65, 30, 0xFFFFFF);
+			pic = new Image(Texture.fromColor(100,100,0xFFFFFF));
+			txt_name = TextTool.DefaultTextfield(200, 55, 30, 0xFFFFFF);
 			txt_name.x = 150; txt_name.y = 0;
 			txt_name.text = userName;
-			txt_score = TextTool.DefaultTextfield(200, 65, 30, 0xFFFFFF);
-			txt_score.x = 150; txt_score.y = 70;
+			txt_score = TextTool.DefaultTextfield(200, 55, 30, 0xFFFFFF);
+			txt_score.x = 150; txt_score.y = 60;
 			txt_score.text = score.toString();
 			
 			super(pic);
@@ -74,8 +74,8 @@ package Component
 			e.target.removeEventListener(e.type, onImageLoaded);
 			var bm:Bitmap = ((e.target as LoaderInfo).content as Bitmap);
 			pic = new Image(Texture.fromBitmap(bm));
-			pic.width = 130;
-			pic.height = 130;
+			pic.width = 100;
+			pic.height = 100;
 			this.addChild(pic);
 		}
 	}

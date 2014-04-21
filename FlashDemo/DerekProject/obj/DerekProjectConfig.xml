@@ -32,20 +32,20 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\src</path-element>
-      <path-element>D:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\src</path-element>
+      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\lib\bulk_loader.swc</path-element>
-      <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\lib\greensock.swc</path-element>
-      <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\lib\GraphAPI_Mobile_1_8_1.swc</path-element>
-      <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\lib\starling.swc</path-element>
-      <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\lib\Starling-Extension-Graphics.swc</path-element>
-      <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\lib\App42_ActionScript_SDK_2.2.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\bulk_loader.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\greensock.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\GraphAPI_Mobile_1_8_1.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\starling.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\Starling-Extension-Graphics.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\App42_ActionScript_SDK_2.2.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\FlashProject\GitHub\Game_Proj1\FlashDemo\DerekProject\src\Main.as</path-element>
+    <path-element>D:\DerekGameProject\FlashDemo\DerekProject\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#45B6D1</default-background-color>
   <default-frame-rate>60</default-frame-rate>
