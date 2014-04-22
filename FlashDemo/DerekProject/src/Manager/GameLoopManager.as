@@ -34,7 +34,7 @@ package Manager
 	public class GameLoopManager 
 	{
 		public static var Core:GameLoopManager;
-		private var loadLocalConfig:Boolean;
+		private var loadLocalConfig:Boolean = true;
 		public var stage:Sprite;
 		public var layers:Vector.<Sprite>;
 		private var HandlerList:Vector.<BaseHandler>;
@@ -70,8 +70,11 @@ package Manager
 			var config:File = File.applicationStorageDirectory.resolvePath("config.xml");
 			trace("Search local Config at Path:", config.nativePath);
 			trace("local Config Exists", config.exists);
-			if(!config.exists)
+			if (!config.exists)
+			{
 				config = File.applicationDirectory.resolvePath("config.xml");
+				loadLocalConfig = false;
+			}
 			var fs:FileStream = new FileStream();
 			fs.open(config, FileMode.READ);
 			XMLManager.config = XML(fs.readUTFBytes(fs.bytesAvailable));
