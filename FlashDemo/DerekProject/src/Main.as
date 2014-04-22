@@ -13,6 +13,7 @@ package
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.media.StageWebView;
 	import flash.net.URLRequest;
 	import Manager.GameLoopManager;
 	import flash.ui.Multitouch;
@@ -39,6 +40,8 @@ package
 		private static var loadingImage:Bitmap;
 		
 		public static var onDevice:Boolean = true;
+		
+		public static var adsView:StageWebView;
 		
 		public function Main():void 
 		{
@@ -110,6 +113,27 @@ package
 		private function onAppDeactivated(e:Event):void
 		{
 			SoundManager.PauseBGM();
+		}
+		
+		public static function StartAds(url:String):void
+		{
+			if (adsView)
+			{
+				adsView.dispose();
+				adsView = null;
+			}
+			adsView = new StageWebView();
+			adsView.stage = fstage;
+			adsView.viewPort = new Rectangle(0, 800 * Capabilities.screenResolutionY / 1000, Capabilities.screenResolutionX, 200 * Capabilities.screenResolutionY / 1000);
+			adsView.loadURL(url);
+		}
+		public static function StopAds():void
+		{
+			if (adsView)
+			{
+				adsView.dispose();
+				adsView = null;
+			}
 		}
 	}
 }
