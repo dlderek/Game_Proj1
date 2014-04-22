@@ -327,7 +327,7 @@ package Handler
 		private function HideFeedDialog():void
 		{
 			removeChild(FeedDialog);
-			GameOverPage.touchable = true;
+			//GameOverPage.touchable = true;
 		}
 		
 		private function addZeros(theNum:Number):String {
