@@ -5,6 +5,7 @@ package Handler
 	import Component.RateElement;
 	import flash.geom.Rectangle;
 	import flash.media.StageWebView;
+	import flash.system.Capabilities;
 	import flash.text.TextField;
 	import flash.utils.Dictionary;
 	import starling.display.Button;
@@ -242,7 +243,7 @@ package Handler
 			//var FacebookView:StageWebView
 			GameOverHandler.FBView = new StageWebView();
 			GameOverHandler.FBView.stage = Main.fstage;
-			GameOverHandler.FBView.viewPort = new Rectangle(0,0,600, 1000);
+			GameOverHandler.FBView.viewPort = new Rectangle(0,0,Capabilities.screenResolutionX, Capabilities.screenResolutionY);
             FacebookMobile.login(loginHandler, Main.fstage, ["publish_actions"], GameOverHandler.FBView);
         }
 		
@@ -273,13 +274,20 @@ package Handler
 					var id:String = user.user.id as String;
 					var score:String = user.score.toString();
 					
-					if (score.length % 5 == 0) //岩格式
+					if (score.length == 10) //岩格式
 					{
-						for (var i:int = 0 ; i < score.length / 5; i ++)
+						var scoreString:String = score.substr(1);
+						for (var i:int = 0; i < 3; i ++)
 						{
-							var themeScore:String = score.slice(i * 5, i * 5 + 5);
-							ScoreList[int(themeScore.substr(0, 1)) - 1].push( { name:name, id:id, score:int(themeScore.substr(1)) } );
+							var themeScore:String = scoreString.slice(i * 3, (i+1) * 3 );
+							ScoreList[i].push({name:name, id:id, score:int(themeScore)});
 						}
+						
+						//for (var i:int = 0 ; i < score.length / 5; i ++)
+						//{
+							//var themeScore:String = score.slice(i * 5, i * 5 + 5);
+							//ScoreList[int(themeScore.substr(0, 1)) - 1].push( { name:name, id:id, score:int(themeScore.substr(1)) } );
+						//}
 					}
 				}
 				SortRecord(CurrentTheme);

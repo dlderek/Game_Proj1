@@ -59,6 +59,8 @@
     <element path="lib\Starling-Extension-Graphics.swc" />
     <element path="lib\asSQL-Beta2.8.swc" />
     <element path="lib\App42_ActionScript_SDK_2.2.swc" />
+    <element path="lib\feathers.swc" />
+    <element path="lib\ima_lib_as3.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

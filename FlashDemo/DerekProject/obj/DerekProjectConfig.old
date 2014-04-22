@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2014/4/21'</value>
+      <value>'2014/4/22'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -42,6 +42,8 @@
       <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\starling.swc</path-element>
       <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\Starling-Extension-Graphics.swc</path-element>
       <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\App42_ActionScript_SDK_2.2.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\feathers.swc</path-element>
+      <path-element>D:\DerekGameProject\FlashDemo\DerekProject\lib\ima_lib_as3.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>

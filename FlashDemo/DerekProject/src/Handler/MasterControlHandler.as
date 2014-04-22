@@ -3,6 +3,7 @@ package Handler
 	import Enum.CmdList;
 	import Enum.LayerList;
 	import Manager.GameLoopManager;
+	import Manager.GameStateManager;
 	import Manager.SoundManager;
 	import Manager.XMLManager;
 	import starling.display.Button;
@@ -53,8 +54,8 @@ package Handler
 				e.stopImmediatePropagation();
 				if (GameOverHandler.FBView)
 				{
-					GameOverHandler.FBView = null;
 					GameOverHandler.FBView.dispose();
+					GameOverHandler.FBView = null;
 				}
 				else
 				{

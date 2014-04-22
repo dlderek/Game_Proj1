@@ -1,5 +1,8 @@
 package Utils 
 {
+	import feathers.controls.text.StageTextTextEditor;
+	import feathers.controls.TextInput;
+	import feathers.core.ITextEditor;
 	import starling.text.TextField;
 	import Manager.LoadingManager;
 	import flash.text.Font;
@@ -27,6 +30,28 @@ package Utils
 			text.autoSize = "left";
 			//text.autoSize = TextFieldAutoSize.LEFT;
 			//text.defaultTextFormat = tf;
+			return text;
+		}
+		
+		public static function DefaultTextInput(width:Number, height:Number, size:int = 30, color:uint = 0x000000):TextInput
+		{
+			if (!SHOWG)
+			{
+				SHOWG = LoadingManager.getClass("Font", "SHOWG");
+				Font.registerFont(SHOWG);
+			}
+			
+			var text:TextInput = new TextInput();
+			text.width = width;
+			text.height = height;
+			
+			 var editor:StageTextTextEditor = new StageTextTextEditor;
+			editor.fontSize = size;
+			editor.color = color;
+			editor.fontFamily = "SHOWG";
+			editor.multiline = true;
+			text.textEditorFactory = function f():ITextEditor { return editor };
+			
 			return text;
 		}
 		

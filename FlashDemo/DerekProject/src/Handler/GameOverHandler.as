@@ -1,8 +1,10 @@
 package Handler 
 {
 	import com.adobe.images.PNGEncoder;
+	import feathers.controls.TextInput;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
+	import flash.system.Capabilities;
 	import flash.utils.setTimeout;
 	import starling.core.RenderSupport;
 	import starling.display.Image;
@@ -93,11 +95,10 @@ package Handler
 			GameStateManager.CurrentPage = "GameOver";
 			addChildAt(GameOverPage, LayerList.UI);
 			addEvent(true);
-			
+			GameOverPage.touchable = true;
 			(GameOverPage.getChildByName("result1") as TextField).text = GameStateManager.CurrentScore.toString().concat("M");
 			(GameOverPage.getChildByName("result2") as TextField).text = GameStateManager.CurrentCollection.toString();
 			(GameOverPage.getChildByName("btn_facebook") as Button).touchable = true;
-			
 			SoundManager.PlayBGM("bgover");
 		}
 		
@@ -105,6 +106,11 @@ package Handler
 		{
 			if(FeedDialog.parent)
 				removeChild(FeedDialog);
+			if (FBView)
+			{
+				FBView.dispose();
+				FBView = null;
+			}
 			removeChild(GameOverPage);
 			addEvent(false);
 		}
@@ -145,8 +151,12 @@ package Handler
 					break;
 				case "btn_facebook":
 					FacebookAction();
-					GameOverPage.touchable = false;
 					SoundManager.PlaySound("ok");
+					(GameOverPage.getChildByName("btn_facebook") as Button).touchable = false;
+					setTimeout(function():void
+					{
+						(GameOverPage.getChildByName("btn_facebook") as Button).touchable = true;
+					}, 2000);
 					break;
 				case "btn_ok":
 					AddFeed();
@@ -166,6 +176,7 @@ package Handler
 		
 		private function Quit():void
 		{
+			(GameOverPage.getChildByName("btn_facebook") as Button).touchable = false;
 			addTask( { cmd:CmdList.CMD_HIDE_FEED_DIALOG } );
 			addTask( { cmd:CmdList.CMD_SWICH_PAGE, page:"Stage" } );
 		}
@@ -193,7 +204,7 @@ package Handler
 			//var FacebookView:StageWebView
 			FBView = new StageWebView();
 			FBView.stage = Main.fstage;
-			FBView.viewPort = new Rectangle(0,0,600, 1000);
+			FBView.viewPort = new Rectangle(0,0,Capabilities.screenResolutionX, Capabilities.screenResolutionY);
             FacebookMobile.login(loginHandler, Main.fstage, ["publish_actions"], FBView);
         }
 		
@@ -222,16 +233,13 @@ package Handler
 				combineBmd.draw(screenShot, new Matrix(.5,0,0,.5, 300));
 				var bytes:ByteArray = encoder.encode(combineBmd);
 				
-				FacebookMobile.api("/me/scores", onPostScore);
-				
 				
 				var params:Object = {
 					image:bytes,
 					fileName: "MyResult.jpg",
-					message: (FeedDialog.getChildByName("txt_input") as TextField).text.concat(" https://play.google.com/store/apps/details?id=air.air.PandaRoll")
+					message: (FeedDialog.getChildByName("txt_input") as TextInput).text.concat(" https://play.google.com/store/apps/details?id=air.air.PandaRoll")
 				};
 				FacebookMobile.api("/me/photos", onFeedComplete, params);
-				(GameOverPage.getChildByName("btn_facebook") as Button).touchable = false;
 			},1000);
 		}
 		
@@ -240,38 +248,43 @@ package Handler
 			if (response)
 			{
 				var existScore:String = response[0].score.toString();
-				if (existScore == "0")
-					existScore = "10000";
-				var themeScore:Vector.<String> = new Vector.<String>();
-				
-				for (var i:int = 0 ; i < existScore.length / 5; i ++)
-				{
-					themeScore.push(existScore.slice(i * 5, i * 5 + 5));
-				}
-					
+				if (existScore.length != 10)
+					existScore = "1000000000";
+				//var themeScore:Vector.<String> = new Vector.<String>();
+				//
+				//for (var i:int = 0 ; i < existScore.length / 5; i ++)
+				//{
+					//themeScore.push(existScore.slice(i * 5, i * 5 + 5));
+				//}
+					//14 47 710
+				var temp:String = existScore.slice(1);
 				var CurrentThemeScore:String = "";
-				for each(var sc:String in themeScore)
-				{
-					if (int(sc.substr(0, 1)) == GameStateManager.CurrentStage + 1)
-					{
-						CurrentThemeScore = sc;
-						themeScore.splice(themeScore.indexOf(sc),1);
-					}
-				}
-				if (CurrentThemeScore == "") //之前沒有這關的分數
-					CurrentThemeScore = (GameStateManager.CurrentStage + 1).toString().concat("0000");
+				CurrentThemeScore = temp.slice(GameStateManager.CurrentStage * 3, GameStateManager.CurrentStage * 3 + 3)
+				
+				//for each(var sc:String in themeScore)
+				//{
+					//if (int(sc.substr(0, 1)) == GameStateManager.CurrentStage + 1)
+					//{
+						//CurrentThemeScore = sc;
+						//themeScore.splice(themeScore.indexOf(sc),1);
+					//}
+				//}
+				//if (CurrentThemeScore == "") //之前沒有這關的分數
+					//CurrentThemeScore = (GameStateManager.CurrentStage + 1).toString().concat("0000");
 				
 				var score:int = GameStateManager.CurrentScore + GameStateManager.CurrentCollection * 5;
-				//if (int(CurrentThemeScore.substr(1)) > score)
-					//return;
+				if (score >= 1000)
+					score = 999;
+				if (int(CurrentThemeScore) > score)
+					return;
 				
-				var newThemeScore:String = (GameStateManager.CurrentStage + 1).toString().concat(addZeros(score));
-				themeScore.push(newThemeScore);
-				var newScore:String = "";
-				for each(var ee:String in themeScore)
-				{
-					newScore += ee;
-				}
+				var newScore:String = existScore.slice(0,GameStateManager.CurrentStage*3 + 1).concat(addZeros(score)).concat(existScore.slice(GameStateManager.CurrentStage*3 + 4));
+				//themeScore.push(newThemeScore);
+				//var newScore:String = "";
+				//for each(var ee:String in themeScore)
+				//{
+					//newScore += ee;
+				//}
 				trace(newScore);
 				var params:Object = {   
 					score:int(newScore)
@@ -300,10 +313,15 @@ package Handler
 		
 		private function ShowFeedDialog():void
 		{
+			if (GameStateManager.CurrentPage != "GameOver")
+				return;
 			addChildAt(FeedDialog, LayerList.Popup);
-			(FeedDialog.getChildByName("txt_input") as TextField).text = 
+			var txt_input:TextInput = (FeedDialog.getChildByName("txt_input") as TextInput);
+			txt_input.text = 
 			"I get " + (GameStateManager.CurrentScore + GameStateManager.CurrentCollection * 5).toString() + "score in panda roll. Play together and challenge my record!";
 			//GameMain.stage.focus = FeedDialog.getChildByName("txt_input") as InteractiveObject;
+			FacebookMobile.api("/me/scores", onPostScore);
+			txt_input.setFocus();
 		}
 		
 		private function HideFeedDialog():void
@@ -314,8 +332,8 @@ package Handler
 		
 		private function addZeros(theNum:Number):String {
 			var numString:String = String(theNum);
-			if (numString.length < 4) {
-				var numZeros:Number = 4 - numString.length;
+			if (numString.length < 3) {
+				var numZeros:Number = 3 - numString.length;
 				var finalResult:String = "";
 				for (var i:int = 0; i < numZeros; i++) {
 					finalResult += "0";

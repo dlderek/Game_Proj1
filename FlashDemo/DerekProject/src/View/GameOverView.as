@@ -1,5 +1,6 @@
 package View 
 {
+	import feathers.controls.TextInput;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.DisplayObject;
@@ -64,21 +65,22 @@ package View
 			var bm:Image = new Image( BTool.GetImage("GameOverPage_element", "dialogbg"));
 			FeedDialog.addChild(bm);
 			
-			var btn:Button = ToolKit.getDefaultButton("OK", "btn_ok", 0, 374.95, 693.95);
+			var btn:Button = ToolKit.getDefaultButton("OK", "btn_ok", 0, 348.45, 878.45);
 			FeedDialog.addChild(btn);
 			
-			btn = ToolKit.getDefaultButton("Back", "btn_back", 0, 35.95, 693.95);
+			btn = ToolKit.getDefaultButton("NO", "btn_back", 0, 82.85, 878.45);
 			FeedDialog.addChild(btn);
 			
-			var text:TextField = TextTool.DefaultTextfield(496.9, 566.05,50);
-			text.x = 58.85; text.y = 58.5;
-			text.autoSize = "none";
+			var text:TextInput = TextTool.DefaultTextInput(496.9, 531.8, 30);
+			text.x = 72.05; text.y = 317.05;
+			//text.autoSize = "none";
 			//text.width = 496.9; text.height = 566.05;
-			text.border = true;
+			//text.border = true;
 			//text.wordWrap = true;
 			text.name = "txt_input";
 			FeedDialog.addChild(text);
 		}
+		
 	}
 
 }
