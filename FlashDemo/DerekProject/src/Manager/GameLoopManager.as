@@ -134,6 +134,7 @@ package Manager
 			traceMsg = TextTool.DefaultTextfield(300, 200, 15, 0xFF0000);
 			traceMsg.touchable = false;
 			layers[LayerList.Top].addChild(traceMsg);
+			//TraceMsg("test");
 			
 			ConstructHandler();
 			addTask( { cmd:CmdList.CMD_INIT_HANDLER } );

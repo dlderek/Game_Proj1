@@ -106,7 +106,7 @@ package Handler
 		{
 			if(FeedDialog.parent)
 				removeChild(FeedDialog);
-			if (FBView)
+			if (FBView && FBView.stage)
 			{
 				FBView.dispose();
 				FBView = null;
@@ -205,7 +205,7 @@ package Handler
 			FBView = new StageWebView();
 			FBView.stage = Main.fstage;
 			FBView.viewPort = new Rectangle(0,0,Capabilities.screenResolutionX, Capabilities.screenResolutionY);
-            FacebookMobile.login(loginHandler, Main.fstage, ["publish_actions"], FBView);
+            FacebookMobile.login(loginHandler, Main.fstage, ["publish_stream"], FBView);
         }
 		
 		private function loginHandler(result:Object, fail:Object):void
@@ -247,7 +247,12 @@ package Handler
 		{
 			if (response)
 			{
-				var existScore:String = response[0].score.toString();
+				var existScore:String = "";
+				for each(var game:Object in response)
+				{
+					if (game.application.id.toString() == "211416619068748")
+						existScore = game.score.toString();
+				}
 				if (existScore.length != 10)
 					existScore = "1000000000";
 				//var themeScore:Vector.<String> = new Vector.<String>();
